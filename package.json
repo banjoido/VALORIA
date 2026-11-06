@@ -1,0 +1,15 @@
+{
+  "name": "valoria",
+  "private": true,
+  "description": "Valoria: juego de rol en pixel art para enseñar dinero e inversión a niños de 8 a 12 años",
+  "scripts": {
+    "qa:preparar": "python3 qa/preparar.py",
+    "qa:partida": "python3 qa/preparar.py && python3 qa/bot.py first 60000 completa",
+    "qa:rendimiento": "python3 qa/perf.py",
+    "qa:pantallas": "python3 qa/preparar.py && python3 qa/small.py"
+  },
+  "devDependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}
