@@ -24,5 +24,5 @@ Valoria es un juego de rol en pixel art, en vertical para móvil, para niños de
 
 - Cada cambio va en una rama y llega a `main` con un pull request que aprueba Fernan.
 - Antes de entregar, `npm run qa:partida` debe completar las 15 misiones sin errores.
-- `prototipo/index.html` es la versión publicada. `prototipo/legible/` es solo de consulta.
+- El juego está en `juego/` y su build (`juego/dist/index.html`) es lo que se publica en el artifact «Valoria» cuando Fernan aprueba. `prototipo/` es el original de noviembre de 2026, solo de consulta.
 - Toda decisión de diseño que cambie números, misiones o textos se anota en el pull request con su porqué.
