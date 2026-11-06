@@ -1,0 +1,132 @@
+/* Estilos del juego: un único mundo visual (paneles oscuros de rol clásico, crema y oro). */
+@import '@fontsource/pixelify-sans/400.css';
+@import '@fontsource/pixelify-sans/600.css';
+
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}
+img{max-width:100%}
+[hidden]:not([hidden=until-found i]){display:none!important}
+
+
+/* Un único mundo visual (el del juego): paneles oscuros de rol clásico, crema y oro. Columna de móvil centrada. */
+:root {
+  --fondo: #120e1c; --panel: #241e33; --crema: #fdf3d8; --suave: #e9dcc0; --boton: #3a3150; --boton-bajo: #2d2640;
+  --borde: #5a5070; --oro: #f6c945; --oro-osc: #d79a2b; --tinta: #2b2230; --pergamino: #ecd9a6; --madera: #7a4524;
+  --letra: "Pixelify Sans", "Courier New", monospace;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--fondo); color: var(--crema); font-family: var(--letra); overflow: hidden; }
+#juego { position: relative; height: 100%; width: min(100%, 480px); margin: 0 auto; overflow: hidden; background: #1a1526; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+#mundo { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#ui { position: absolute; inset: 0; pointer-events: none; }
+.cargando { position: absolute; inset: 0; display: grid; place-items: center; color: var(--oro); font-size: 22px; }
+.ui { position: absolute; inset: 0; font-family: var(--letra); font-size: 16px; line-height: 1.3; }
+.ui p { margin: 0; }
+.ico { image-rendering: pixelated; display: block; flex: none; }
+.fila { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.fila.arriba { align-items: stretch; }
+.centrar { justify-content: center; }
+.centro { text-align: center; }
+.suave { color: var(--suave); }
+.peq { font-size: 13px; }
+.oro { color: var(--oro); }
+.col { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
+.crece { flex: 1; min-width: 0; }
+h1, h2, h3 { margin: 0; font-weight: 400; text-wrap: balance; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+.logo { font-size: 52px; color: var(--oro); text-align: center; text-shadow: 3px 3px 0 #8a5530; letter-spacing: 2px; }
+.caja { background: var(--panel); border: 2px solid var(--crema); padding: 6px 8px; }
+.num { font-size: 18px; font-weight: 400; font-variant-numeric: tabular-nums; }
+.btn { font: inherit; color: var(--crema); background: var(--boton); border: 2px solid var(--crema); padding: 8px 12px; min-height: 52px; width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 14px; cursor: pointer; pointer-events: auto; font-size: 17px; text-align: center; }
+.btn:hover:not(:disabled) { background: #463c60; }
+.btn:active:not(:disabled) { background: var(--boton-bajo); }
+.btn:focus-visible { outline: 3px solid var(--oro); outline-offset: 1px; }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.con-icono { justify-content: flex-start; text-align: left; min-height: 64px; }
+.btn.dorado { background: var(--oro); color: var(--panel); font-size: 18px; font-weight: 600; }
+.btn.dorado:hover:not(:disabled) { background: #ffd75e; }
+.btn.dorado:active:not(:disabled) { background: var(--oro-osc); }
+.btn.pulsado { background: #5a4a1a; border: 3px solid var(--oro); }
+.btn.mini { width: 48px; min-height: 48px; padding: 0; flex: none; font-size: 22px; }
+.hueco { background: var(--panel); border: 2px solid var(--borde); padding: 3px; display: inline-flex; flex: none; }
+/* Marcador */
+.hud { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; gap: 8px; align-items: stretch; }
+.hueco-flex { flex: 1; }
+.segs { display: flex; gap: 2px; }
+.segs i { width: 5px; height: 12px; display: block; }
+.chip-calma { background: #8fd16a; color: #142410; font-size: 11px; padding: 2px 4px; }
+.btn.voz { width: 56px; min-height: 36px; font-size: 13px; padding: 4px; }
+/* Misión */
+.mision { position: absolute; top: 58px; left: 50%; transform: translateX(-50%); width: min(280px, calc(100% - 20px)); background: var(--panel); border: 2px solid var(--crema); padding: 6px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
+.mision-t { font-size: 13px; }
+.mision-p { font-size: 11px; color: var(--suave); }
+.barra { height: 6px; background: var(--boton); }
+.barra i { display: block; height: 100%; background: var(--oro); transition: width .8s; }
+.pendulo { display: flex; gap: 6px; align-items: center; font-size: 11px; }
+.pendulo .pista { flex: 1; position: relative; height: 10px; }
+.pendulo .pista i { position: absolute; top: 30%; height: 40%; width: 33.34%; }
+.pendulo .t1 { left: 0; background: #3c5aa6; } .pendulo .t2 { left: 33.33%; background: #4a4060; } .pendulo .t3 { left: 66.66%; background: #c75a8a; }
+.pendulo b { position: absolute; top: 0; width: 4px; height: 10px; background: var(--oro); transition: left 1s; }
+/* Diálogo */
+.dialogo { position: absolute; left: 8px; right: 8px; bottom: 94px; min-height: 156px; background: var(--panel); border: 3px solid var(--crema); padding: 10px 12px; pointer-events: auto; cursor: pointer; display: flex; flex-direction: column; gap: 8px; }
+.etq-nombre { align-self: flex-start; color: var(--panel); border: 2px solid var(--panel); padding: 1px 6px; font-size: 14px; outline: 2px solid var(--crema); }
+.retrato { background: var(--boton); border: 2px solid var(--crema); padding: 4px; min-width: 76px; min-height: 96px; display: flex; align-items: center; justify-content: center; flex: none; }
+.dialogo-der { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; min-width: 0; }
+.dialogo-der p { font-size: 18px; line-height: 1.4; }
+.dialogo-der small { text-align: right; color: var(--oro); font-size: 13px; }
+/* Botones grandes */
+.nav { position: absolute; left: 0; right: 0; bottom: 0; height: 84px; background: var(--panel); border-top: 3px solid var(--crema); padding: 9px 10px 11px; display: flex; gap: 8px; pointer-events: auto; }
+.btn.nav-b { flex-direction: column; gap: 4px; min-height: 0; height: 100%; padding: 4px; font-size: 13px; position: relative; }
+.insignia { position: absolute; top: -8px; right: -4px; background: var(--oro); color: var(--panel); border: 2px solid var(--panel); font-size: 11px; font-style: normal; padding: 0 4px; }
+/* Capas */
+.capa { position: absolute; inset: 0; background: rgba(26, 20, 38, .8); pointer-events: auto; display: flex; align-items: center; justify-content: center; padding: 12px; }
+.marco { background: var(--panel); border: 2px solid var(--crema); padding: 16px; width: min(100%, 370px); max-height: 100%; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.bocadillo { background: var(--crema); color: var(--panel); padding: 9px; display: flex; gap: 10px; align-items: center; }
+.bocadillo p { font-size: 15px; }
+.pergamino { background: var(--pergamino); border: 2px solid var(--madera); padding: 16px; color: #3b2a1c; white-space: pre-line; font-size: 17px; line-height: 1.4; }
+.pergamino.peq-p { font-size: 15px; }
+.reto-familia { background: var(--crema); color: var(--panel); padding: 10px; display: flex; flex-direction: column; gap: 4px; }
+.reto-familia small { font-size: 12px; letter-spacing: 1px; }
+.reto-familia p { font-size: 15px; }
+.medidor { display: flex; gap: 4px; }
+.medidor span { width: 20px; height: 14px; border: 2px solid var(--crema); }
+.etq { width: 64px; font-size: 14px; }
+.cuadros { display: flex; gap: 3px; flex-wrap: wrap; }
+.cuadros i { width: 16px; height: 16px; display: block; }
+.tabla { display: grid; gap: 8px; align-items: end; }
+.tabla small { font-size: 12px; white-space: nowrap; }
+.tabla .cab { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.tabla .celda { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.tabla .celda.medio { justify-content: center; align-self: center; }
+.tabla .alto { height: 52px; width: 60%; display: flex; align-items: flex-end; }
+.tabla .alto i { display: block; width: 100%; }
+.tabla .celda b { color: var(--oro); font-size: 15px; font-weight: 400; font-variant-numeric: tabular-nums; }
+.dos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.carta-o { background: var(--boton); border: 2px solid var(--crema); padding: 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.carta-o .btn { min-height: 44px; font-size: 15px; }
+.detalle { min-height: 34px; font-size: 13px; }
+.pista-amasar { position: relative; height: 30px; background: var(--boton); }
+.pista-amasar .zona { position: absolute; left: 38%; width: 24%; top: 0; bottom: 0; background: var(--oro); }
+.pista-amasar b { position: absolute; top: -8px; width: 6px; height: 46px; background: var(--crema); }
+.num-g { font-size: 20px; min-width: 30px; text-align: center; font-weight: 400; }
+.pista-b { display: flex; flex-direction: column; gap: 6px; }
+.pista-b .btn { min-height: 48px; font-size: 15px; }
+.zona-f { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--panel); border: 2px solid var(--borde); padding: 8px; color: var(--suave); }
+.zona-f em { font-style: normal; font-size: 11px; background: var(--borde); color: var(--crema); padding: 3px; white-space: nowrap; }
+.zona-f.aqui { border-color: var(--oro); color: var(--crema); }
+.zona-f.aqui em { background: var(--oro); color: var(--panel); }
+.criatura { background: var(--panel); border: 2px solid var(--oro); padding: 10px; }
+.aparece { animation: aparece .6s cubic-bezier(.34, 1.56, .64, 1); }
+@keyframes aparece { from { transform: scale(.2); } to { transform: scale(1); } }
+/* Noche y viajes */
+.noche { position: absolute; inset: 0; background: rgba(14, 11, 24, .94); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .5s; pointer-events: auto; }
+.noche.visible { opacity: 1; }
+.noche-c { display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center; padding: 0 20px; }
+.noche h2 { font-size: 20px; }
+.noche p { color: var(--suave); font-size: 15px; max-width: 300px; }
+.luna { width: 28px; height: 28px; background: #fff1a8; display: block; }
+@media (prefers-reduced-motion: reduce) { .aparece { animation: none; } .noche, .barra i, .pendulo b { transition: none; } }

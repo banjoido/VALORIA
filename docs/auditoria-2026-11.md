@@ -8,13 +8,13 @@ Las 15 misiones del diseño se juegan de principio a fin sin errores. El arte cu
 
 ## Sprint 1: tareas P0 (antes de probar con niños)
 
-- [ ] Reconstruir el código fuente legible, en módulos
-- [ ] Guardar en cada paso de la misión, no solo al empezarla
-- [ ] Incluir React y la fuente dentro del juego: cero peticiones a terceros
-- [ ] Limitar el trabajo con Hogaza a una vez por estación (misión 2)
-- [ ] Declarar el idioma español (`<html lang="es">`) y subir los textos de menos de 11 px
-- [ ] Prueba automática que juegue las 15 misiones en cada versión (base: `qa/bot.py`)
-- [ ] Kit de prueba con niños: guion de observación y registro anónimo de atascos
+- [x] Reconstruir el código fuente legible, en módulos
+- [ ] Guardar en cada paso de la misión, no solo al empezarla (hecho en las misiones 1–3; faltan 4–15, ver `docs/guardado.md`)
+- [x] Incluir React y la fuente dentro del juego: cero peticiones a terceros
+- [x] Limitar el trabajo con Hogaza a una vez por estación (misión 2)
+- [x] Declarar el idioma español (`<html lang="es">`) y subir los textos de menos de 11 px
+- [x] Prueba automática que juegue las 15 misiones en cada versión (`npm run qa:partida`; falta ejecutarla sola en cada cambio)
+- [x] Kit de prueba con niños: guion de observación y registro anónimo de atascos
 
 ## Otros hallazgos
 
