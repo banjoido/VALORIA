@@ -53,6 +53,10 @@ import SPR_heroe from './sprites/heroe.png?inline';
 import SPR_heroe_gorro from './sprites/heroe_gorro.png?inline';
 import SPR_heroe_gorro_paso from './sprites/heroe_gorro_paso.png?inline';
 import SPR_heroe_paso from './sprites/heroe_paso.png?inline';
+import SPR_heroina from './sprites/heroina.png?inline';
+import SPR_heroina_gorro from './sprites/heroina_gorro.png?inline';
+import SPR_heroina_gorro_paso from './sprites/heroina_gorro_paso.png?inline';
+import SPR_heroina_paso from './sprites/heroina_paso.png?inline';
 import SPR_hogaza from './sprites/hogaza.png?inline';
 import SPR_hucha from './sprites/hucha.png?inline';
 import SPR_huerto from './sprites/huerto.png?inline';
@@ -171,6 +175,10 @@ export const SPRITES = {
   heroe_gorro: SPR_heroe_gorro,
   heroe_gorro_paso: SPR_heroe_gorro_paso,
   heroe_paso: SPR_heroe_paso,
+  heroina: SPR_heroina,
+  heroina_gorro: SPR_heroina_gorro,
+  heroina_gorro_paso: SPR_heroina_gorro_paso,
+  heroina_paso: SPR_heroina_paso,
   hogaza: SPR_hogaza,
   hucha: SPR_hucha,
   huerto: SPR_huerto,

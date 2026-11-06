@@ -45,6 +45,9 @@ function estadoInicial() {
     ultima_estacion_amasar: -1,
     ojo_tasador: !1,
     gorro: !1,
+    // "chico" o "chica": el personaje elegido al empezar. Las partidas
+    // guardadas antes de poder elegir no lo traen y se cargan como "chico".
+    heroe: "chico",
     ocupado: !0,
     paso: "titulo"
   };

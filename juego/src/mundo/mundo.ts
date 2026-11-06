@@ -6,6 +6,11 @@ import { COLUMNAS, LOSETA, Mapa } from './mapas';
 import { ALTO_NAVEGACION, ANCHO_MAPA, C, COLORES_MERMA, RADIOS_APAGADOS, RADIO_APAGADO, SECUACES, VELOCIDAD_HEROE, VISIBLES_INICIALES, ZONAS, celda, imagenes, imagenesGris, oa } from './zonas';
 import { SPRITES } from '../recursos/sprites';
 
+// Nombre base del sprite del personaje elegido: "heroe" o "heroina".
+export function spriteHeroe() {
+  return estado.heroe === "chica" ? "heroina" : "heroe";
+}
+
 export function cargarSprites() {
   return Promise.all(Object.entries(SPRITES).map(([i, a]) => new Promise(o => {
     let t = new Image();
@@ -273,7 +278,7 @@ export const Mundo = class {
         }
       } else this.heroe.x += (l.x - this.heroe.x) / c * g, this.heroe.y += (l.y - this.heroe.y) / c * g;
     }
-    let t = estado.gorro ? "heroe_gorro" : "heroe";
+    let t = spriteHeroe() + (estado.gorro ? "_gorro" : "");
     this.heroe.poner(this.moviendo && Math.floor(this.reloj * 8) % 2 === 1 ? t + "_paso" : t), this.rastro.push(celda(this.heroe.x, this.heroe.y)), this.rastro.length > 70 && this.rastro.shift();
     let s = this.rastro[Math.max(0, this.rastro.length - 16)];
     this.chispin.x = s.x + 11, this.chispin.y = s.y - .5, this.chispin.ox = -5.5, this.chispin.oy = -26 + Math.sin(this.reloj * 3) * 1.6;
