@@ -6,7 +6,7 @@ Este kit está pensado para que lo use cualquiera, sin formación de investigado
 
 Antes de leer lo demás, tres avisos:
 
-- **Usa la versión de `juego/`, no `prototipo/index.html`.** El prototipo publicado carga React desde `cdnjs.cloudflare.com` y la fuente desde Google Fonts. Eso rompe la regla de CLAUDE.md y lo que prometemos a las familias en la hoja de consentimiento. La versión de `juego/` ya incluye React (la fuente Pixelify Sans aún no está incluida y se ve otra parecida; no afecta a la prueba).
+- **Usa la versión de `juego/`, no `prototipo/index.html`.** El prototipo publicado carga React desde `cdnjs.cloudflare.com` y la fuente desde Google Fonts. Eso rompe la regla de CLAUDE.md y lo que prometemos a las familias en la hoja de consentimiento. La versión de `juego/` lleva todo dentro: React, la fuente Pixelify Sans, sprites y sonidos.
 - **El juego solo guarda al empezar cada misión** (tarea P0 pendiente). Si el niño cierra a mitad de misión, al volver la repite entera. Tenlo en cuenta al leer la vuelta al día siguiente.
 - **Con 15–20 niños se encuentran problemas de diseño, no se demuestra que aprendan.** Ver el apartado 4.
 
@@ -156,7 +156,7 @@ Entre paréntesis, el nombre del paso dentro del juego (el mismo que usará el r
 **¿Quién ha subido el pan?** ☐ Subeprecios ☐ Antojo ☐ el viento
 **Regadera.** ¿A quién va primero? ☐ Tasador ☐ Yunque   ¿Visita a los dos antes de comprar? ☐ sí ☐ no
 Compra: ☐ Reluciente (3) ☐ de hierro (8)   Veces que pulsa "Ahora no": ____
-¿Le faltaron monedas? ☐ sí ☐ no → ¿fue a amasar con Hogaza? ☐ sí, ____ veces ☐ no
+¿Le faltaron monedas? ☐ sí ☐ no → ¿fue a amasar con Hogaza? ☐ sí ☐ no (solo se puede una vez por estación)
 Frase al ver el resultado: "____________________"
 **Ojo de tasador**, aciertos: ☐0 ☐1 ☐2 ☐3
 **Pregunta final:** ☐ dura más ☐ es más bonita ☐ Yunque es mi amiga

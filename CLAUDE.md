@@ -17,7 +17,7 @@ Valoria es un juego de rol en pixel art, en vertical para móvil, para niños de
 - Sin chat libre entre niños.
 - Personajes, criaturas y nombres originales; nada copiado de otros juegos.
 - No se pierde nunca de golpe: las pérdidas son suaves y con aviso.
-- Guía de arte: loseta de 26 px en pantalla, contorno #2b2230, Pixelify Sans, texto de diálogo de 18 px o más, nada por debajo de 11 px, toques de 44 px o más.
+- Guía de arte: loseta de 26 px en pantalla (excepción decidida: en pantallas de menos de 390 px de ancho el mapa se reduce para caber entero, unos 20 px por loseta), contorno #2b2230, Pixelify Sans, texto de diálogo de 18 px o más, nada por debajo de 11 px, toques de 44 px o más.
 - Textos en español de España, frases cortas: como mucho dos frases por globo.
 
 ## Cómo trabajamos
