@@ -85,6 +85,8 @@ import { DATOS_M14 } from './textos/m14';
 import { DATOS_M15 } from './textos/m15';
 import { App } from './ui/App';
 import { interfaz } from './ui/controlador';
+import * as reglas from './reino/reglas';
+import * as tiempo from './reino/tiempo';
 
 const MISIONES = [null, [Mision01, DATOS_M01], [Mision02, DATOS_M02], [Mision03, DATOS_M03], [Mision04, DATOS_M04], [Mision05, DATOS_M05], [Mision06, DATOS_M06], [Mision07, DATOS_M07], [Mision08, DATOS_M08], [Mision09, DATOS_M09], [Mision10, DATOS_M10], [Mision11, DATOS_M11], [Mision12, DATOS_M12], [Mision13, DATOS_M13], [Mision14, DATOS_M14], [Mision15, DATOS_M15]];
 
@@ -106,7 +108,8 @@ async function arrancar() {
     mundo: i,
     ui: interfaz,
     ajustes: ajustes,
-    Mapa: Mapa
+    Mapa: Mapa,
+    reino: { ...reglas, ...tiempo }
   }, ReactDOM.createRoot(document.getElementById("ui")).render(React.createElement(App, null)), addEventListener("keydown", s => {
     let r = {
       ArrowUp: [0, -1],
@@ -134,7 +137,7 @@ async function arrancar() {
   (await interfaz.pantalla_titulo(a, estado.mision)) !== "continuar" && (estado.reiniciar(), estado.borrar_partida(), estado.heroe = await interfaz.elegir_heroe(), estado.avisar()), i.restaurar(estado.mision), interfaz.textos_carta = DATOS_M01.textos.carta;
   let t = !1;
   for (; estado.mision <= TOTAL_MISIONES;) {
-    t = !0, estado.guardar();
+    t = !0, reglas.al_cambiar_mision(), estado.guardar();
     let [s, r] = MISIONES[estado.mision];
     await new s(estado.mision, r).jugar(i, interfaz), estado.mision += 1;
   }

@@ -2,6 +2,7 @@
 // Reconstruido del prototipo publicado. Se irá tipando poco a poco.
 import { esperar } from '../ajustes';
 import { estado } from '../estado';
+import * as reino from '../reino/reglas';
 import { ARRIBA, MORADO, MisionBase, ORO, ORO_LUZ, desplazar, objetivo, punto } from './base';
 import { oa } from '../mundo/zonas';
 
@@ -40,7 +41,7 @@ export const Mision15 = class extends MisionBase {
     for (let o = 0; o < 4; o++) this.mundo.estallido(desplazar(this.mundo.pie(oa), Math.random() * 80 - 40, -10 - Math.random() * 50), "#d6d6de", 12), this.ui.sonar("fallo"), await esperar(.35);
     let a = !1;
     for (; !a;) a = await this.ui.pregunta(this.tx("pregunta"), [["unica", this.tx("resp_unica"), "moneda_estrella", 3], ["dorada", this.tx("resp_dorada"), "oro", 3], ["grande", this.tx("resp_grande"), "moneda", 3]], "unica", this.tx("fb_bien"), this.tx("fb_mal"));
-    estado.maquina_apagada = !0, this.mundo.apagar_maquina(), estado.avisar(), this.mundo.aplicarBrillo(), this.mundo.estallido(desplazar(this.mundo.pie(punto(7, 28)), 0, -14), MORADO, 50), this.mundo.mostrar("merma", !1), this.ui.sonar("fanfarria"), await this.ui.decir(this.dl("maquina_apagada")), this.victoria();
+    estado.maquina_apagada = !0, reino.al_cambiar_mision(), this.mundo.apagar_maquina(), estado.avisar(), this.mundo.aplicarBrillo(), this.mundo.estallido(desplazar(this.mundo.pie(punto(7, 28)), 0, -14), MORADO, 50), this.mundo.mostrar("merma", !1), this.ui.sonar("fanfarria"), await this.ui.decir(this.dl("maquina_apagada")), this.victoria();
   }
   async victoria() {
     estado.ocupado = !0, estado.paso = "victoria", this.ui.poner_mision(this.datos.misiones.victoria), this.mundo.iluminar(2, 7), this.mundo.estallido(punto(97, 340), ORO, 40), await esperar(1.2), this.mundo.iluminar(3, 30), this.ui.sonar("fanfarria"), this.mundo.estallido(punto(97, 150), ORO_LUZ, 50), await esperar(1.6), estado.progreso_reloj = 100, estado.pendulo = 0, estado.avisar(), await this.ui.decir(this.dl("todo_brilla")), await this.ui.carta(this.tx("carta_final"), !1), await this.ui.victoria(this.datos.textos, "Ver el final"), await this.ui.fin_del_juego(this.datos.textos), this.fin();

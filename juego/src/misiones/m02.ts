@@ -2,6 +2,7 @@
 // Reconstruido del prototipo publicado. Se irá tipando poco a poco.
 import { esperar } from '../ajustes';
 import { estado } from '../estado';
+import * as reino from '../reino/reglas';
 import { AZUL, DERECHA, MisionBase, ORO, ORO_LUZ, VERDE, objetivo, punto } from './base';
 import { LOSETA } from '../mundo/mapas';
 
@@ -66,15 +67,15 @@ export const Mision02 = class extends MisionBase {
   }
   async trabajo() {
     estado.ocupado = !0;
-    // Hogaza solo da trabajo una vez por estación: si no, las monedas serían infinitas.
-    if (estado.ultima_estacion_amasar === estado.estacion) {
+    // Hogaza solo da trabajo una vez por día real: si no, las monedas serían infinitas.
+    if (!reino.puede_trabajar()) {
       let dialogo = this.dl("hogaza_ya_amasado");
       estado.monedas < ji && (dialogo = dialogo.concat(this.dl("chispin_vender_frutos")));
       await this.ui.decir(dialogo), estado.ocupado = !1;
       return;
     }
     if ((await this.ui.elegir("pan", this.tx("amasar_titulo"), [["si", this.tx("amasar_si"), "pan"], ["no", this.tx("ahora_no"), "mochila"]])) === "si") {
-      estado.ultima_estacion_amasar = estado.estacion;
+      reino.marcar_trabajo();
       let monedasGanadas = await this.ui.amasar();
       this.ganar_monedas(monedasGanadas), await this.ui.decir(this.dl("hogaza_paga", {
         n: monedasGanadas

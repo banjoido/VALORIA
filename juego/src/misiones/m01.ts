@@ -2,6 +2,7 @@
 // Reconstruido del prototipo publicado. Se irá tipando poco a poco.
 import { esperar } from '../ajustes';
 import { estado } from '../estado';
+import * as reino from '../reino/reglas';
 import { APAGADO, DERECHA, MORADO, MisionBase, ORO, ORO_LUZ, VERDE, objetivo, punto } from './base';
 
 export const Mision01 = class extends MisionBase {
@@ -48,13 +49,13 @@ export const Mision01 = class extends MisionBase {
     let a = await this.ui.reto(estado.monedas);
     if (a === "hucha") {
       let o = estado.monedas;
-      await this.ui.pasar_noche(1, this.tx("noche_pan")), estado.precio_pan = 4, estado.brillo = 3, estado.avisar(), await this.ui.resultado("hucha", this.tx("hucha_titulo"), this.tx("hucha_texto", {
+      await this.ui.pasar_noche(1, this.tx("noche_pan")), estado.precio_pan = 4, estado.eleccion_m01 = "hucha", reino.poner_merma(1), await this.ui.resultado("hucha", this.tx("hucha_titulo"), this.tx("hucha_texto", {
         n: o,
         antes: Math.floor(o / 3),
         hoy: Math.floor(o / 4)
-      }), "Brillo", [ORO, ORO, ORO, APAGADO, APAGADO], this.tx("hucha_frase")), this.mundo.mostrar("subeprecios", !1), this.mundo.mostrar("semilla", !0), this.ui.sonar("plantar"), await this.ui.decir(this.dl("chispin_semilla_llama")), this.paso("ir_semilla");
-    } else if (a === "semillas") estado.monedas -= 5, estado.avisar(), this.ui.sonar("plantar"), this.plantar(punto(2, 5)), this.plantar(punto(3, 5)), await this.ui.pasar_noche(1, this.tx("noche_pan")), estado.precio_pan = 4, estado.brillo = 4, estado.avisar(), await this.ui.resultado("huerto", this.tx("semillas_titulo"), this.tx("semillas_texto"), "Brotes", [VERDE, VERDE, APAGADO, APAGADO, APAGADO], this.tx("semillas_frase")), this.mundo.mostrar("subeprecios", !1), this.mundo.mostrar("semilla", !0), await this.ui.decir(this.dl("chispin_semilla_conocer")), this.paso("ir_semilla");else {
-      estado.monedas = 0, estado.avisar(), await this.ui.resultado("caramelo", this.tx("caramelo_titulo"), this.tx("caramelo_texto"), "Monedas", [APAGADO, APAGADO, APAGADO, APAGADO, APAGADO], this.tx("caramelo_frase")), await this.ui.decir(this.dl("hogaza_mas_trabajo"));
+      }), "Brillo", [ORO, ORO, ORO, ORO, APAGADO], this.tx("hucha_frase")), this.mundo.mostrar("subeprecios", !1), this.mundo.mostrar("semilla", !0), this.ui.sonar("plantar"), await this.ui.decir(this.dl("chispin_semilla_llama")), this.paso("ir_semilla");
+    } else if (a === "semillas") estado.monedas -= 5, estado.avisar(), this.ui.sonar("plantar"), this.plantar(punto(2, 5)), this.plantar(punto(3, 5)), await this.ui.pasar_noche(1, this.tx("noche_pan")), estado.precio_pan = 4, estado.eleccion_m01 = "semillas", reino.poner_merma(1), await this.ui.resultado("huerto", this.tx("semillas_titulo"), this.tx("semillas_texto"), "Brotes", [VERDE, VERDE, APAGADO, APAGADO, APAGADO], this.tx("semillas_frase")), this.mundo.mostrar("subeprecios", !1), this.mundo.mostrar("semilla", !0), await this.ui.decir(this.dl("chispin_semilla_conocer")), this.paso("ir_semilla");else {
+      estado.monedas = 0, estado.eleccion_m01 = "caramelo", estado.avisar(), await this.ui.resultado("caramelo", this.tx("caramelo_titulo"), this.tx("caramelo_texto"), "Monedas", [APAGADO, APAGADO, APAGADO, APAGADO, APAGADO], this.tx("caramelo_frase")), await this.ui.decir(this.dl("hogaza_mas_trabajo"));
       let o = await this.ui.amasar();
       this.ganar_monedas(o), await this.ui.decir(this.dl("caramelo_vuelta", {
         n: o

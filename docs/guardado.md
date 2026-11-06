@@ -15,6 +15,7 @@ Objetivo: si el niño cierra el juego a mitad de una misión, al volver pierde c
   2. `mundo.colocar_heroe(celda)`: pone al héroe donde estaba (si la casilla se puede pisar);
   3. `paso(punto)`: pone el texto de misión, suelta al jugador y vuelve a guardar.
 - Con `punto`, la pantalla de título ofrece «Continuar» también en la misión 1.
+- **Reino (sprint 3).** Los campos del huerto, la cesta, Merma y el tiempo del reino van en `estadoInicial()` y se guardan como el resto. `cargar()` llama a `sanear()` (`juego/src/reino/reglas.ts`), que migra las partidas antiguas (Merma, `tiempo`, `eleccion_m01`, brotes de la historia a la bolsa) y descarta lo que no sea válido. `guardar(punto, celda, campos, zona)` acepta una `zona` para guardar la de la misión cuando el héroe está de viaje en otra.
 
 ## Qué se restaura solo y qué no
 

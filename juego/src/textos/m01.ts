@@ -37,7 +37,7 @@ export const DATOS_M01 = {
     fb_mal: "Casi. Hogaza no tiene la culpa: es Merma. Cuando hay monedas de m\xE1s, cada una vale menos y todo cuesta m\xE1s.",
     medalla: "Medalla \xABPrimer brote\xBB",
     medalla_texto: "Has devuelto el brillo a la panader\xEDa de Hogaza. El Mercado brilla ya al 35%.",
-    pagina: "Merma solo roba el brillo de lo que est\xE1 quieto. Lo que trabaja, crece.",
+    pagina: "Merma roba brillo a las monedas. Lo plantado crece.",
     reto_familia: "Pregunta en casa cu\xE1nto costaba una barra de pan cuando tus padres eran peque\xF1os.",
     pagina_numero: "p\xE1gina 1",
     icono_medalla: "medalla"
