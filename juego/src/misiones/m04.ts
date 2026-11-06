@@ -31,6 +31,21 @@ export const Mision04 = class extends MisionBase {
     }
     return null;
   }
+  puntos_control() {
+    // «ir_valle» es aún en el mercado; los demás ya en el valle, que
+    // Mundo.restaurar(4) carga porque estado.zona ya es "valle".
+    return ["ir_valle", "ir_copo", "plantar", "cosechar", "volver_copo"];
+  }
+  // En «cosechar», cuántas cosechas van: decide el texto de la noche y cuándo
+  // llama Copo.
+  campos_punto() {
+    return {
+      cosecha: this.cosecha
+    };
+  }
+  cargar_campos(o) {
+    this.cosecha = Math.max(0, Math.min(Sr, o.cosecha | 0));
+  }
   async empezar() {
     estado.ocupado = !0, estado.frutos = 0, estado.zona === "mercado" ? (await this.ui.decir(this.dl("chispin_sur")), this.paso("ir_valle")) : this.enValle();
   }

@@ -25,6 +25,15 @@ export const Mision10 = class extends MisionBase {
     }
     return null;
   }
+  puntos_control() {
+    // «ir_torre» es aún en la ciudad. this.olido solo cambia dentro de oferta(),
+    // después de «ir_chollo».
+    return ["ir_torre", "ir_arrepentido", "ir_reves", "ir_chollo"];
+  }
+  preparar_punto(o) {
+    // Don Chollo aparece cuando el Revés lo avisa.
+    o === "ir_chollo" && this.mundo.mostrar("donchollo", !0);
+  }
   async empezar() {
     estado.ocupado = !0, estado.zona === "ciudad" ? (await this.ui.decir(this.dl("chispin_sur")), this.paso("ir_torre")) : this.enTorre();
   }

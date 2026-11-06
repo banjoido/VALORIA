@@ -2,9 +2,9 @@
 
 Juega con el bot hasta mitad de una misión, recarga la página, pulsa
 "Continuar" y comprueba que se retoma en el mismo punto de control, con las
-mismas monedas y el mismo huerto. Encadena las misiones 1, 2 y 3 (que retoman
-a mitad) y termina en la 4, que todavía no tiene puntos de control y debe
-empezar desde el principio, como antes.
+mismas monedas y el mismo huerto. Encadena las misiones 1, 2, 3 y el primer
+paso de la 4 (aún en el mercado, antes del viaje al valle). Las misiones 4 a 15
+se prueban a fondo en qa/guardado_4_15.py.
 
 Uso: python3 qa/guardado.py
 """
@@ -18,7 +18,7 @@ CASOS = [
     (1, 'cosechar', 2),   # con el huerto a medio cosechar
     (2, 'regar', 4),      # tras comprar la regadera
     (3, 'feria', 3),      # a punto de ir a la feria
-    (4, None, 0),         # misión sin puntos de control: debe empezar entera
+    (4, 'ir_valle', 3),   # camino del valle, aún en el mercado
 ]
 CLAVE = 'valoria-partida'
 

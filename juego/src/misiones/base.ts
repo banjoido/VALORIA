@@ -67,11 +67,19 @@ export const MisionBase = class {
   // está en `estado` ya viene cargado; aquí va lo que solo vive en el mundo
   // (personajes que aparecen o desaparecen, luces...).
   preparar_punto(punto: string) {}
+  // Campos propios de la misión (this.cosecha, this.ventas...) que hacen falta
+  // para seguir desde un punto de control. Se guardan con él y, al retomar,
+  // cargar_campos() los recibe tal cual se leyeron (hay que comprobarlos).
+  campos_punto(): Record<string, unknown> | null {
+    return null;
+  }
+  cargar_campos(campos: Record<string, any>) {}
   reanudar({
     punto,
-    celda
+    celda,
+    campos
   }) {
-    this.preparar_punto(punto), this.mundo.colocar_heroe(celda), this.paso(punto);
+    campos && this.cargar_campos(campos), this.preparar_punto(punto), this.mundo.colocar_heroe(celda), this.paso(punto);
   }
   fin() {
     this.terminar();
@@ -96,7 +104,7 @@ export const MisionBase = class {
     return rellenar(this.datos.textos[a], o);
   }
   paso(a) {
-    this.puntos_control().includes(a) && estado.guardar(a, this.mundo.celda_heroe()), estado.paso = a, estado.ocupado = !1, this.ui.poner_mision(this.datos.misiones[a] || {
+    this.puntos_control().includes(a) && estado.guardar(a, this.mundo.celda_heroe(), this.campos_punto()), estado.paso = a, estado.ocupado = !1, this.ui.poner_mision(this.datos.misiones[a] || {
       valle: "Valle de la Nieve",
       ciudad: "Ciudad de las Empresas",
       torre: "Torre del Rev\xE9s",

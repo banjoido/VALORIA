@@ -27,6 +27,15 @@ export const Mision13 = class extends MisionBase {
     }
     return null;
   }
+  puntos_control() {
+    // «ir_reloj» es aún en la torre. El péndulo (estado.pendulo) ya se guarda;
+    // this.compro solo cambia dentro de fiesta(), después de «ir_euforio».
+    return ["ir_reloj", "ir_pendulo", "ir_vaiven", "ir_euforio"];
+  }
+  preparar_punto(o) {
+    // Euforio aparece al llegar al Gran Reloj y se queda hasta la fiesta.
+    o !== "ir_reloj" && this.mundo.mostrar("euforio", !0);
+  }
   async empezar() {
     estado.ocupado = !0, estado.zona === "torre" ? (await this.ui.decir(this.dl("chispin_sur")), this.paso("ir_reloj")) : this.enReloj();
   }
