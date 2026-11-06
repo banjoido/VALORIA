@@ -10,6 +10,11 @@ export const Mision06 = class extends MisionBase {
   objetivo() {
     return estado.paso === "ir_copo" ? objetivo(11, 8, 25) : null;
   }
+  puntos_control() {
+    // Después de «ir_copo» todo (sacos, helada, primavera) va seguido en copo():
+    // si se cierra a mitad, se vuelve aquí.
+    return ["ir_copo"];
+  }
   async empezar() {
     estado.ocupado = !0, await this.ui.pasar_noche(this.siguiente_estacion(), this.tx("noche_inicio")), this.mundo.mostrar("prisas", !0), this.ui.sonar("malo"), this.mundo.estallido(desplazar(this.mundo.pie(punto(9, 12)), 0, -12), "#e0503c", 18), await this.ui.decir(this.dl("prisas_helada")), this.mundo.huir("prisas", DERECHA), await esperar(.9), this.mundo.mostrar("prisas", !1), await this.ui.decir(this.dl("chispin_copo")), this.paso("ir_copo");
   }

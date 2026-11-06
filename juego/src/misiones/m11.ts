@@ -17,6 +17,22 @@ export const Mision11 = class extends MisionBase {
   objetivo() {
     return estado.paso === "ir_tienda" ? objetivo(4, 11, 25) : estado.paso === "ir_reves" ? objetivo(9, 6, 25) : null;
   }
+  puntos_control() {
+    return ["ir_tienda", "ir_reves"];
+  }
+  preparar_punto(o) {
+    // Deudón aparece en la tienda y espera hasta que el Revés lo despide.
+    o === "ir_reves" && this.mundo.mostrar("deudon", !0);
+  }
+  // En «ir_reves», qué eligió el niño en la tienda (préstamo, pagar o nada).
+  campos_punto() {
+    return {
+      eleccion: this.eleccion
+    };
+  }
+  cargar_campos(o) {
+    this.eleccion = ["prestamo", "pagar", "no"].includes(o.eleccion) ? o.eleccion : estado.patines ? "pagar" : "no";
+  }
   async empezar() {
     estado.ocupado = !0, await this.ui.pasar_noche(this.siguiente_estacion(), this.tx("noche_inicio")), this.mundo.estallido(desplazar(this.mundo.pie(punto(2, 11)), 0, -16), ORO, 20), await this.ui.decir(this.dl("fachada_patines", {
       n: k

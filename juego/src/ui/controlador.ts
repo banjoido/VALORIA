@@ -1,6 +1,6 @@
 // @ts-nocheck
 // Reconstruido del prototipo publicado. Se irá tipando poco a poco.
-import { ajustes, esperar } from '../ajustes';
+import { ajustes, esperar, rellenarGenero } from '../ajustes';
 import { buffersAudio, contextoAudio, iniciarAudio, vozEspanol } from '../audio';
 import { ESTACIONES_CON_ARTICULO, estado } from '../estado';
 import { PERSONAJES } from '../personajes';
@@ -34,7 +34,7 @@ let Oa = null;
 
 let qr = 0;
 
-export let SND_fallo = {
+export let interfaz = {
   get vista() {
     return vista;
   },
@@ -46,7 +46,7 @@ export let SND_fallo = {
     });
   },
   decir(i) {
-    return !i || !i.length ? Promise.resolve() : (estado.ocupado = !0, Va = [...i], new Promise(a => {
+    return !i || !i.length ? Promise.resolve() : (estado.ocupado = !0, Va = rellenarGenero(i), new Promise(a => {
       Oa = a, this.siguienteLinea();
     }));
   },
@@ -87,7 +87,7 @@ export let SND_fallo = {
   hablar(i, a) {
     if (!(!estado.sonido || ajustes.velocidad > 1)) try {
       speechSynthesis.cancel();
-      let o = new SpeechSynthesisUtterance(i.replace(/…/g, ".").replace(/[¡¿]/g, ""));
+      let o = new SpeechSynthesisUtterance(rellenarGenero(i).replace(/…/g, ".").replace(/[¡¿]/g, ""));
       o.lang = "es-ES", vozEspanol && (o.voice = vozEspanol);
       let t = PERSONAJES[a] || [0, 0, 1, 1];
       o.pitch = Math.min(2, t[2]), o.rate = t[3], speechSynthesis.speak(o);
@@ -158,7 +158,7 @@ export let SND_fallo = {
       let t = {
         id: ++qr,
         tipo: i,
-        ...a,
+        ...rellenarGenero(a),
         responder: s => {
           vista.capa === t && actualizarVista({
             capa: null
@@ -176,8 +176,12 @@ export let SND_fallo = {
       mision: a
     });
   },
+  // Partida nueva: el jugador elige su personaje. Devuelve "chico" o "chica".
+  elegir_heroe() {
+    return this.abrir("elegir_heroe");
+  },
   carta(i, a) {
-    return a && this.hablar("Querido nieto o nieta. " + i, "abuelo"), this.abrir("carta", {
+    return a && this.hablar("Querid{o} {nieto}. " + i, "abuelo"), this.abrir("carta", {
       texto: i,
       primera: a
     });

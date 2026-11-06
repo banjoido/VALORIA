@@ -13,6 +13,16 @@ export const Mision12 = class extends MisionBase {
   objetivo() {
     return estado.paso === "ir_cautela" ? objetivo(6, 12, 25) : estado.paso.startsWith("puerta_") ? objetivo(7, 13 + this.puerta * 4, 22) : estado.paso === "ir_reves" ? objetivo(9, 31, 25) : null;
   }
+  puntos_control() {
+    return ["ir_cautela", "puerta_1", "puerta_2", "puerta_3", "puerta_4", "ir_reves"];
+  }
+  preparar_punto(o) {
+    // El Revés espera al fondo de la torre desde el principio. La puerta en
+    // curso sale del nombre del paso («puerta_3» → 3; «ir_reves» → todas
+    // abiertas) y las anteriores ya están abiertas.
+    this.mundo.mover_npc("reves", punto(9, 31)), this.puerta = o === "ir_reves" ? 5 : o.startsWith("puerta_") ? +o.slice(7) : 1;
+    for (let t = 1; t < this.puerta; t++) this.mundo.mostrar("puerta_" + t, !1);
+  }
   async empezar() {
     estado.ocupado = !0, await this.ui.pasar_noche(this.siguiente_estacion(), this.tx("noche_inicio")), await this.ui.decir(this.dl("reves_reto")), this.mundo.estallido(desplazar(this.mundo.pie(punto(9, 6)), 0, -12), MORADO, 16), this.mundo.mover_npc("reves", punto(9, 31)), this.paso("ir_cautela");
   }

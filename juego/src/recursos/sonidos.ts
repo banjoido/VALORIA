@@ -1,6 +1,5 @@
 // @ts-nocheck
 // Reconstruido del prototipo publicado. Se irá tipando poco a poco.
-import { SND_fallo } from '../ui/controlador';
 import SND_acierto from './sonidos/acierto.wav?inline';
 import SND_fallo from './sonidos/fallo.wav?inline';
 import SND_fanfarria from './sonidos/fanfarria.wav?inline';

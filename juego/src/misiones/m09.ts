@@ -39,6 +39,13 @@ export const Mision09 = class extends MisionBase {
     }
     return null;
   }
+  puntos_control() {
+    return ["ir_lupa", "ir_plaza", "volver_lupa"];
+  }
+  preparar_punto() {
+    // Prisas aparece al empezar y se queda en la ciudad hasta las estaciones.
+    this.mundo.mostrar("prisas", !0);
+  }
   async empezar() {
     estado.ocupado = !0, await this.ui.pasar_noche(this.siguiente_estacion(), this.tx("noche_inicio")), this.mundo.mostrar("prisas", !0), this.ui.sonar("malo"), this.mundo.estallido(desplazar(this.mundo.pie(punto(12, 24)), 0, -12), ORO, 20), await this.ui.decir(this.dl("prisas_relampago")), await this.ui.decir(this.dl("chispin_lupa")), this.paso("ir_lupa");
   }

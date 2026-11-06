@@ -52,7 +52,7 @@ export const DATOS_M06 = {
     victoria_tierras: [["copo", "Las tierras de labor brillan otra vez."]],
     valle_brilla: [["copo", "El Valle entero se ha descongelado."], ["copo", "Tu abuelo estar\xEDa orgulloso. \xC9l tambi\xE9n sab\xEDa esperar y repartir."]],
     prisas_huye: [["prisas", "\xA1Grrr! \xA1Aqu\xED ya nadie tiene prisa!"], ["prisas", "\xA1Me voy a la Ciudad de las Empresas! \xA1All\xED todos corren!"], ["chispin", "\xA1Ha escapado por el camino del sur! Alg\xFAn d\xEDa iremos tras \xE9l."]],
-    charla_copo: [["copo", "Sin prisa, peque\xF1o. Lo bueno crece despacio."]],
+    charla_copo: [["copo", "Sin prisa, peque\xF1{o}. Lo bueno crece despacio."]],
     charla_raiz: [["raiz", "Mi casa la levant\xF3 mi bisabuela, piedra a piedra. Todav\xEDa me abriga."]],
     charla_anillos: [["anillos", "Cada anillo de un tronco es un a\xF1o que el \xE1rbol aguant\xF3."]],
     charla_escarcha: [["escarcha", "\xA1Ziiim! \xBFMe ves patinar? Llevo todo el invierno practicando."]],

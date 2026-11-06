@@ -1,9 +1,12 @@
 // @ts-nocheck
 // Reconstruido del prototipo publicado. Se irá tipando poco a poco.
 import React from 'react';
+import { rellenar } from '../ajustes';
 import { iniciarAudio } from '../audio';
+import { spriteHeroe } from '../mundo/mundo';
 import { Ai, xi } from '../personajes';
 import { Bocadillo, Boton, EtiquetaNombre, Hueco, Icono, Medidor } from './componentes';
+import { interfaz } from './controlador';
 import { Forja, ListaCompra, ListaComprobacion, MinijuegoAmasar, OjoTasador, Panel, Pregunta, Reparto } from './minijuegos';
 
 export const CAPAS = {
@@ -15,10 +18,11 @@ export const CAPAS = {
     className: "centro suave"
   }, i.hay && i.mision > 15 ? "Todo Valoria brilla" : i.hay && i.mision >= 13 ? "El Gran Reloj" : i.hay && i.mision >= 10 ? "La Torre del Rev\xE9s" : i.hay && i.mision >= 7 ? "La Ciudad de las Empresas" : i.hay && i.mision >= 4 ? "El Valle de la Nieve" : "El Mercado del Pueblo"), React.createElement("div", {
     className: "fila centrar"
-  }, React.createElement(Icono, {
-    n: "heroe",
+  }, (i.hay ? [spriteHeroe()] : ["heroina", "heroe"]).map(a => React.createElement(Icono, {
+    key: a,
+    n: a,
     e: 3
-  }), React.createElement(Icono, {
+  })), React.createElement(Icono, {
     n: "chispin",
     e: 3
   })), React.createElement("p", {
@@ -43,6 +47,24 @@ export const CAPAS = {
   }), React.createElement("p", {
     className: "centro peq suave"
   }, "Con voz \xB7 toca el suelo para caminar")),
+  // Partida nueva: dos personajes grandes, sin texto de género.
+  elegir_heroe: ({
+    c: i
+  }) => React.createElement(React.Fragment, null, React.createElement("h2", {
+    className: "centro"
+  }, "\xBFQui\xE9n eres?"), React.createElement("div", {
+    className: "eleccion-heroe"
+  }, [["chica", "heroina", "Elegir a la hero\xEDna"], ["chico", "heroe", "Elegir al h\xE9roe"]].map(([a, o, t]) => React.createElement("button", {
+    key: a,
+    className: "btn eleccion",
+    "aria-label": t,
+    onClick: () => {
+      interfaz.sonar("siguiente"), i.responder(a);
+    }
+  }, React.createElement(Icono, {
+    n: o,
+    e: 5
+  }))))),
   carta: ({
     c: i
   }) => React.createElement(React.Fragment, null, React.createElement("div", {
@@ -52,9 +74,9 @@ export const CAPAS = {
     e: 3
   }), React.createElement("h2", null, "Legado de Libertad")), React.createElement("div", {
     className: "pergamino"
-  }, `Querido nieto o nieta:
+  }, rellenar(`Querid{o} {nieto}:
 
-` + i.texto + `
+`) + i.texto + `
 
 Tu abuelo`), React.createElement(Boton, {
     dorado: !0,
@@ -301,7 +323,7 @@ Tu abuelo`), React.createElement(Boton, {
     className: "centro"
   }, i.textos.fin_titulo), React.createElement("div", {
     className: "fila centrar"
-  }, ["heroe", "chispin", "brotin", "escudon", "repartija", "olfatin", "calmin"].map(a => React.createElement(Icono, {
+  }, [spriteHeroe(), "chispin", "brotin", "escudon", "repartija", "olfatin", "calmin"].map(a => React.createElement(Icono, {
     key: a,
     n: a,
     e: 2

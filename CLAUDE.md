@@ -17,12 +17,12 @@ Valoria es un juego de rol en pixel art, en vertical para móvil, para niños de
 - Sin chat libre entre niños.
 - Personajes, criaturas y nombres originales; nada copiado de otros juegos.
 - No se pierde nunca de golpe: las pérdidas son suaves y con aviso.
-- Guía de arte: loseta de 26 px en pantalla (excepción decidida: en pantallas de menos de 390 px de ancho el mapa se reduce para caber entero, unos 20 px por loseta), contorno #2b2230, Pixelify Sans, texto de diálogo de 18 px o más, nada por debajo de 11 px, toques de 44 px o más.
+- Guía de arte: loseta de 26 px en pantalla (los móviles de referencia son los actuales: iPhone de 390–440 px y Android de 360–412 px; por debajo de 390 px el mapa ocupa todo el ancho, unos 24 px por loseta en un Android de 360 px), contorno #2b2230, Pixelify Sans, texto de diálogo de 18 px o más, nada por debajo de 11 px, toques de 44 px o más.
 - Textos en español de España, frases cortas: como mucho dos frases por globo.
 
 ## Cómo trabajamos
 
 - Cada cambio va en una rama y llega a `main` con un pull request que aprueba Fernan.
 - Antes de entregar, `npm run qa:partida` debe completar las 15 misiones sin errores.
-- `prototipo/index.html` es la versión publicada. `prototipo/legible/` es solo de consulta.
+- El juego está en `juego/` y su build (`juego/dist/index.html`) es lo que se publica en el artifact «Valoria» cuando Fernan aprueba. `prototipo/` es el original de noviembre de 2026, solo de consulta.
 - Toda decisión de diseño que cambie números, misiones o textos se anota en el pull request con su porqué.

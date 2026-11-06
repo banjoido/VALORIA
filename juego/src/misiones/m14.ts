@@ -19,6 +19,14 @@ export const Mision14 = class extends MisionBase {
   trocitos() {
     return Ri.reduce((a, o) => a + estado.trocitos_de(o), 0);
   }
+  puntos_control() {
+    // Calmín ya está en estado.criaturas al llegar a «ir_pendulo».
+    return ["ir_memoria", "ir_pendulo"];
+  }
+  preparar_punto() {
+    // La tormenta y Pánico empiezan con la misión y duran hasta decidir().
+    this.mundo.tormenta(!0), this.mundo.mostrar("panico", !0);
+  }
   async empezar() {
     estado.ocupado = !0, await this.ui.pasar_noche(this.siguiente_estacion(), this.tx("noche_tormenta")), estado.pendulo = -.9, estado.avisar(), this.mundo.tormenta(!0), this.mundo.mostrar("panico", !0), this.ui.sonar("malo"), await this.ui.decir(this.dl("panico_grita"));
     let a = this.trocitos();
