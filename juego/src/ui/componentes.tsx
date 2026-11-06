@@ -7,7 +7,7 @@ import { imagen } from '../mundo/mundo';
 import { Ai, NOMBRES_ZONA_CORTOS, PERSONAJES, colorDe, nombreDe, qi } from '../personajes';
 import { SPRITES } from '../recursos/sprites';
 import { CAPAS } from './capas';
-import { SND_fallo, vista } from './controlador';
+import { interfaz, vista } from './controlador';
 
 export function Icono({
   n: i,
@@ -54,7 +54,7 @@ export function Boton({
     className: `btn ${o ? "dorado" : ""} ${a ? "con-icono" : ""} ${c ? "pulsado" : ""} ${l}`,
     disabled: s,
     onClick: () => {
-      SND_fallo.sonar("siguiente"), t && t();
+      interfaz.sonar("siguiente"), t && t();
     },
     ...g
   }, a && React.createElement(Hueco, {
@@ -123,7 +123,7 @@ export function Marcador() {
     className: "chip-calma"
   }, "CALMA")), React.createElement("button", {
     className: "btn voz",
-    onClick: () => SND_fallo.alternar_sonido(),
+    onClick: () => interfaz.alternar_sonido(),
     "aria-label": "Activar o desactivar la voz y el sonido"
   }, estado.sonido ? "Voz" : "Mudo"));
 }
@@ -175,7 +175,7 @@ export function Navegacion() {
   }, [["mochila", "Mochila", "mochila", 2], ["huerto", "Huerto", "huerto", 2], ["mapa", "Mapa", "mapa", 2], ["criaturas", "Criaturas", "chispin", 3]].map(([a, o, t, s]) => React.createElement("button", {
     key: a,
     className: "btn nav-b",
-    onClick: () => SND_fallo.panel(a)
+    onClick: () => interfaz.panel(a)
   }, React.createElement(Icono, {
     n: t,
     e: s
@@ -201,10 +201,10 @@ export function Dialogo() {
     r = Math.max(2, Math.floor(Math.min(66 / t.width, 86 / t.height)));
   return React.createElement("div", {
     className: "dialogo",
-    onClick: () => SND_fallo.avanzar(),
+    onClick: () => interfaz.avanzar(),
     role: "button",
     tabIndex: 0,
-    onKeyDown: l => (l.key === "Enter" || l.key === " ") && SND_fallo.avanzar()
+    onKeyDown: l => (l.key === "Enter" || l.key === " ") && interfaz.avanzar()
   }, React.createElement(EtiquetaNombre, {
     quien: s
   }), React.createElement("div", {

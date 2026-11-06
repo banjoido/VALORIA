@@ -34,7 +34,7 @@ let Oa = null;
 
 let qr = 0;
 
-export let SND_fallo = {
+export let interfaz = {
   get vista() {
     return vista;
   },

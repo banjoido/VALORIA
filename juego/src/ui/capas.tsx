@@ -6,7 +6,7 @@ import { iniciarAudio } from '../audio';
 import { spriteHeroe } from '../mundo/mundo';
 import { Ai, xi } from '../personajes';
 import { Bocadillo, Boton, EtiquetaNombre, Hueco, Icono, Medidor } from './componentes';
-import { SND_fallo } from './controlador';
+import { interfaz } from './controlador';
 import { Forja, ListaCompra, ListaComprobacion, MinijuegoAmasar, OjoTasador, Panel, Pregunta, Reparto } from './minijuegos';
 
 export const CAPAS = {
@@ -59,7 +59,7 @@ export const CAPAS = {
     className: "btn eleccion",
     "aria-label": t,
     onClick: () => {
-      SND_fallo.sonar("siguiente"), i.responder(a);
+      interfaz.sonar("siguiente"), i.responder(a);
     }
   }, React.createElement(Icono, {
     n: o,

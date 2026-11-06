@@ -84,7 +84,7 @@ import { DATOS_M13 } from './textos/m13';
 import { DATOS_M14 } from './textos/m14';
 import { DATOS_M15 } from './textos/m15';
 import { App } from './ui/App';
-import { SND_fallo } from './ui/controlador';
+import { interfaz } from './ui/controlador';
 
 const MISIONES = [null, [Mision01, DATOS_M01], [Mision02, DATOS_M02], [Mision03, DATOS_M03], [Mision04, DATOS_M04], [Mision05, DATOS_M05], [Mision06, DATOS_M06], [Mision07, DATOS_M07], [Mision08, DATOS_M08], [Mision09, DATOS_M09], [Mision10, DATOS_M10], [Mision11, DATOS_M11], [Mision12, DATOS_M12], [Mision13, DATOS_M13], [Mision14, DATOS_M14], [Mision15, DATOS_M15]];
 
@@ -101,10 +101,10 @@ const NOMBRES_ZONA = {
 async function arrancar() {
   await cargarSprites();
   let i = new Mundo(document.getElementById("mundo"));
-  i.ui = SND_fallo, window.valoria = {
+  i.ui = interfaz, window.valoria = {
     Estado: estado,
     mundo: i,
-    ui: SND_fallo,
+    ui: interfaz,
     ajustes: ajustes,
     Mapa: Mapa
   }, ReactDOM.createRoot(document.getElementById("ui")).render(React.createElement(App, null)), addEventListener("keydown", s => {
@@ -124,26 +124,26 @@ async function arrancar() {
         x: l.x + r[0],
         y: l.y + r[1]
       }), s.preventDefault();
-    } else (s.key === "Enter" || s.key === " ") && SND_fallo.vista.dialogo && !SND_fallo.vista.capa && (SND_fallo.avanzar(), s.preventDefault());
+    } else (s.key === "Enter" || s.key === " ") && interfaz.vista.dialogo && !interfaz.vista.capa && (interfaz.avanzar(), s.preventDefault());
   });
   // En el móvil, cerrar el juego suele ser mandarlo a segundo plano.
   document.addEventListener("visibilitychange", () => {
     document.visibilityState === "hidden" && estado.guardar_al_salir();
   }), addEventListener("pagehide", () => estado.guardar_al_salir());
   let a = estado.cargar();
-  (await SND_fallo.pantalla_titulo(a, estado.mision)) !== "continuar" && (estado.reiniciar(), estado.borrar_partida(), estado.heroe = await SND_fallo.elegir_heroe(), estado.avisar()), i.restaurar(estado.mision), SND_fallo.textos_carta = DATOS_M01.textos.carta;
+  (await interfaz.pantalla_titulo(a, estado.mision)) !== "continuar" && (estado.reiniciar(), estado.borrar_partida(), estado.heroe = await interfaz.elegir_heroe(), estado.avisar()), i.restaurar(estado.mision), interfaz.textos_carta = DATOS_M01.textos.carta;
   let t = !1;
   for (; estado.mision <= TOTAL_MISIONES;) {
     t = !0, estado.guardar();
     let [s, r] = MISIONES[estado.mision];
-    await new s(estado.mision, r).jugar(i, SND_fallo), estado.mision += 1;
+    await new s(estado.mision, r).jugar(i, interfaz), estado.mision += 1;
   }
-  estado.guardar(), estado.maquina_apagada && (SND_fallo.textos_carta = DATOS_M01.textos.carta + `
+  estado.guardar(), estado.maquina_apagada && (interfaz.textos_carta = DATOS_M01.textos.carta + `
 
-` + DATOS_M15.textos.carta_final), t || (await SND_fallo.decir([["chispin", "\xA1Hola otra vez! Todo Valoria sigue brillando."]])), estado.paso = "libre", estado.ocupado = !1, SND_fallo.poner_mision(NOMBRES_ZONA[estado.zona] + " \xB7 toca el mapa para viajar"), SND_fallo.viaje_pedido = async s => {
-    await SND_fallo.viajar(NOMBRES_ZONA[s], "", () => {
+` + DATOS_M15.textos.carta_final), t || (await interfaz.decir([["chispin", "\xA1Hola otra vez! Todo Valoria sigue brillando."]])), estado.paso = "libre", estado.ocupado = !1, interfaz.poner_mision(NOMBRES_ZONA[estado.zona] + " \xB7 toca el mapa para viajar"), interfaz.viaje_pedido = async s => {
+    await interfaz.viajar(NOMBRES_ZONA[s], "", () => {
       estado.zona = s, i.restaurar(estado.mision);
-    }), estado.guardar(), estado.paso = "libre", estado.ocupado = !1, SND_fallo.poner_mision(NOMBRES_ZONA[s] + " \xB7 toca el mapa para viajar");
+    }), estado.guardar(), estado.paso = "libre", estado.ocupado = !1, interfaz.poner_mision(NOMBRES_ZONA[s] + " \xB7 toca el mapa para viajar");
   };
 }
 

@@ -5,7 +5,7 @@ import { ajustes } from '../ajustes';
 import { estado } from '../estado';
 import { qi } from '../personajes';
 import { Bocadillo, Boton, EtiquetaNombre, Hueco, Icono } from './componentes';
-import { SND_fallo } from './controlador';
+import { interfaz } from './controlador';
 
 export function MinijuegoAmasar({
   c: i
@@ -34,11 +34,11 @@ export function MinijuegoAmasar({
   let N = () => {
     if (A) return;
     let d = g();
-    d > .36 && d < .64 ? (o(w => w + 1), SND_fallo.sonar("acierto"), c.current && c.current.animate([{
+    d > .36 && d < .64 ? (o(w => w + 1), interfaz.sonar("acierto"), c.current && c.current.animate([{
       transform: "scale(1.2,0.8)"
     }, {
       transform: "scale(1,1)"
-    }], 250)) : SND_fallo.sonar("fallo"), s(w => w + 1);
+    }], 250)) : interfaz.sonar("fallo"), s(w => w + 1);
   };
   return React.createElement(React.Fragment, null, React.createElement(EtiquetaNombre, {
     quien: i.quien
@@ -75,7 +75,7 @@ export function Pregunta({
   let [a, o] = useState(null),
     t = a === i.correcta;
   return useEffect(() => {
-    a && (SND_fallo.sonar(t ? "moneda" : "siguiente"), SND_fallo.hablar(t ? i.bien : i.mal, "chispin"));
+    a && (interfaz.sonar(t ? "moneda" : "siguiente"), interfaz.hablar(t ? i.bien : i.mal, "chispin"));
   }, [a]), React.createElement(React.Fragment, null, React.createElement(Bocadillo, {
     texto: i.texto
   }), i.opciones.map(s => React.createElement(Boton, {
@@ -249,7 +249,7 @@ export function ListaComprobacion({
       o({
         ...a,
         [r]: !0
-      }), SND_fallo.hablar(s[2], i.quien);
+      }), interfaz.hablar(s[2], i.quien);
     }
   }))), React.createElement(Boton, {
     dorado: !0,
@@ -288,7 +288,7 @@ export function Forja({
     dorado: !0,
     texto: i.textos.forja_boton,
     onClick: () => {
-      o(!0), SND_fallo.sonar("fanfarria"), SND_fallo.hablar(i.textos.forja_hecha, "pendulo");
+      o(!0), interfaz.sonar("fanfarria"), interfaz.hablar(i.textos.forja_hecha, "pendulo");
     }
   }));
 }
