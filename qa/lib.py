@@ -18,6 +18,6 @@ async def open_game(pw, w=390,h=844):
     p.on('console',lambda m: logs.append(f'[{m.type}] {m.text}') if m.type in('error','warning') else None)
     p.on('pageerror',lambda e: logs.append(f'[pageerror] {e}'))
     await p.route('**/*',route)
-    await p.goto('file://'+str(ROOT/'prototipo/index.html'))
+    await p.goto('file://'+str(ROOT/'juego/dist/index.html'))
     await p.wait_for_timeout(1500)
     return b,p,logs

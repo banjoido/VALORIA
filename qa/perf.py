@@ -6,7 +6,7 @@ async def main():
         ctx=await b.new_context(viewport={'width':390,'height':844},has_touch=True,is_mobile=True)
         p=await ctx.new_page(); await p.route('**/*',route)
         t=await p.evaluate("()=>0")
-        await p.goto('file://'+str(ROOT/'prototipo/index.html'),wait_until='load')
+        await p.goto('file://'+str(ROOT/'juego/dist/index.html'),wait_until='load')
         nav=await p.evaluate("()=>JSON.stringify(performance.getEntriesByType('navigation')[0].toJSON())")
         import json; n=json.loads(nav); print('load ms',round(n['loadEventEnd']))
         await p.wait_for_timeout(1000)

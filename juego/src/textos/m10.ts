@@ -1,0 +1,66 @@
+// @ts-nocheck
+// Reconstruido del prototipo publicado. Se irá tipando poco a poco.
+
+export const DATOS_M10 = {
+  _nota: "Di\xE1logos y textos de la misi\xF3n 10. Cada l\xEDnea es [personaje, texto]. Lo que va entre llaves lo rellena el juego.",
+  misiones: {
+    ir_torre: "Sigue el camino del sur hasta la Torre del Rev\xE9s",
+    ir_arrepentido: "Alguien llora junto a su caseta",
+    ir_reves: "Busca a Rev\xE9s en su casa al rev\xE9s",
+    ir_chollo: "Don Chollo te llama desde su puesto",
+    victoria: "\xA1La plaza de la Torre brilla!"
+  },
+  textos: {
+    viaje_titulo: "Torre del Rev\xE9s",
+    viaje_sub: "Donde todo est\xE1 patas arriba",
+    oferta_titulo: "La oferta de Don Chollo",
+    dar: "Darle {n} monedas",
+    pensar: "Pensar al rev\xE9s primero",
+    irme: "Irme sin darle nada",
+    noche_chollo: "Don Chollo promete volver por la ma\xF1ana",
+    pistas_titulo: "\xBFHuele a timo?",
+    pregunta: "Alguien te promete el doble de monedas en una noche, solo hoy y en secreto. \xBFQu\xE9 es?",
+    resp_timo: "Un timo",
+    resp_suerte: "Un golpe de suerte",
+    resp_amigo: "Un favor de un amigo",
+    fb_bien: "\xA1Eso es! Mucho, muy r\xE1pido, en secreto y sin explicar c\xF3mo: huele a timo.",
+    fb_mal: "Casi. Si promete mucho, muy r\xE1pido y en secreto, es un timo.",
+    medalla: "Medalla \xABOlfato\xBB",
+    medalla_texto: "Hueles un timo a la legua. \xA1La plaza de la Torre vuelve a brillar!",
+    icono_medalla: "medalla_olfato",
+    pagina_numero: "p\xE1gina 10",
+    pagina: "Si algo parece demasiado bueno para ser verdad, casi nunca es verdad. Desconf\xEDa de quien te mete prisa.",
+    reto_familia: "Buscad juntos un anuncio o un mensaje que prometa algo demasiado bueno. \xBFQu\xE9 se\xF1ales de timo encontr\xE1is?"
+  },
+  pistas: [["moneda", "\xBFPromete mucho?", "\xA1El doble en una noche! Nadie hace eso con algo de verdad.", !1], ["reloj", "\xBFTiene prisa?", "\xAB\xA1Solo hoy!\xBB. As\xED no te da tiempo a pensar.", !1], ["carta", "\xBFPide secreto?", "\xABNo se lo digas a nadie\xBB. Para que nadie te avise.", !1], ["lupa_icono", "\xBFExplica c\xF3mo lo hace?", "No. Si nadie sabe explicar de d\xF3nde sale el dinero\u2026", !1]],
+  dialogos: {
+    chispin_sur: [["chispin", "\xA1Fachada se ha ido por el camino del sur, a la Torre del Rev\xE9s!"], ["chispin", "Dicen que all\xED todo est\xE1 patas arriba. Baja hasta el final del camino."]],
+    llegada_torre: [["chispin", "\xA1Mira eso! Los \xE1rboles tienen las ra\xEDces arriba\u2026 \xA1y la fuente echa el agua hacia el cielo!"], ["chispin", "Todo est\xE1 apagado y morado. Y alguien est\xE1 llorando junto a esa caseta."]],
+    arrepentido_historia: [["arrepentido", "Snif\u2026 Soy Arrepentido. Ten\xEDa 30 monedas ahorradas."], ["arrepentido", "Un tal Don Chollo me dijo: \xABD\xE1melas y ma\xF1ana tendr\xE1s 60\xBB. \xA1Solo ese d\xEDa! \xA1Y en secreto!"], ["arrepentido", "Por la ma\xF1ana su puesto estaba vac\xEDo. Ni monedas ni Don Chollo."], ["arrepentido", "Cu\xE9ntaselo a Rev\xE9s. Ella entiende estas cosas\u2026 al rev\xE9s."]],
+    reves_hola: [["reves", "\xA1Aloh! As\xED se dice \xABhola\xBB al rev\xE9s."], ["reves", "Soy Rev\xE9s. Todo el mundo piensa en c\xF3mo ganar. Yo pienso en c\xF3mo podr\xEDa perder."], ["reves", "Dime d\xF3nde voy a perder\u2026 y no ir\xE9 nunca all\xED."], ["reves", "Uy. Mira qui\xE9n acaba de montar su puesto."]],
+    chollo_aparece: [["donchollo", "\xA1Pasen, pasen! \xA1Don Chollo duplica monedas! \xA1Ofert\xF3n!"]],
+    chollo_oferta: [["donchollo", "\xA1T\xFA! S\xED, t\xFA. Dame {n} monedas y ma\xF1ana tendr\xE1s {d}."], ["donchollo", "\xA1Solo hoy! \xA1Y no se lo digas a nadie, que se acaba!"]],
+    chollo_insiste: [["donchollo", "\xBFQu\xE9, te lo has pensado? \xA1{n} monedas hoy, {d} ma\xF1ana! \xA1Corre!"]],
+    reves_piensa: [["reves", "Buena idea. Pensemos al rev\xE9s: \xBFc\xF3mo podr\xEDas perder tus monedas aqu\xED?"]],
+    olfatin_aparece: [["chispin", "\xA1Eh! Algo se mueve detr\xE1s de la fuente\u2026"], ["olfatin", "\xA1Snif, snif! Soy Olfat\xEDn. Huelo las trampas desde lejos. \xBFMe dejas olfatear?"]],
+    olfatin_despues: [["olfatin", "\xA1Snif, snif! Hola, soy Olfat\xEDn. D\xE9jame olfatear lo que te ofrec\xEDa ese se\xF1or."]],
+    tras_oler: [["olfatin", "\xA1Puaj! Cuatro se\xF1ales. Esto huele a timo de lejos."]],
+    chollo_gracias: [["donchollo", "\xA1Ja, ja! \xA1Gracias! Vuelve ma\xF1ana a por tus monedas\u2026 \xA1je!"]],
+    chollo_desaparece: [["chispin", "\xA1El puesto de Don Chollo est\xE1 vac\xEDo! Se ha ido con nuestras {n} monedas."], ["arrepentido", "Ya ves\u2026 A m\xED me pas\xF3 lo mismo."], ["reves", "No te preocupes. Mejor aprenderlo con {n} monedas que con mil."]],
+    irme: [["donchollo", "\xA1Bah! \xA1T\xFA te lo pierdes!"], ["reves", "Irse tambi\xE9n es una decisi\xF3n. Y muchas veces, la mejor."]],
+    reves_nombre: [["reves", "Eso tiene nombre: un timo."], ["reves", "Si suena demasiado bueno para ser verdad\u2026 es que no es verdad."]],
+    olfatin_se_une: [["olfatin", "\xA1Me caes bien! \xBFPuedo ir contigo? Te avisar\xE9 cuando algo huela raro."], ["chispin", "\xA1Olfat\xEDn viene con nosotros!"]],
+    chollo_huye: [["donchollo", "\xA1Aqu\xED ya nadie pica! \xA1Me largo!"]],
+    victoria_reves: [["reves", "\xA1La plaza brilla otra vez! O deber\xEDa decir\u2026 \xA1zalp al alla birb!"]],
+    charla_reves: [["reves", "\xA1Aloh! Aqu\xED todo va al rev\xE9s. As\xED se ven las cosas que los dem\xE1s no ven."]],
+    charla_arrepentido: [["arrepentido", "Si alguien te promete el doble en una noche, acu\xE9rdate de m\xED."]],
+    charla_cautela: [["cautela", "Antes de cada paso, me pregunto: \xBFqu\xE9 podr\xEDa salir mal?"]],
+    charla_donchollo: [["donchollo", "\xA1Psst! \xA1Solo hoy! \xA1No se lo digas a nadie!"]],
+    charla_deudon: [["deudon", "\xBFNecesitas algo? \xA1Yo te presto! Ya me lo devolver\xE1s\u2026 con un poquito m\xE1s."]],
+    charla_fachada: [["fachada", "\xA1Mi tienda nueva brilla todav\xEDa m\xE1s que el bazar!"]],
+    charla_puerta_1: [["chispin", "La torre est\xE1 cerrada. Cautela la vigila."]],
+    charla_puerta_2: [["chispin", "Otra puerta cerrada."]],
+    charla_puerta_3: [["chispin", "Otra puerta cerrada."]],
+    charla_puerta_4: [["chispin", "Otra puerta cerrada."]]
+  }
+};

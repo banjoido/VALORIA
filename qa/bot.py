@@ -1,9 +1,11 @@
 import asyncio,sys,json,time,random; sys.path.insert(0,'qa'); from lib import *
-lib_path=ROOT/'qa/.build/qa.html'
+import os
+lib_path=pathlib.Path(os.environ['QA_HTML']).resolve() if os.environ.get('QA_HTML') else ROOT/'juego/dist/index.html'
 SHOTS=ROOT/'qa/.build/capturas'; SHOTS.mkdir(parents=True, exist_ok=True)
 STEP_JS = r"""
 (args) => { const [pref, same] = args;
-  const e = window.__e, m = window.__mundo;
+  const e = window.__e || (window.valoria && window.valoria.Estado), m = window.__mundo || (window.valoria && window.valoria.mundo);
+  if (!e || !m) return {paso:'cargando', mision:0, zona:'', monedas:0, ocupado:true, botones:[], accion:'cargando'};
   const ui = document.querySelector('#ui');
   const vis = el => { const r = el.getBoundingClientRect(); const cs=getComputedStyle(el); return r.width>0 && r.height>0 && cs.visibility!=='hidden' && cs.pointerEvents!=='none'; };
   const btns = [...ui.querySelectorAll('button')].filter(b => !b.disabled && vis(b));

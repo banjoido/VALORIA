@@ -1,0 +1,68 @@
+// @ts-nocheck
+// Reconstruido del prototipo publicado. Se irá tipando poco a poco.
+
+export const DATOS_M04 = {
+  _nota: "Di\xE1logos y textos de la misi\xF3n 4. Cada l\xEDnea es [personaje, texto]. Lo que va entre llaves lo rellena el juego.",
+  misiones: {
+    ir_valle: "Sigue el camino del sur hasta el Valle",
+    ir_copo: "Busca a Copo en su castillo de hielo",
+    plantar: "Planta las 3 semillas de invierno en el huerto",
+    cosechar: "\xA1El huerto del Valle tiene frutos!",
+    volver_copo: "Copo quiere ense\xF1arte su reloj de arena",
+    victoria: "\xA1El huerto del Valle brilla!"
+  },
+  textos: {
+    viaje_titulo: "Valle de la Nieve",
+    viaje_sub: "Donde las cosas crecen despacio",
+    noche_1: "La nieve cubre el huerto",
+    noche_2: "Las semillas siguen trabajando bajo la nieve",
+    decidir_titulo: "Tienes {n} frutos de invierno",
+    op_replantar: "Replantarlos todos",
+    op_mitad: "Replantar la mitad y vender el resto",
+    op_vender: "Venderlos todos ({m} monedas)",
+    reloj_titulo: "El reloj de arena de Copo",
+    fila_vender: "Vender",
+    fila_replantar: "Replantar",
+    reloj_frase: "Si vendes, cada estaci\xF3n tienes lo mismo. Si replantas, lo nuevo tambi\xE9n da fruto.",
+    pregunta: "Si replantas lo que da tu huerto, \xBFqu\xE9 pasa?",
+    resp_crece: "Cada vez da m\xE1s",
+    resp_igual: "Da siempre lo mismo",
+    resp_menos: "Da menos",
+    fb_bien: "\xA1Eso es! Lo que plantas da frutos, y esos frutos plantados dan m\xE1s frutos. Como una bola de nieve.",
+    fb_mal: "Casi. Mira el reloj de Copo: lo que replantas tambi\xE9n da fruto, as\xED que cada vez hay m\xE1s.",
+    medalla: "Medalla \xABBola de nieve\xBB",
+    medalla_texto: "Tu huerto del Valle crece solo. \xA1Ha nacido Brot\xEDn!",
+    icono_medalla: "bola",
+    pagina_numero: "p\xE1gina 4",
+    pagina: "Una bola de nieve empieza siendo un pu\xF1ado. Lo que importa es empujarla mucho tiempo.",
+    reto_familia: "Haced una bola de nieve (o de plastilina) y a\xF1adidle un poquito cada d\xEDa. \xBFCu\xE1nto crece en una semana?"
+  },
+  dialogos: {
+    chispin_sur: [["chispin", "\xA1Subeprecios huy\xF3 por el camino del sur!"], ["chispin", "All\xED est\xE1 el Valle de la Nieve. Dicen que lleva a\xF1os congelado."], ["chispin", "Baja hasta el final del camino. \xA1Vamos!"]],
+    llegada_valle: [["chispin", "Brrr\u2026 \xA1Qu\xE9 fr\xEDo! Todo est\xE1 gris y helado."], ["chispin", "Mira esas huellas rojas en la nieve. Son peque\xF1as y van muy deprisa."], ["chispin", "En el castillo de hielo vive Copo, el m\xE1s sabio del Valle. \xA1Vamos a verle!"]],
+    copo_hola: [["copo", "Vaya, vaya. Un viajero del Mercado. Y con una chispa de luz al lado."], ["copo", "Yo soy Copo. Llevo en este valle m\xE1s inviernos de los que puedo contar."], ["copo", "Un tal Prisas lo ha congelado todo. Aqu\xED nadie quiere esperar a que nada crezca."], ["copo", "Te ense\xF1ar\xE9 un truco muy viejo. Toma: tres semillas de invierno."]],
+    copo_semillas: [["copo", "Pl\xE1ntalas en el huerto de la izquierda. Crecen bajo la nieve."], ["chispin", "\xA1Tres semillas! \xA1Vamos al huerto!"]],
+    parcela_ocupada: [["chispin", "Aqu\xED ya hay un brote. Busca un hueco libre."]],
+    plantadas: [["chispin", "\xA1Las tres plantadas! Ahora toca esperar."]],
+    hay_frutos: [["chispin", "\xA1Mira! Cada brote tiene un fruto de invierno. \xA1Toca uno para cosechar!"]],
+    cosecha: [["chispin", "\xA1{n} frutos! Y tus {p} brotes siguen ah\xED, listos para dar m\xE1s."]],
+    replantado: [["chispin", "\xA1Plantados {n} brotes nuevos! Ahora tienes {p} brotes en el huerto."]],
+    vendido: [["chispin", "Hemos ganado {m} monedas. El huerto sigue igual que antes."]],
+    huerto_lleno: [["chispin", "\xA1El huerto est\xE1 lleno! Los {v} frutos que no caben los vendemos por {m} monedas."]],
+    copo_llama: [["copo", "\xA1Eh, peque\xF1o! Ven al castillo. Quiero ense\xF1arte algo."]],
+    copo_reloj: [["copo", "Empezaste con tres semillas y ahora tienes {p} brotes."], ["copo", "Mira mi reloj de arena. Te ense\xF1a lo que pasa con el tiempo."]],
+    copo_bola: [["copo", "Eso tiene nombre: inter\xE9s compuesto. Lo que ganas tambi\xE9n gana."], ["copo", "Al principio parece poco. Pero si le das tiempo, crece como una bola de nieve rodando cuesta abajo."]],
+    brotin_nace: [["chispin", "\xA1Mira! \xA1Algo se mueve entre los brotes!"], ["chispin", "\xA1Es una criatura! Se llama Brot\xEDn y quiere venir con nosotros."]],
+    victoria_copo: [["copo", "Mira el huerto. Ya no est\xE1 helado."], ["copo", "Prisas no soporta las cosas que crecen despacio. Volver\xE1, ya lo ver\xE1s."]],
+    charla_hogaza: [["hogaza", "\xA1Suerte en el Valle! Abr\xEDgate."]],
+    charla_tasador: [["tasador", "En el Valle dicen que el tiempo vale m\xE1s que el oro."]],
+    charla_antojo: [["antojo", "\xBFAl Valle? All\xED no hay chuches\u2026 creo."]],
+    charla_semilla: [["semilla", "Copo era amigo de tu abuelo. Sal\xFAdale de mi parte."]],
+    charla_yunque: [["yunque", "Lleva tu regadera. En el Valle tambi\xE9n se riega."]],
+    charla_copo: [["copo", "Sin prisa, peque\xF1o. Lo bueno crece despacio."]],
+    charla_raiz: [["raiz", "Mi casa la levant\xF3 mi bisabuela, piedra a piedra. Todav\xEDa me abriga."]],
+    charla_anillos: [["anillos", "Cada anillo de un tronco es un a\xF1o que el \xE1rbol aguant\xF3."]],
+    charla_escarcha: [["escarcha", "\xA1Ziiim! \xBFMe ves patinar? Llevo todo el invierno practicando."]],
+    charla_prisas: [["prisas", "\xA1R\xE1pido, r\xE1pido! \xA1Lo quiero todo YA!"]]
+  }
+};

@@ -1,0 +1,67 @@
+// @ts-nocheck
+// Reconstruido del prototipo publicado. Se irá tipando poco a poco.
+
+export const DATOS_M13 = {
+  _nota: "Di\xE1logos y textos de la misi\xF3n 13. Cada l\xEDnea es [personaje, texto]. Lo que va entre llaves lo rellena el juego.",
+  misiones: {
+    ir_reloj: "Sigue el camino del sur hasta el Gran Reloj",
+    ir_pendulo: "Busca a P\xE9ndulo, el relojero",
+    ir_vaiven: "Vaiv\xE9n va a tocar la campana",
+    ir_euforio: "Euforio vende trocitos en la fiesta",
+    victoria: "\xA1La torre del reloj brilla!"
+  },
+  textos: {
+    viaje_titulo: "El Gran Reloj",
+    viaje_sub: "Donde el mercado va y viene",
+    medidor_titulo: "El p\xE9ndulo del mercado",
+    m_panico: "P\xE1nico: todos tienen miedo y quieren vender. Todo est\xE1 barato.",
+    m_calma: "Calma: las cosas valen lo que valen.",
+    m_euforia: "Euforia: todos quieren comprar. Todo est\xE1 caro.",
+    medidor_frase: "Mira arriba: el p\xE9ndulo te dice siempre d\xF3nde estamos.",
+    donde: "Hay fiesta y todo el mundo compra. \xBFD\xF3nde est\xE1 el p\xE9ndulo?",
+    r_euforia: "En la euforia",
+    r_calma: "En la calma",
+    r_panico: "En el p\xE1nico",
+    donde_bien: "\xA1Eso es! Cuando todos quieren comprar, el p\xE9ndulo est\xE1 en la euforia.",
+    donde_mal: "Casi. Con fiesta y todos comprando, el p\xE9ndulo est\xE1 en la euforia.",
+    titulo: "\xA1Trocitos de fiesta!",
+    comprar: "Comprar un trocito por {n}",
+    esperar: "Esperar a que pase la fiesta",
+    noche_fin: "Se acaba la fiesta",
+    tabla_titulo: "Lo que vale un trocito del horno",
+    fila_precio: "Precio",
+    tabla_compro: "En la fiesta lo pagaste a 18. Al volver la calma, vale 6, como siempre.",
+    tabla_espera: "En la fiesta costaba 18. Al volver la calma, vale 6, como siempre. \xA1Bien esperado!",
+    pregunta: "\xBFCu\xE1ndo est\xE1n las cosas m\xE1s caras?",
+    resp_todos: "Cuando todo el mundo quiere comprar",
+    resp_nadie: "Cuando nadie quiere comprar",
+    resp_lunes: "Los lunes",
+    fb_bien: "\xA1Eso es! Cuando todos est\xE1n euf\xF3ricos, todo se encarece.",
+    fb_mal: "Casi. Cuando todo el mundo quiere comprar, los precios suben.",
+    medalla: "Medalla \xABCampana\xBB",
+    medalla_texto: "Sabes leer el p\xE9ndulo. \xA1La torre del reloj vuelve a brillar!",
+    icono_medalla: "medalla_campana",
+    pagina_numero: "p\xE1gina 13",
+    pagina: "Cuando todos corren a comprar, camina. Lo que hoy est\xE1 de moda, ma\xF1ana vuelve a su precio.",
+    reto_familia: "Pensad en algo que estuvo muy de moda y car\xEDsimo. \xBFCu\xE1nto cuesta ahora?"
+  },
+  dialogos: {
+    chispin_sur: [["chispin", "Fachada, Don Chollo y Deud\xF3n se han ido al Gran Reloj, con Merma."], ["chispin", "Es el \xFAltimo lugar de Valoria. Baja por la torre hasta el final."]],
+    llegada_reloj: [["chispin", "\xA1Tic, tac! \xA1Qu\xE9 reloj tan enorme!"], ["chispin", "\xA1Y hay una fiesta! Todo el mundo canta, baila\u2026 y compra."], ["chispin", "Pero se oye algo abajo, muy abajo. Como una m\xE1quina que tiembla."]],
+    pendulo_hola: [["pendulo", "Hola, viajero. Soy P\xE9ndulo, el relojero. Te esperaba."], ["pendulo", "Tu abuelo ven\xEDa mucho por aqu\xED. \xC9l sab\xEDa mirar el p\xE9ndulo."], ["pendulo", "No s\xE9 ad\xF3nde va el p\xE9ndulo. Pero s\xE9 d\xF3nde est\xE1. Mira."]],
+    vaiven_campana: [["vaiven", "\xA1Ding, dong! \xA1Ding, dong! \xA1Soy Vaiv\xE9n y anuncio FIESTA!"]],
+    euforio_oferta: [["euforio", "\xA1Fiesta, fiesta! \xA1Trocitos del horno de Hogaza! \xA1Solo {n} monedas!"], ["chispin", "Pero\u2026 en la Ciudad val\xEDan {c}."], ["euforio", "\xA1Eso era ayer! \xA1Todo el mundo compra! \xA1Ma\xF1ana valdr\xE1n todav\xEDa m\xE1s!"]],
+    comprado: [["euforio", "\xA1Bravo! \xA1Fiesta! \xA1Un trocito m\xE1s para la colecci\xF3n!"]],
+    espera: [["euforio", "\xA1Aguafiestas! \xA1T\xFA ver\xE1s!"]],
+    vaiven_calma: [["vaiven", "\xA1Ding\u2026 dong! La fiesta ha terminado. \xA1Calma!"], ["chispin", "El p\xE9ndulo ha vuelto al centro."]],
+    perdio: [["chispin", "Pagamos {n} monedas de m\xE1s por la fiesta\u2026 Bueno, el trocito sigue siendo bueno."]],
+    pendulo_nombre: [["pendulo", "\xBFLo ves? Cuando todos est\xE1n euf\xF3ricos, todo est\xE1 caro."], ["pendulo", "No hace falta adivinar el futuro. Basta con saber d\xF3nde est\xE1 el p\xE9ndulo."]],
+    victoria_campana: [["pendulo", "La torre del reloj vuelve a brillar. Pero cuidado: el p\xE9ndulo siempre vuelve\u2026"]],
+    charla_pendulo: [["pendulo", "No s\xE9 ad\xF3nde va el p\xE9ndulo. Pero s\xE9 d\xF3nde est\xE1."]],
+    charla_vaiven: [["vaiven", "\xA1Ding, dong! Yo toco la campana cada vez que el mercado cambia de humor."]],
+    charla_memoria: [["memoria", "He visto cien tormentas. Todas pasaron."]],
+    charla_euforio: [["euforio", "\xA1Fiesta, fiesta! \xA1Todo sube! \xA1Compra, compra!"]],
+    charla_panico: [["panico", "\xA1Aaah! \xA1Se acaba el mundo! \xA1Vende todo!"]],
+    charla_merma: [["merma", "Todo lo quieto es m\xEDo."]]
+  }
+};
