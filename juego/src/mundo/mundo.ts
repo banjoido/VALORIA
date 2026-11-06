@@ -417,11 +417,12 @@ function aleatorio(i, a) {
 // que quepan las 15 columnas: se busca un tamaño que sea un número entero de
 // píxeles físicos (1,5 con devicePixelRatio 2) para que el pixel art siga
 // nítido, y solo si así el mapa quedara demasiado pequeño se ajusta al ancho.
+// Escala del mapa: desde 390 px (iPhone actual) cada píxel de arte mide 2 px y la loseta 26 px,
+// como pide la guía de arte. En pantallas más estrechas (Android de 360 px) el mapa ocupa
+// todo el ancho: unos 24 px por loseta, sin márgenes perdidos.
 function escalaMapa(ancho: number): number {
   if (ancho >= ANCHO_MAPA * 2) return Math.floor(ancho / ANCHO_MAPA);
-  const dpr = window.devicePixelRatio || 1;
-  const nitida = Math.floor(ancho * dpr / ANCHO_MAPA) / dpr;
-  return nitida * ANCHO_MAPA >= ancho * .85 ? nitida : ancho / ANCHO_MAPA;
+  return ancho / ANCHO_MAPA;
 }
 
 function limitar(i, a, o) {
