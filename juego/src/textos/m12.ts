@@ -71,7 +71,7 @@ export const DATOS_M12 = {
     antes_4: [["chispin", "Dos puertas: una dorada y brillante, y otra de madera, con pisadas en el suelo."]],
     bien_4: [["chispin", "\xA1Detr\xE1s de la dorada solo hab\xEDa una pared pintada! La de madera era la buena."]],
     trampa_4: [["chispin", "\xA1Pum! \xA1La puerta dorada estaba pintada en la pared!"], ["reves", "\xBFY si miras dentro antes? Vuelve a intentarlo."]],
-    reves_final: [["reves", "\xA1Has llegado! Has esquivado todas las trampas."], ["reves", "\xBFSabes cu\xE1l es mi secreto? No intento ser el m\xE1s listo. Solo intento no hacer tonter\xEDas."]],
+    reves_final: [["reves", "\xA1Has llegado! Has esquivado todas las trampas."], ["reves", "\xBFSabes cu\xE1l es mi secreto? No intento ser la m\xE1s lista. Solo intento no hacer tonter\xEDas."]],
     torre_brilla: [["reves", "\xA1Toda la Torre vuelve a brillar! Al rev\xE9s y al derecho."]],
     villanos_huyen: [["fachada", "\xA1Grrr! \xA1Aqu\xED todos piensan antes de comprar!"], ["fachada", "\xA1Me voy al Gran Reloj, con Merma! \xA1All\xED nos esperan Don Chollo y Deud\xF3n!"], ["reves", "El Gran Reloj\u2026 All\xED est\xE1 la m\xE1quina, aprendiz. Ten cuidado."]],
     charla_reves: [["reves", "\xA1Aloh! Aqu\xED todo va al rev\xE9s. As\xED se ven las cosas que los dem\xE1s no ven."]],

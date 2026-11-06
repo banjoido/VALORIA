@@ -50,7 +50,7 @@ export const DATOS_M07 = {
     llegada_ciudad: [["chispin", "\xA1Cu\xE1ntos talleres! Pero todo est\xE1 gris\u2026"], ["chispin", "Menos ese edificio dorado de ah\xED. \xBFC\xF3mo puede brillar tanto?"]],
     prisas_bazar: [["prisas", "\xA1Fachada, Fachada! \xA1Esc\xF3ndeme en tu bazar!"]],
     lupa_llama: [["lupa", "\xA1Psst! \xA1Eh, t\xFA, que llevas una chispa! Ven a mi agencia."]],
-    lupa_hola: [["lupa", "Soy Lupa, detective. Llevo tiempo vigilando ese bazar dorado."], ["lupa", "Necesito una ayudante\u2026 o un ayudante. \xBFTe apuntas?"], ["lupa", "Primer caso: averiguar qu\xE9 es de verdad un taller."], ["lupa", "Empieza por la zapater\xEDa de Fiel. Siempre hay cola en su puerta: algo har\xE1 bien."]],
+    lupa_hola: [["lupa", "Soy Lupa, detective. Llevo tiempo vigilando ese bazar dorado."], ["lupa", "Necesito {un} ayudante. \xBFTe apuntas?"], ["lupa", "Primer caso: averiguar qu\xE9 es de verdad un taller."], ["lupa", "Empieza por la zapater\xEDa de Fiel. Siempre hay cola en su puerta: algo har\xE1 bien."]],
     fiel_hola: [["fiel", "\xA1Hola! \xBFVienes a ayudar? Hoy tengo much\xEDsimos encargos."], ["fiel", "Te pago por cada zapato que cosas. \xA1Cuidado con los puntos!"]],
     fiel_paga: [["fiel", "\xA1Buen trabajo! Toma tus {n} monedas."], ["fiel", "Si quieres saber c\xF3mo va mi taller, preg\xFAntale a Cuenta. \xC9l lleva mis n\xFAmeros."]],
     cuenta_hola: [["cuenta", "Buenas. Soy Cuenta. Apunto todo lo que entra y todo lo que sale."], ["cuenta", "Mira el libro de un d\xEDa de Fiel."]],

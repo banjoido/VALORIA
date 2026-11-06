@@ -66,3 +66,9 @@ Desde el sprint 2, al empezar una partida nueva el jugador elige su personaje (`
 - m14 `aguanta`: «Quietos.» Calmín habla a todo el grupo (héroe y criaturas).
 - m12 `reves_final`: «No intento ser el más listo.» Habla Revés de sí misma, no del héroe (ver dudas).
 - Pantalla de título, capas e interfaz: no hay más textos con el género del héroe.
+
+## Decisiones del jefe de equipo (revisión)
+
+- Misión 7, Lupa: «Necesito una ayudante… o un ayudante» → «Necesito {un} ayudante.» (se adapta al personaje elegido).
+- Misión 12, Revés (personaje femenino): «No intento ser el más listo» → «No intento ser la más lista». No habla del héroe; es una errata de concordancia.
+- La carta personalizada («Querida nieta» / «Querido nieto») se mantiene.
