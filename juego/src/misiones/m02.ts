@@ -58,10 +58,19 @@ export const Mision02 = class extends MisionBase {
     }))), estado.ocupado = !1);
   }
   async trabajo() {
-    if (estado.ocupado = !0, (await this.ui.elegir("pan", this.tx("amasar_titulo"), [["si", this.tx("amasar_si"), "pan"], ["no", this.tx("ahora_no"), "mochila"]])) === "si") {
-      let o = await this.ui.amasar();
-      this.ganar_monedas(o), await this.ui.decir(this.dl("hogaza_paga", {
-        n: o
+    estado.ocupado = !0;
+    // Hogaza solo da trabajo una vez por estación: si no, las monedas serían infinitas.
+    if (estado.ultima_estacion_amasar === estado.estacion) {
+      let dialogo = this.dl("hogaza_ya_amasado");
+      estado.monedas < ji && (dialogo = dialogo.concat(this.dl("chispin_vender_frutos")));
+      await this.ui.decir(dialogo), estado.ocupado = !1;
+      return;
+    }
+    if ((await this.ui.elegir("pan", this.tx("amasar_titulo"), [["si", this.tx("amasar_si"), "pan"], ["no", this.tx("ahora_no"), "mochila"]])) === "si") {
+      estado.ultima_estacion_amasar = estado.estacion;
+      let monedasGanadas = await this.ui.amasar();
+      this.ganar_monedas(monedasGanadas), await this.ui.decir(this.dl("hogaza_paga", {
+        n: monedasGanadas
       }));
     }
     estado.ocupado = !1;

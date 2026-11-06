@@ -34,6 +34,7 @@ function estadoInicial() {
     sonido: !0,
     tiene_chispin: !1,
     regadera: "",
+    ultima_estacion_amasar: -1,
     ojo_tasador: !1,
     gorro: !1,
     ocupado: !0,

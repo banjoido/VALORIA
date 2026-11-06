@@ -111,6 +111,8 @@ export const DATOS_M02 = {
     comprada_hierro: [["chispin", "\xA1Qu\xE9 fuerte es! Vamos a regar el huerto."]],
     faltan_monedas: [["chispin", "Nos faltan monedas: cuesta {n}. Hogaza siempre necesita ayuda para amasar."]],
     hogaza_paga: [["hogaza", "\xA1Gracias! Aqu\xED tienes {n} monedas."]],
+    hogaza_ya_amasado: [["hogaza", "Hoy ya has amasado. \xA1Gracias por la ayuda!"]],
+    chispin_vender_frutos: [["chispin", "Podemos vender frutos a Tasador."]],
     regado_reluciente: [["chispin", "Gotea un poco\u2026 pero el huerto est\xE1 regado."]],
     regado_hierro: [["chispin", "\xA1Riega de maravilla! El huerto est\xE1 contento."]],
     a_cosechar: [["chispin", "\xA1A recoger los frutos!"]],
