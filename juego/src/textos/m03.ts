@@ -98,7 +98,7 @@ export const DATOS_M03 = {
     hogaza_paga_feria: [["hogaza", "Toma tu paga de la feria: {n} monedas."], ["hogaza", "Antes de ir, haz tu lista."]],
     lista_hecha: [["chispin", "\xA1Lista hecha! La se\xF1ora Semilla dice que tiene un truco."]],
     semilla_regla: [["semilla", "En la feria todo apetece. Por eso yo uso una regla."]],
-    tasador_feria: [["tasador", "\xA1Bienvenido a la feria! Tengo todo lo de tu lista."]],
+    tasador_feria: [["tasador", "\xA1Bienvenid{o} a la feria! Tengo todo lo de tu lista."]],
     antojo_oferta: [["antojo", "\xA1Espera, espera! \xA1Oferta solo hoy! La chuche gigante, a 4 monedas."]],
     oferta_no_cabe: [["chispin", "\xA1Ojo! Con lo que ya has elegido, no te llega para la chuche."]],
     efecto_comida: [["chispin", "\xA1\xD1am! \xA1Qu\xE9 rica! Me siento m\xE1s fuerte que nunca."]],

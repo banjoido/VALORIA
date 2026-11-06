@@ -42,7 +42,7 @@ export const DATOS_M14 = {
     panico_grita: [["panico", "\xA1AAAH! \xA1TORMENTA! \xA1Esto no se acaba nunca!"], ["panico", "\xA1Vende todo! \xA1Vende ya, antes de que no valga nada!"]],
     chispin_tormenta: [["chispin", "Tus {n} trocitos val\xEDan {v} monedas\u2026 y con la tormenta ahora valen {t}."], ["chispin", "Todo el mundo est\xE1 vendiendo. \xBFQu\xE9 hacemos?"]],
     chispin_tormenta_sin: [["chispin", "Todo el mundo est\xE1 vendiendo sus trocitos a mitad de precio. \xA1Qu\xE9 miedo!"]],
-    memoria_hola: [["memoria", "Ven, peque\xF1o, resgu\xE1rdate. Soy Memoria."], ["memoria", "Llevo muchos a\xF1os en el Gran Reloj. Mira mis cuadros."]],
+    memoria_hola: [["memoria", "Ven, peque\xF1{o}, resgu\xE1rdate. Soy Memoria."], ["memoria", "Llevo muchos a\xF1os en el Gran Reloj. Mira mis cuadros."]],
     calmin_aparece: [["chispin", "\xA1Un b\xFAho ha entrado por la ventana!"], ["calmin", "Uuuh\u2026 Soy Calm\xEDn. Cuando todos corren, yo me quedo quieto y pienso."], ["calmin", "\xBFPuedo ir contigo? Te ayudar\xE9 a no asustarte."], ["chispin", "\xA1Calm\xEDn viene con nosotros!"]],
     pendulo_tormenta: [["pendulo", "El p\xE9ndulo est\xE1 en el p\xE1nico. Todos venden a mitad de precio."], ["pendulo", "Los talleres siguen siendo los mismos. Fiel sigue cosiendo, Hogaza sigue horneando."], ["pendulo", "T\xFA decides."]],
     vendido: [["panico", "\xA1Bien hecho! \xA1S\xE1lvate! \xA1Je\u2026!"], ["chispin", "Hemos vendido todo por {m} monedas."]],

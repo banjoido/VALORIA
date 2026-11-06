@@ -131,7 +131,7 @@ async function arrancar() {
     document.visibilityState === "hidden" && estado.guardar_al_salir();
   }), addEventListener("pagehide", () => estado.guardar_al_salir());
   let a = estado.cargar();
-  (await SND_fallo.pantalla_titulo(a, estado.mision)) !== "continuar" && (estado.reiniciar(), estado.borrar_partida()), i.restaurar(estado.mision), SND_fallo.textos_carta = DATOS_M01.textos.carta;
+  (await SND_fallo.pantalla_titulo(a, estado.mision)) !== "continuar" && (estado.reiniciar(), estado.borrar_partida(), estado.heroe = await SND_fallo.elegir_heroe(), estado.avisar()), i.restaurar(estado.mision), SND_fallo.textos_carta = DATOS_M01.textos.carta;
   let t = !1;
   for (; estado.mision <= TOTAL_MISIONES;) {
     t = !0, estado.guardar();

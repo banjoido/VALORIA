@@ -30,7 +30,7 @@ export const DATOS_M15 = {
 
 Por el camino has aprendido lo mismo que aprend\xED yo: que el dinero quieto pierde brillo, que lo que plantas crece si le das tiempo, que antes de comprar un trocito hay que mirar dentro, que quien promete mucho y deprisa suele mentir, y que las tormentas pasan.
 
-Nada de esto te har\xE1 rico de golpe. Te har\xE1 libre poco a poco. Y eso vale m\xE1s.
+Nada de esto te har\xE1 ric{o} de golpe. Te har\xE1 libre poco a poco. Y eso vale m\xE1s.
 
 Cuida tus monedas, cuida a los tuyos y, alg\xFAn d\xEDa, escribe t\xFA una carta como esta.`,
     fin_titulo: "Todo el reino vuelve a brillar",
@@ -85,7 +85,7 @@ Cuida tus monedas, cuida a los tuyos y, alg\xFAn d\xEDa, escribe t\xFA una carta
   }],
   dialogos: {
     pendulo_maquina: [["pendulo", "\xBFLo notas? Merma ha encendido la m\xE1quina de hacer dinero, aqu\xED abajo."], ["pendulo", "Cada moneda que escupe hace que todas las dem\xE1s valgan un poco menos."], ["pendulo", "Baja a la sala de la m\xE1quina. Tus amigos van contigo."]],
-    merma_habla: [["merma", "Vaya, vaya\u2026 El nieto del viejo aprendiz."], ["merma", "Soy Merma. Mientras esta m\xE1quina haga monedas, yo me comer\xE9 su brillo."], ["merma", "\xA1Secuaces! \xA1Que no llegue a la m\xE1quina!"]],
+    merma_habla: [["merma", "Vaya, vaya\u2026 {El} {nieto} del viejo aprendiz."], ["merma", "Soy Merma. Mientras esta m\xE1quina haga monedas, yo me comer\xE9 su brillo."], ["merma", "\xA1Secuaces! \xA1Que no llegue a la m\xE1quina!"]],
     t_sube: [["subeprecios", "\xA1Je, je! \xA1Guarda todas tus monedas en la hucha, que ah\xED est\xE1n seguras!"]],
     a_sube: [["chispin", "\xA1Chisp\xEDn brilla con fuerza! \xA1Subeprecios no soporta la luz!"]],
     t_prisas: [["prisas", "\xA1R\xE1pido, r\xE1pido! \xA1V\xE9ndeme tu \xE1rbol del tiempo! \xA1YA!"]],

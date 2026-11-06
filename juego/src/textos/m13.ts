@@ -48,7 +48,7 @@ export const DATOS_M13 = {
   dialogos: {
     chispin_sur: [["chispin", "Fachada, Don Chollo y Deud\xF3n se han ido al Gran Reloj, con Merma."], ["chispin", "Es el \xFAltimo lugar de Valoria. Baja por la torre hasta el final."]],
     llegada_reloj: [["chispin", "\xA1Tic, tac! \xA1Qu\xE9 reloj tan enorme!"], ["chispin", "\xA1Y hay una fiesta! Todo el mundo canta, baila\u2026 y compra."], ["chispin", "Pero se oye algo abajo, muy abajo. Como una m\xE1quina que tiembla."]],
-    pendulo_hola: [["pendulo", "Hola, viajero. Soy P\xE9ndulo, el relojero. Te esperaba."], ["pendulo", "Tu abuelo ven\xEDa mucho por aqu\xED. \xC9l sab\xEDa mirar el p\xE9ndulo."], ["pendulo", "No s\xE9 ad\xF3nde va el p\xE9ndulo. Pero s\xE9 d\xF3nde est\xE1. Mira."]],
+    pendulo_hola: [["pendulo", "Hola, viajer{o}. Soy P\xE9ndulo, el relojero. Te esperaba."], ["pendulo", "Tu abuelo ven\xEDa mucho por aqu\xED. \xC9l sab\xEDa mirar el p\xE9ndulo."], ["pendulo", "No s\xE9 ad\xF3nde va el p\xE9ndulo. Pero s\xE9 d\xF3nde est\xE1. Mira."]],
     vaiven_campana: [["vaiven", "\xA1Ding, dong! \xA1Ding, dong! \xA1Soy Vaiv\xE9n y anuncio FIESTA!"]],
     euforio_oferta: [["euforio", "\xA1Fiesta, fiesta! \xA1Trocitos del horno de Hogaza! \xA1Solo {n} monedas!"], ["chispin", "Pero\u2026 en la Ciudad val\xEDan {c}."], ["euforio", "\xA1Eso era ayer! \xA1Todo el mundo compra! \xA1Ma\xF1ana valdr\xE1n todav\xEDa m\xE1s!"]],
     comprado: [["euforio", "\xA1Bravo! \xA1Fiesta! \xA1Un trocito m\xE1s para la colecci\xF3n!"]],

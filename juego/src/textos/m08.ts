@@ -68,7 +68,7 @@ export const DATOS_M08 = {
     lupa_otra_vez: [["lupa", "Por fuera brillaba mucho, \xBFverdad? Mira otra vez tu cuaderno."], ["lupa", "Todos los detectives se equivocan alguna vez. Lo importante es aprender."]],
     bazar_comprado: [["fachada", "\xA1Trato hecho! Toma tu pegatina dorada. \xA1Je, je!"]],
     bazar_cierra: [["chispin", "\xA1El bazar ha cerrado! Hay un cartel en la puerta."], ["fachada", "\xA1Cosas que pasan! Tu trocito ya no vale nada. \xA1Pero qu\xE9 bonita la pegatina!"], ["chispin", "Hemos perdido {n} monedas\u2026"]],
-    engranaje_comprado: [["engranaje", "\xA1Socio nuevo! Con tus monedas termino mi mejor invento."]],
+    engranaje_comprado: [["engranaje", "\xA1Soci{o} nuev{o}! Con tus monedas termino mi mejor invento."]],
     engranaje_mejora: [["engranaje", "\xA1Mira! Una regadera que se pliega y cabe en el bolsillo."], ["chispin", "\xA1Hay cola en el taller de Engranaje! Cada vez viene m\xE1s gente."]],
     nada: [["lupa", "No comprar tambi\xE9n es una decisi\xF3n. Lo importante es que ya sabes mirar dentro."]],
     bazar_repintado: [["chispin", "Fachada ya ha vuelto a abrir\u2026 y ha pintado su bazar todav\xEDa m\xE1s dorado."], ["lupa", "Por fuera, siempre igual de bonito. Por dentro, siempre igual de vac\xEDo."]],

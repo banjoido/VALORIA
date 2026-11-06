@@ -22,7 +22,7 @@ export const DATOS_M12 = {
     lista_frase: "Si me acuerdo de todo esto, casi nada me pilla por sorpresa.",
     pregunta: "\xBFQu\xE9 te ha ayudado a cruzar la torre?",
     resp_evitar: "Pensar qu\xE9 pod\xEDa salir mal",
-    resp_listo: "Ser el m\xE1s listo",
+    resp_listo: "Ser {el} m\xE1s list{o}",
     resp_suerte: "Tener suerte",
     fb_bien: "\xA1Eso es! No hace falta ser un genio: basta con evitar los errores grandes.",
     fb_mal: "Casi. Lo que te ha salvado es pensar al rev\xE9s: qu\xE9 pod\xEDa salir mal.",
@@ -30,7 +30,7 @@ export const DATOS_M12 = {
     medalla_texto: "Piensas al rev\xE9s y evitas las trampas. \xA1Toda la Torre del Rev\xE9s vuelve a brillar!",
     icono_medalla: "medalla_reves",
     pagina_numero: "p\xE1gina 12",
-    pagina: "No intentes ser el m\xE1s listo. Intenta no hacer tonter\xEDas. Gana el que menos se equivoca.",
+    pagina: "No intentes ser {el} m\xE1s list{o}. Intenta no hacer tonter\xEDas. Gana quien menos se equivoca.",
     reto_familia: "Antes de la pr\xF3xima compra grande en casa, haced juntos la lista de lo que podr\xEDa salir mal."
   },
   puertas: [{
@@ -65,7 +65,7 @@ export const DATOS_M12 = {
     antes_2: [["chispin", "Hay que cruzar un foso con nuestra mochila. Una cuerda gorda\u2026 o tres finitas."]],
     bien_2: [["chispin", "\xA1Una de las cuerdas se ha roto! Pero las otras dos aguantan. \xA1Hemos cruzado!"]],
     trampa_2: [["chispin", "\xA1La cuerda gorda se ha roto y la mochila se ha ca\xEDdo al foso!"], ["reves", "Si todo cuelga de una sola cuerda\u2026 Vuelve a intentarlo."]],
-    antes_3: [["prisas", "\xA1SAL YA! \xA1SAL YA O TE QUEDAS ENCERRADO PARA SIEMPRE!"], ["chispin", "\xA1Es la voz de Prisas! \xBFQu\xE9 hacemos?"]],
+    antes_3: [["prisas", "\xA1SAL YA! \xA1SAL YA O TE QUEDAS AQU\xCD DENTRO PARA SIEMPRE!"], ["chispin", "\xA1Es la voz de Prisas! \xBFQu\xE9 hacemos?"]],
     bien_3: [["calmin", "Uuh\u2026 Muy bien. Mira: el suelo de delante era una trampa. Pararse era lo listo."], ["chispin", "\xA1Y la puerta se ha abierto sola!"]],
     trampa_3: [["chispin", "\xA1Hemos corrido y nos hemos ca\xEDdo en un agujero! Menos mal que no era hondo."], ["reves", "Las prisas son las mejores amigas de las trampas. Vuelve a intentarlo."]],
     antes_4: [["chispin", "Dos puertas: una dorada y brillante, y otra de madera, con pisadas en el suelo."]],

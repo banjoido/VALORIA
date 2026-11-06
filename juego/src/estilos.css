@@ -130,3 +130,7 @@ h3 { font-size: 18px; }
 .noche p { color: var(--suave); font-size: 15px; max-width: 300px; }
 .luna { width: 28px; height: 28px; background: #fff1a8; display: block; }
 @media (prefers-reduced-motion: reduce) { .aparece { animation: none; } .noche, .barra i, .pendulo b { transition: none; } }
+
+/* Elección de personaje al empezar: dos botones grandes, solo con el sprite. */
+.eleccion-heroe { display: flex; gap: 12px; justify-content: center; margin: 8px 0; }
+.btn.eleccion { width: auto; flex: 1 1 0; max-width: 150px; min-height: 140px; padding: 12px; display: flex; align-items: center; justify-content: center; }
