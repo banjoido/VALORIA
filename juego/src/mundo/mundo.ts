@@ -164,6 +164,13 @@ export const Mundo = class {
   tormenta(a) {
     this.tormentaOn = a, a || (this.lluvia = []);
   }
+  // Pone al héroe en una celda (al retomar una partida). Si la celda no se
+  // puede pisar, se queda donde lo dejó restaurar().
+  colocar_heroe(a) {
+    if (!a || Mapa.bloqueado(a.x, a.y, this.ocupadas())) return;
+    let o = this.pie(a);
+    this.heroe.x = o.x, this.heroe.y = o.y, this.ruta = [], this.alLlegar = null, this.rastro = [], this.saltar = !0;
+  }
   celda_heroe() {
     return celda(Math.floor(this.heroe.x / LOSETA), Math.floor((this.heroe.y - 1) / LOSETA));
   }

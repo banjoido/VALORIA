@@ -9,6 +9,14 @@ export const ESTACIONES_CON_ARTICULO = ["el oto\xF1o", "el invierno", "la primav
 
 const oyentesEstado = new Set();
 
+// Guardado por pasos (ver docs/guardado.md).
+// `ultimoGuardado` es la última partida escrita: siempre es una foto coherente
+// (al empezar una misión o al llegar a uno de sus puntos de control).
+let ultimoGuardado: string | null = null;
+
+// Punto de control leído al cargar, pendiente de que la misión lo recoja.
+let reanudacion: { mision: number; punto: string; celda: { x: number; y: number } | null } | null = null;
+
 function estadoInicial() {
   return {
     mision: 1,
@@ -50,6 +58,7 @@ export const estado = {
     for (let i of oyentesEstado) i();
   },
   reiniciar() {
+    reanudacion = null;
     let i = this.sonido;
     Object.assign(this, estadoInicial(), {
       sonido: i
@@ -87,12 +96,34 @@ export const estado = {
   trocitos_de(i) {
     return this.trocitos[i] | 0;
   },
-  guardar() {
+  // Guarda la partida. Sin argumentos, al empezar una misión (o en modo libre):
+  // al cargar se empieza la misión. Con `punto`, la misión ha llegado a uno de
+  // sus puntos de control y al cargar se retoma desde ahí, con el héroe en `celda`.
+  guardar(punto = "", celda = null) {
     let i = {};
     for (let a of Object.keys(estadoInicial())) a !== "ocupado" && a !== "paso" && (i[a] = this[a]);
+    punto && (i.punto = punto, celda && (i.celda = {
+      x: celda.x,
+      y: celda.y
+    }));
+    ultimoGuardado = JSON.stringify(i);
     try {
-      localStorage.setItem(CLAVE_GUARDADO, JSON.stringify(i));
+      localStorage.setItem(CLAVE_GUARDADO, ultimoGuardado);
     } catch {}
+  },
+  // Al pasar a segundo plano (en el móvil, cerrar suele ser eso). A mitad de un
+  // paso el estado puede estar a medias, así que se reescribe la última foto
+  // coherente; en modo libre no hay misión en curso y se guarda tal cual.
+  guardar_al_salir() {
+    if (this.paso === "libre") return this.guardar();
+    if (ultimoGuardado) try {
+      localStorage.setItem(CLAVE_GUARDADO, ultimoGuardado);
+    } catch {}
+  },
+  // Devuelve el punto de control cargado si es de la misión `n`, una sola vez.
+  tomar_reanudacion(n) {
+    let r = reanudacion;
+    return reanudacion = null, r && r.mision === n ? r : null;
   },
   cargar() {
     let i = null;
@@ -101,12 +132,23 @@ export const estado = {
     } catch {
       i = null;
     }
-    if (!i || typeof i != "object" || (i.mision | 0) <= 1) return !1;
+    if (!i || typeof i != "object") return !1;
+    let punto = typeof i.punto == "string" ? i.punto : "",
+      celda = i.celda && typeof i.celda == "object" ? {
+        x: i.celda.x | 0,
+        y: i.celda.y | 0
+      } : null;
+    if (delete i.punto, delete i.celda, (i.mision | 0) <= 1 && !punto) return !1;
     Object.assign(this, estadoInicial(), i);
     for (let a of this.brotes) a.crece = 1;
-    return this.ocupado = !0, this.avisar(), !0;
+    return reanudacion = punto ? {
+      mision: this.mision,
+      punto,
+      celda
+    } : null, this.ocupado = !0, this.avisar(), !0;
   },
   borrar_partida() {
+    ultimoGuardado = null;
     try {
       localStorage.removeItem(CLAVE_GUARDADO);
     } catch {}

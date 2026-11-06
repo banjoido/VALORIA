@@ -24,6 +24,13 @@ export const Mision01 = class extends MisionBase {
     }
     return null;
   }
+  puntos_control() {
+    return ["ir_hogaza", "ir_semilla", "plantar", "cosechar", "vender", "comprar_pan"];
+  }
+  preparar_punto(a) {
+    // La Semilla aparece en el mercado tras el reto de la hucha.
+    this.ui.textos_carta = this.tx("carta"), a !== "ir_hogaza" && this.mundo.mostrar("semilla", !0);
+  }
   async empezar() {
     this.ui.textos_carta = this.tx("carta"), await this.ui.carta(this.tx("carta"), !0), estado.monedas = 10, estado.semillas = 1, estado.tiene_chispin = !0, estado.avisar(), this.mundo.mostrar_chispin(), this.ui.sonar("moneda"), this.mundo.estallido(this.sobre_heroe(), ORO, 14), await this.ui.decir(this.dl("chispin_hola")), this.paso("ir_hogaza");
   }

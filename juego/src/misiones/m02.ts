@@ -30,6 +30,13 @@ export const Mision02 = class extends MisionBase {
     }
     return null;
   }
+  puntos_control() {
+    return ["ir_hogaza", "ir_semilla", "regadera", "regar", "cosechar", "ir_yunque", "ir_tasador"];
+  }
+  preparar_punto(a) {
+    // El Yunque abre su tienda cuando la Semilla cuenta que el huerto tiene sed.
+    a !== "ir_hogaza" && a !== "ir_semilla" && this.mundo.mostrar("yunque", !0);
+  }
   async empezar() {
     estado.ocupado = !0, this.mundo.mostrar("semilla", !0), await this.ui.pasar_noche(this.siguiente_estacion(), this.tx("noche_pan")), estado.precio_pan = 5, estado.regadera = "", estado.avisar(), await this.ui.decir(this.dl("chispin_buenos_dias")), this.paso("ir_hogaza");
   }

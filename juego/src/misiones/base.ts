@@ -53,8 +53,25 @@ export const MisionBase = class {
     let t = [a.on("npc", r => this.npc(r)), a.on("parcela", r => this.parcela(r)), a.on("lugar", r => this.lugar(r)), a.on("llegada", r => this.llegada(r))],
       s = new Promise(r => {
         this.terminar = r;
-      });
-    this.empezar(), await s, t.forEach(r => r()), a.objetivo_fn = null;
+      }),
+      reanudar = estado.tomar_reanudacion(this.numero);
+    reanudar && this.puntos_control().includes(reanudar.punto) ? this.reanudar(reanudar) : this.empezar(), await s, t.forEach(r => r()), a.objetivo_fn = null;
+  }
+  // Pasos desde los que la misión puede retomarse tras cerrar el juego (ver
+  // docs/guardado.md). Al llegar a uno se guarda la partida. Una misión que no
+  // declara ninguno empieza desde el principio, como siempre.
+  puntos_control(): string[] {
+    return [];
+  }
+  // Deja el mundo como estaba al llegar al punto de control `punto`: lo que
+  // está en `estado` ya viene cargado; aquí va lo que solo vive en el mundo
+  // (personajes que aparecen o desaparecen, luces...).
+  preparar_punto(punto: string) {}
+  reanudar({
+    punto,
+    celda
+  }) {
+    this.preparar_punto(punto), this.mundo.colocar_heroe(celda), this.paso(punto);
   }
   fin() {
     this.terminar();
@@ -79,7 +96,7 @@ export const MisionBase = class {
     return rellenar(this.datos.textos[a], o);
   }
   paso(a) {
-    estado.paso = a, estado.ocupado = !1, this.ui.poner_mision(this.datos.misiones[a] || {
+    this.puntos_control().includes(a) && estado.guardar(a, this.mundo.celda_heroe()), estado.paso = a, estado.ocupado = !1, this.ui.poner_mision(this.datos.misiones[a] || {
       valle: "Valle de la Nieve",
       ciudad: "Ciudad de las Empresas",
       torre: "Torre del Rev\xE9s",

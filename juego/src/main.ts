@@ -126,6 +126,10 @@ async function arrancar() {
       }), s.preventDefault();
     } else (s.key === "Enter" || s.key === " ") && SND_fallo.vista.dialogo && !SND_fallo.vista.capa && (SND_fallo.avanzar(), s.preventDefault());
   });
+  // En el móvil, cerrar el juego suele ser mandarlo a segundo plano.
+  document.addEventListener("visibilitychange", () => {
+    document.visibilityState === "hidden" && estado.guardar_al_salir();
+  }), addEventListener("pagehide", () => estado.guardar_al_salir());
   let a = estado.cargar();
   (await SND_fallo.pantalla_titulo(a, estado.mision)) !== "continuar" && (estado.reiniciar(), estado.borrar_partida()), i.restaurar(estado.mision), SND_fallo.textos_carta = DATOS_M01.textos.carta;
   let t = !1;

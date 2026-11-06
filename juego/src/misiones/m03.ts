@@ -26,6 +26,11 @@ export const Mision03 = class extends MisionBase {
     }
     return null;
   }
+  puntos_control() {
+    // En esta misión nada aparece ni desaparece entre pasos: basta con lo que
+    // ya restaura Mundo.restaurar(3).
+    return ["ir_antojo", "ir_hogaza", "ir_semilla", "feria"];
+  }
   async empezar() {
     estado.ocupado = !0, await this.ui.pasar_noche(this.siguiente_estacion(), this.tx("noche_feria")), await this.ui.decir(this.dl("chispin_feria")), this.paso("ir_antojo");
   }
