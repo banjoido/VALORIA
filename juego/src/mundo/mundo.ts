@@ -317,7 +317,7 @@ export const Mundo = class {
   camara() {
     let a = this.canvas.clientWidth,
       o = this.canvas.clientHeight;
-    this.escala = Math.max(2, Math.floor(a / ANCHO_MAPA));
+    this.escala = escalaMapa(a);
     let {
         arriba: t,
         abajo: s
@@ -410,6 +410,18 @@ export const Mundo = class {
 
 function aleatorio(i, a) {
   return i + Math.random() * (a - i);
+}
+
+// Píxeles de pantalla por píxel del mapa. Con 390 px o más, un entero (2, 3…)
+// como siempre. En pantallas más estrechas (iPhone SE: 320 px) se reduce para
+// que quepan las 15 columnas: se busca un tamaño que sea un número entero de
+// píxeles físicos (1,5 con devicePixelRatio 2) para que el pixel art siga
+// nítido, y solo si así el mapa quedara demasiado pequeño se ajusta al ancho.
+function escalaMapa(ancho: number): number {
+  if (ancho >= ANCHO_MAPA * 2) return Math.floor(ancho / ANCHO_MAPA);
+  const dpr = window.devicePixelRatio || 1;
+  const nitida = Math.floor(ancho * dpr / ANCHO_MAPA) / dpr;
+  return nitida * ANCHO_MAPA >= ancho * .85 ? nitida : ancho / ANCHO_MAPA;
 }
 
 function limitar(i, a, o) {

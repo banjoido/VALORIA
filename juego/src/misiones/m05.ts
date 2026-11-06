@@ -57,6 +57,12 @@ export const Mision05 = class extends MisionBase {
       await this.ui.decir(this.dl("arbol_grande")), this.paso("cosechar_arbol");
       return;
     }
+    // Prisas solo hace su oferta en el primer árbol: si el niño ya le vendió uno,
+    // el segundo intento es para ver crecer el árbol, y vender no puede dar monedas sin fin.
+    if (this.ventas > 0) {
+      this.estacionArbol === 1 && !this.vioRaiz ? (await this.ui.decir(this.dl("raiz_llama")), this.paso("ir_raiz")) : this.estacionArbol === 2 && !this.vioAnillos ? (await this.ui.decir(this.dl("anillos_llama")), this.paso("ir_anillos")) : await this.estacion();
+      return;
+    }
     if (this.mundo.mostrar("prisas", !0), this.ui.sonar("malo"), this.mundo.estallido(desplazar(this.mundo.pie(punto(9, 12)), 0, -12), "#e0503c", 16), await this.ui.decir(this.dl("prisas_oferta_" + this.estacionArbol, {
       n: $a[this.estacionArbol]
     })), (await this.ui.elegir("prisas", this.tx("oferta_titulo"), [["esperar", this.tx("esperar"), "reloj"], ["vender", this.tx("vender", {

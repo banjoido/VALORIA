@@ -66,7 +66,7 @@ h3 { font-size: 18px; }
 .mision-p { font-size: 11px; color: var(--suave); }
 .barra { height: 6px; background: var(--boton); }
 .barra i { display: block; height: 100%; background: var(--oro); transition: width .8s; }
-.pendulo { display: flex; gap: 6px; align-items: center; font-size: 10px; }
+.pendulo { display: flex; gap: 6px; align-items: center; font-size: 11px; }
 .pendulo .pista { flex: 1; position: relative; height: 10px; }
 .pendulo .pista i { position: absolute; top: 30%; height: 40%; width: 33.34%; }
 .pendulo .t1 { left: 0; background: #3c5aa6; } .pendulo .t2 { left: 33.33%; background: #4a4060; } .pendulo .t3 { left: 66.66%; background: #c75a8a; }
