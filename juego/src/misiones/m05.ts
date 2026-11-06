@@ -35,6 +35,22 @@ export const Mision05 = class extends MisionBase {
     }
     return null;
   }
+  puntos_control() {
+    // La Escarcha ya la muestra Mundo.restaurar(5). Prisas está oculto en
+    // todos estos pasos (huye antes de cada uno).
+    return ["ir_escarcha", "plantar_arbol", "ir_raiz", "ir_anillos", "cosechar_arbol", "ir_copo"];
+  }
+  campos_punto() {
+    return {
+      estacionArbol: this.estacionArbol,
+      vioRaiz: this.vioRaiz,
+      vioAnillos: this.vioAnillos,
+      ventas: this.ventas
+    };
+  }
+  cargar_campos(o) {
+    this.estacionArbol = Math.max(0, Math.min(4, o.estacionArbol | 0)), this.vioRaiz = !!o.vioRaiz, this.vioAnillos = !!o.vioAnillos, this.ventas = Math.max(0, o.ventas | 0);
+  }
   async empezar() {
     estado.ocupado = !0, estado.arbol = 0, estado.avisar(), await this.ui.pasar_noche(this.siguiente_estacion(), this.tx("noche_inicio")), this.mundo.mostrar("escarcha", !0), await this.ui.decir(this.dl("llega_escarcha")), this.paso("ir_escarcha");
   }

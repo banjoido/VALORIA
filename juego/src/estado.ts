@@ -15,7 +15,7 @@ const oyentesEstado = new Set();
 let ultimoGuardado: string | null = null;
 
 // Punto de control leído al cargar, pendiente de que la misión lo recoja.
-let reanudacion: { mision: number; punto: string; celda: { x: number; y: number } | null } | null = null;
+let reanudacion: { mision: number; punto: string; celda: { x: number; y: number } | null; campos: Record<string, any> | null } | null = null;
 
 function estadoInicial() {
   return {
@@ -99,14 +99,15 @@ export const estado = {
   },
   // Guarda la partida. Sin argumentos, al empezar una misión (o en modo libre):
   // al cargar se empieza la misión. Con `punto`, la misión ha llegado a uno de
-  // sus puntos de control y al cargar se retoma desde ahí, con el héroe en `celda`.
-  guardar(punto = "", celda = null) {
+  // sus puntos de control y al cargar se retoma desde ahí, con el héroe en `celda`
+  // y los campos propios de la misión `campos` (si los necesita).
+  guardar(punto = "", celda = null, campos = null) {
     let i = {};
     for (let a of Object.keys(estadoInicial())) a !== "ocupado" && a !== "paso" && (i[a] = this[a]);
     punto && (i.punto = punto, celda && (i.celda = {
       x: celda.x,
       y: celda.y
-    }));
+    }), campos && (i.campos = campos));
     ultimoGuardado = JSON.stringify(i);
     try {
       localStorage.setItem(CLAVE_GUARDADO, ultimoGuardado);
@@ -138,14 +139,16 @@ export const estado = {
       celda = i.celda && typeof i.celda == "object" ? {
         x: i.celda.x | 0,
         y: i.celda.y | 0
-      } : null;
-    if (delete i.punto, delete i.celda, (i.mision | 0) <= 1 && !punto) return !1;
+      } : null,
+      campos = punto && i.campos && typeof i.campos == "object" && !Array.isArray(i.campos) ? i.campos : null;
+    if (delete i.punto, delete i.celda, delete i.campos, (i.mision | 0) <= 1 && !punto) return !1;
     Object.assign(this, estadoInicial(), i);
     for (let a of this.brotes) a.crece = 1;
     return reanudacion = punto ? {
       mision: this.mision,
       punto,
-      celda
+      celda,
+      campos
     } : null, this.ocupado = !0, this.avisar(), !0;
   },
   borrar_partida() {

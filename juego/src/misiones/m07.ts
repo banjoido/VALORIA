@@ -23,6 +23,11 @@ export const Mision07 = class extends MisionBase {
     }
     return null;
   }
+  puntos_control() {
+    // «ir_ciudad» es aún en el valle. Prisas huye del bazar antes de «ir_lupa»
+    // y queda oculto, como al cargar la ciudad.
+    return ["ir_ciudad", "ir_lupa", "ir_fiel", "ir_cuenta", "volver_fiel"];
+  }
   async empezar() {
     estado.ocupado = !0, estado.zona === "valle" ? (await this.ui.decir(this.dl("chispin_sur")), this.paso("ir_ciudad")) : this.enCiudad();
   }

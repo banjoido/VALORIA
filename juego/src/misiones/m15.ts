@@ -9,6 +9,13 @@ export const Mision15 = class extends MisionBase {
   objetivo() {
     return estado.paso === "ir_maquina" ? objetivo(7, 30, 2) : null;
   }
+  puntos_control() {
+    // Solo antes de ir a la máquina. final() y victoria() van seguidos (trampas,
+    // forja, máquina apagada, carta y fin): si se cierra ahí, se vuelve aquí,
+    // con la máquina aún encendida. Tras el final se guarda sin punto
+    // (main.ts) y el modo libre carga como siempre.
+    return ["ir_maquina"];
+  }
   async empezar() {
     estado.ocupado = !0, await this.ui.pasar_noche(this.siguiente_estacion(), this.tx("noche_inicio")), this.mundo.estallido(desplazar(this.mundo.pie(oa), 0, -40), MORADO, 30), this.ui.sonar("malo"), await this.ui.decir(this.dl("pendulo_maquina")), this.paso("ir_maquina");
   }

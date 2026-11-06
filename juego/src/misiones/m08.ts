@@ -33,6 +33,22 @@ export const Mision08 = class extends MisionBase {
     }
     return null;
   }
+  puntos_control() {
+    // El bazar cerrado (this.bazarCerrado, cartel) solo pasa dentro de elegir(),
+    // después de «ir_lupa»: si se cierra ahí, se vuelve a «ir_lupa» sin él.
+    return ["ir_cuenta", "investigar", "ir_lupa"];
+  }
+  // En «investigar», quién falta por investigar.
+  campos_punto() {
+    return {
+      investigados: [...this.investigados]
+    };
+  }
+  cargar_campos(o) {
+    let t = new Set(Array.isArray(o.investigados) ? o.investigados.filter(s => sa.includes(s)) : []);
+    // En «investigar» siempre falta alguno: si no, la partida no es de este paso.
+    this.investigados = t.size < sa.length ? t : new Set();
+  }
   async empezar() {
     estado.ocupado = !0, await this.ui.pasar_noche(this.siguiente_estacion(), this.tx("noche_inicio")), this.mundo.estallido(desplazar(this.mundo.pie(punto(12, 14)), 0, -24), ORO, 30), this.ui.sonar("malo"), await this.ui.decir(this.dl("fachada_presume", {
       n: ta
