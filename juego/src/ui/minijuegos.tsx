@@ -8,6 +8,7 @@ import { Bocadillo, Boton, EtiquetaNombre, Hueco, Icono } from './componentes';
 import { interfaz } from './controlador';
 import { pago_trabajo } from '../reino/reglas';
 import { PanelHuerto, PanelMochila } from './paneles_huerto';
+import { PanelMapa } from './panel_mapa';
 
 export function MinijuegoAmasar({
   c: i
@@ -310,31 +311,10 @@ export function Panel({
   if (a === "huerto") return React.createElement(PanelHuerto, {
     c: i
   });
-  if (a === "mapa") {
-    let s = estado.paso === "libre",
-      r = [["mercado", "Mercado del Pueblo", 1, estado.progreso], ["valle", "Valle de la Nieve", 4, estado.progreso_valle], ["ciudad", "Ciudad de las Empresas", 7, estado.progreso_ciudad], ["torre", "Torre del Rev\xE9s", 10, estado.progreso_torre], ["reloj", "Gran Reloj", 13, estado.progreso_reloj]],
-      l = r.reduce((c, g) => c + g[3], 0);
-    return React.createElement(React.Fragment, null, React.createElement("div", {
-      className: "fila"
-    }, React.createElement(Icono, {
-      n: "mapa",
-      e: 3
-    }), React.createElement("h2", null, "Valoria")), r.map(([c, g, A, y]) => {
-      let N = estado.zona === c;
-      if (s && !N && estado.mision >= A) return React.createElement(Boton, {
-        key: c,
-        texto: g + " \xB7 viajar",
-        onClick: () => i.responder("viajar_" + c)
-      });
-      let d = N ? "AQU\xCD EST\xC1S" : y >= 100 ? "BRILLA" : estado.mision >= A ? "ABIERTO" : "CERRADO";
-      return React.createElement("div", {
-        key: c,
-        className: `zona-f ${N ? "aqui" : ""}`
-      }, React.createElement("span", null, g), React.createElement("em", null, d));
-    }), React.createElement("p", {
-      className: "peq suave"
-    }, `Valoria brilla al ${Math.floor(l / 5)}%.`), o);
-  }
+  // Sprint 3: panel Mapa con viajes durante la historia (ui/panel_mapa.tsx, tarea C).
+  if (a === "mapa") return React.createElement(PanelMapa, {
+    c: i
+  });
   let t = {
     brotin: ["Brot\xEDn", "Nace donde lo que ganas se vuelve a plantar."],
     escudon: ["Escud\xF3n", "Guarda lo importante cuando llega la helada."],

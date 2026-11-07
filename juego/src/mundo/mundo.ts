@@ -276,7 +276,8 @@ export const Mundo = class {
       return;
     }
     let ob = reino.obra(this.zona);
-    if (ob && ob.celdas.some(l => l.x === r.x && l.y === r.y)) {
+    // La puerta del desván (secreto, desde la etapa 3) va a la vida del reino como "lugar" (tarea C).
+    if (ob && ob.celdas.some(l => l.x === r.x && l.y === r.y) && !this.celdas_secreto.some(l => l.x === r.x && l.y === r.y)) {
       let destinos = [];
       for (let l of ob.celdas) destinos.push(...this.alrededor(l));
       this.irA(destinos, null), this.emitir("obra", r);
