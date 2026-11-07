@@ -176,9 +176,14 @@ async def main():
         comprobar(fila3 == ['3:true'] * 4, f'3. un solo gesto riega los 4 de una fila {fila3}')
         comprobar(all(s.endswith('true') for s in r), 'tres gestos riegan las 3 filas')
         await p.screenshot(path=str(SHOTS / 'huerto_regado.png'))
-        # Vender todo en el puesto de Tasador (el toque en Tasador cuenta; el puesto se abre con ui.puesto)
-        await tocar(p, 1, 13); await p.wait_for_timeout(200)
-        await p.evaluate("() => { window.__p = window.valoria.ui.puesto('tasador'); }"); await p.wait_for_timeout(300)
+        # Vender todo en el puesto de Tasador: el toque en Tasador lo abre (la vida del reino, tarea C).
+        await tocar(p, 1, 13)
+        for _ in range(40):
+            if await p.evaluate("() => (window.valoria.ui.vista.capa || {}).tipo === 'puesto'"): break
+            await p.wait_for_timeout(100)
+        else:
+            await p.evaluate("() => { window.__p = window.valoria.ui.puesto('tasador'); }")
+        await p.wait_for_timeout(300)
         monedas0 = await estado(p, 'E.monedas')
         await p.screenshot(path=str(SHOTS / 'huerto_puesto_tasador.png'))
         await clic_boton(p, 'Vender todo'); await p.wait_for_timeout(200)
