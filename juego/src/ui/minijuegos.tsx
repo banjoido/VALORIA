@@ -6,6 +6,8 @@ import { estado } from '../estado';
 import { qi } from '../personajes';
 import { Bocadillo, Boton, EtiquetaNombre, Hueco, Icono } from './componentes';
 import { interfaz } from './controlador';
+import { pago_trabajo } from '../reino/reglas';
+import { PanelHuerto, PanelMochila } from './paneles_huerto';
 
 export function MinijuegoAmasar({
   c: i
@@ -24,7 +26,7 @@ export function MinijuegoAmasar({
     return d = requestAnimationFrame(w), () => cancelAnimationFrame(d);
   }, []);
   let A = t >= 6,
-    y = Math.max(3, Math.min(5, a));
+    y = pago_trabajo(a); // 6.3: base que sube con Merma + 1 por golpe bueno (+2 con 6 de 6)
   useEffect(() => {
     if (A) {
       let d = setTimeout(() => i.responder(y), 900 / ajustes.velocidad);
@@ -301,71 +303,13 @@ export function Panel({
       texto: "Cerrar",
       onClick: () => i.responder("cerrar")
     });
-  if (a === "mochila") {
-    let s = {
-        fiel: "la zapater\xEDa",
-        engranaje: "el taller de inventos",
-        horno: "el horno",
-        fragua: "la fragua",
-        relampago: "Rel\xE1mpago",
-        bazar: "el bazar"
-      },
-      r = Object.keys(estado.trocitos).filter(l => estado.trocitos_de(l) > 0).map(l => s[l] || l);
-    return React.createElement(React.Fragment, null, React.createElement("div", {
-      className: "fila"
-    }, React.createElement(Icono, {
-      n: "mochila",
-      e: 3
-    }), React.createElement("h2", null, "Mochila")), React.createElement("div", {
-      className: "fila"
-    }, React.createElement(Icono, {
-      n: "moneda",
-      e: 3
-    }), React.createElement("p", null, `${estado.monedas} monedas \xB7 brillo ${estado.brillo} de 5`)), React.createElement("div", {
-      className: "fila"
-    }, React.createElement(Icono, {
-      n: "semillas",
-      e: 2
-    }), React.createElement("p", null, estado.semillas > 0 ? `${estado.semillas} semillas` : "Sin semillas")), React.createElement("div", {
-      className: "fila"
-    }, React.createElement(Icono, {
-      n: "fruto",
-      e: 2
-    }), React.createElement("p", null, `${estado.frutos} frutos`)), estado.patines && React.createElement("div", {
-      className: "fila"
-    }, React.createElement(Icono, {
-      n: "patines",
-      e: 2
-    }), React.createElement("p", null, "Patines de cohete")), estado.maquina_apagada && React.createElement("div", {
-      className: "fila"
-    }, React.createElement(Icono, {
-      n: "moneda_estrella",
-      e: 2
-    }), React.createElement("p", null, "La Moneda Estrella, n\xBA 1 de 21")), r.length > 0 && React.createElement("div", {
-      className: "fila"
-    }, React.createElement(Icono, {
-      n: "trocito",
-      e: 2
-    }), React.createElement("p", null, "Trocitos de " + r.join(", "))), estado.tiene_chispin && React.createElement(Boton, {
-      icono: "carta",
-      texto: "Leer \xABLegado de Libertad\xBB",
-      onClick: () => i.responder("leer")
-    }), o);
-  }
-  if (a === "huerto") {
-    let s = estado.brotes_aqui().length,
-      r = estado.frutos_listos();
-    return React.createElement(React.Fragment, null, React.createElement("div", {
-      className: "fila"
-    }, React.createElement(Icono, {
-      n: "huerto",
-      e: 3
-    }), React.createElement("h2", null, "Tu huerto")), React.createElement("p", {
-      className: "suave"
-    }, s > 0 ? `Tienes ${s} brotes` + (r > 0 ? ` y ${r} frutos listos para recoger.` : ".") : "Aqu\xED no has plantado nada."), React.createElement(Bocadillo, {
-      texto: "Las semillas trabajan mientras duermes."
-    }), o);
-  }
+  // Sprint 3: paneles Mochila y Huerto (ui/paneles_huerto.tsx).
+  if (a === "mochila") return React.createElement(PanelMochila, {
+    c: i
+  });
+  if (a === "huerto") return React.createElement(PanelHuerto, {
+    c: i
+  });
   if (a === "mapa") {
     let s = estado.paso === "libre",
       r = [["mercado", "Mercado del Pueblo", 1, estado.progreso], ["valle", "Valle de la Nieve", 4, estado.progreso_valle], ["ciudad", "Ciudad de las Empresas", 7, estado.progreso_ciudad], ["torre", "Torre del Rev\xE9s", 10, estado.progreso_torre], ["reloj", "Gran Reloj", 13, estado.progreso_reloj]],
@@ -412,7 +356,7 @@ export function Panel({
     className: "col"
   }, React.createElement("b", null, "Chisp\xEDn"), React.createElement("small", {
     className: "suave"
-  }, "Crece y evoluciona con los frutos de lo invertido."))), estado.criaturas.map(s => React.createElement("div", {
+  }, "Tu primer amigo en Valoria."))), estado.criaturas.map(s => React.createElement("div", {
     key: s,
     className: "criatura fila"
   }, React.createElement(Icono, {

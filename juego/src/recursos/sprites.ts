@@ -121,7 +121,33 @@ import SPR_viento from './sprites/viento.png?inline';
 import SPR_yunque from './sprites/yunque.png?inline';
 import SPR_zapato from './sprites/zapato.png?inline';
 
+// Sprint 3 (huerto): herramientas/sprites_huerto.py
+import SPR_planton from './sprites/planton.png?inline';
+import SPR_calabaza_lista from './sprites/calabaza_lista.png?inline';
+import SPR_cartel_venta from './sprites/cartel_venta.png?inline';
+import SPR_manzana from './sprites/manzana.png?inline';
+import SPR_ladrillo from './sprites/ladrillo.png?inline';
+import SPR_molino_0 from './sprites/molino_0.png?inline';
+import SPR_molino_1 from './sprites/molino_1.png?inline';
+import SPR_molino_2 from './sprites/molino_2.png?inline';
+import SPR_molino_3 from './sprites/molino_3.png?inline';
+import SPR_molino_4 from './sprites/molino_4.png?inline';
+import SPR_molino_rueda_b from './sprites/molino_rueda_b.png?inline';
+import SPR_molino_aspas_b from './sprites/molino_aspas_b.png?inline';
+
 export const SPRITES = {
+  planton: SPR_planton,
+  calabaza_lista: SPR_calabaza_lista,
+  cartel_venta: SPR_cartel_venta,
+  manzana: SPR_manzana,
+  ladrillo: SPR_ladrillo,
+  molino_0: SPR_molino_0,
+  molino_1: SPR_molino_1,
+  molino_2: SPR_molino_2,
+  molino_3: SPR_molino_3,
+  molino_4: SPR_molino_4,
+  molino_rueda_b: SPR_molino_rueda_b,
+  molino_aspas_b: SPR_molino_aspas_b,
   abono: SPR_abono,
   abuelo: SPR_abuelo,
   anillos: SPR_anillos,

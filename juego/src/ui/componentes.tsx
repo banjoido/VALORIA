@@ -1,6 +1,6 @@
 // @ts-nocheck
 // Reconstruido del prototipo publicado. Se irá tipando poco a poco.
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ajustes } from '../ajustes';
 import { ESTACIONES, estado } from '../estado';
 import { imagen } from '../mundo/mundo';
@@ -8,6 +8,8 @@ import { Ai, NOMBRES_ZONA_CORTOS, PERSONAJES, colorDe, nombreDe, qi } from '../p
 import { SPRITES } from '../recursos/sprites';
 import { CAPAS } from './capas';
 import { interfaz, vista } from './controlador';
+import { Avisos, FichaMano } from './puesto';
+import { listos } from '../reino/tiempo';
 
 export function Icono({
   n: i,
@@ -97,6 +99,31 @@ export function Medidor({
 }
 
 export function Marcador() {
+  // Pulso del contador al cobrar, parpadeo rojo al pagar (sección 9) y parpadeo
+  // del palito de brillo que se apaga cuando Merma sube.
+  let num = useRef(null),
+    segs = useRef(null),
+    antes = useRef([estado.monedas, estado.brillo]);
+  useEffect(() => {
+    let [m, b] = antes.current,
+      d = estado.monedas - m;
+    d > 0 && num.current && num.current.animate([{
+      transform: "scale(1.3)"
+    }, {
+      transform: "scale(1)"
+    }], 250), d < 0 && num.current && num.current.animate([{
+      color: "#ff8f7a"
+    }, {
+      color: "#fdf3d8"
+    }], 450), estado.brillo < b && segs.current && segs.current.children[estado.brillo] && segs.current.children[estado.brillo].animate([{
+      background: qi
+    }, {
+      background: Ai
+    }], {
+      duration: 300,
+      iterations: 3
+    }), antes.current = [estado.monedas, estado.brillo];
+  });
   return React.createElement("div", {
     className: "hud"
   }, React.createElement("div", {
@@ -105,9 +132,11 @@ export function Marcador() {
     n: "moneda",
     e: 2
   }), React.createElement("b", {
-    className: "num"
+    className: "num",
+    ref: num
   }, estado.monedas), React.createElement("span", {
-    className: "segs"
+    className: "segs",
+    ref: segs
   }, [0, 1, 2, 3, 4].map(i => React.createElement("i", {
     key: i,
     style: {
@@ -125,7 +154,14 @@ export function Marcador() {
     className: "btn voz",
     onClick: () => interfaz.alternar_sonido(),
     "aria-label": "Activar o desactivar la voz y el sonido"
-  }, estado.sonido ? "Voz" : "Mudo"));
+  }, estado.sonido ? "Voz" : "Mudo"), React.createElement(Avisos, null));
+}
+
+// Lo que hay listo para recoger: el huerto propio de todas las zonas y los frutos de la historia.
+function cuantosListos() {
+  let n = estado.frutos_listos();
+  for (let z of Object.values(listos())) for (let k of Object.values(z)) n += k;
+  return n;
 }
 
 export function PanelMision() {
@@ -170,18 +206,19 @@ export function PanelMision() {
 }
 
 export function Navegacion() {
+  let listosN = cuantosListos();
   return React.createElement("nav", {
     className: "nav"
-  }, [["mochila", "Mochila", "mochila", 2], ["huerto", "Huerto", "huerto", 2], ["mapa", "Mapa", "mapa", 2], ["criaturas", "Criaturas", "chispin", 3]].map(([a, o, t, s]) => React.createElement("button", {
+  }, React.createElement(FichaMano, null), [["mochila", "Mochila", "mochila", 2], ["huerto", "Huerto", "huerto", 2], ["mapa", "Mapa", "mapa", 2], ["criaturas", "Criaturas", "chispin", 3]].map(([a, o, t, s]) => React.createElement("button", {
     key: a,
     className: "btn nav-b",
     onClick: () => interfaz.panel(a)
   }, React.createElement(Icono, {
     n: t,
     e: s
-  }), React.createElement("span", null, o), a === "huerto" && estado.frutos_listos() > 0 && React.createElement("em", {
+  }), React.createElement("span", null, o), a === "huerto" && listosN > 0 && React.createElement("em", {
     className: "insignia"
-  }, "!"))));
+  }, listosN > 99 ? "99+" : listosN))));
 }
 
 export function Dialogo() {
@@ -222,7 +259,8 @@ export function Dialogo() {
 export function Noche() {
   let i = vista.noche;
   return i ? React.createElement("div", {
-    className: `noche ${i.opaco ? "visible" : ""}`
+    className: `noche ${i.opaco ? "visible" : ""} ${i.rapido ? "rapido" : ""}`,
+    onPointerDown: () => interfaz.saltar_noche()
   }, React.createElement("div", {
     className: "noche-c"
   }, !i.viaje && React.createElement("i", {
