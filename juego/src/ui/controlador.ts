@@ -4,6 +4,10 @@ import { ajustes, esperar, rellenarGenero } from '../ajustes';
 import { buffersAudio, contextoAudio, iniciarAudio, vozEspanol } from '../audio';
 import { ESTACIONES_CON_ARTICULO, estado } from '../estado';
 import { PERSONAJES } from '../personajes';
+import * as reglas from '../reino/reglas';
+import * as tiempo from '../reino/tiempo';
+import { efectos_noche } from '../reino/acciones';
+import { TX_HUERTO, NOMBRE_META, th } from '../textos/huerto';
 
 const oyentesVista = new Set();
 
@@ -12,6 +16,7 @@ export let vista = {
   dialogo: null,
   capa: null,
   noche: null,
+  avisos: [],
   version: 0
 };
 
@@ -27,6 +32,38 @@ function actualizarVista(i) {
 export const suscribirVista = i => (oyentesVista.add(i), () => oyentesVista.delete(i));
 
 estado.cambiado(() => actualizarVista({}));
+
+// Avisos del reino (los brotes de la historia) y meta de ahorro alcanzada.
+let metaAntes = "";
+estado.cambiado(() => {
+  if (estado.paso === "titulo") return;
+  for (let a of reglas.tomar_avisos()) interfaz.aviso(a.texto, a.icono);
+  let m = meta_actual(),
+    clave = m && estado.monedas >= m.precio ? m.id + ":" + m.precio : "";
+  clave && clave !== metaAntes && metaAntes !== "" && interfaz.aviso(th("meta_lista", { meta: m.nombre }), "hucha");
+  metaAntes = clave || "-";
+});
+
+// Meta de ahorro de la Mochila (6.9): la elegida, o la más barata.
+export function meta_actual() {
+  let lista = reglas.metas();
+  if (!lista.length) return null;
+  let m = lista.find(l => l.id === estado.meta) || lista[0],
+    o = reglas.obra("mercado");
+  return { ...m, nombre: rellenarGenero(NOMBRE_META[m.id] || m.id).replace("{e}", o ? String(o.etapa + 1) : "") };
+}
+
+// Una espera que un toque puede acortar (la noche y los viajes se saltan tocando).
+let despertar = null,
+  saltada = !1;
+function esperarSaltable(s) {
+  return saltada ? Promise.resolve() : new Promise(a => {
+    let o = setTimeout(a, s * 1e3 / ajustes.velocidad);
+    despertar = () => (clearTimeout(o), a());
+  });
+}
+
+let idAviso = 0;
 
 let Va = [];
 
@@ -98,60 +135,112 @@ export let interfaz = {
       speechSynthesis.cancel();
     } catch {}
   },
-  sonar(i) {
+  sonar(i, tono = 1) {
     if (!(!estado.sonido || !contextoAudio || !buffersAudio[i])) try {
       let a = contextoAudio.createBufferSource();
-      a.buffer = buffersAudio[i], a.connect(contextoAudio.destination), a.start();
+      a.buffer = buffersAudio[i], a.playbackRate.value = tono, a.connect(contextoAudio.destination), a.start();
     } catch {}
+  },
+  // Un toque en la pantalla de noche o de viaje la acorta (fundido de 0,2 s).
+  saltar_noche() {
+    !vista.noche || saltada || (saltada = !0, this.sonar("siguiente"), actualizarVista({
+      noche: {
+        ...vista.noche,
+        rapido: !0
+      }
+    }), despertar && despertar());
+  },
+  // Tira de 3 s bajo el marcador: ni bloquea ni pide toque (10.4).
+  aviso(texto, icono = "") {
+    let a = {
+      id: ++idAviso,
+      texto: rellenarGenero(texto),
+      icono
+    };
+    actualizarVista({
+      avisos: [...vista.avisos, a].slice(-3)
+    }), setTimeout(() => actualizarVista({
+      avisos: vista.avisos.filter(o => o.id !== a.id)
+    }), 3e3);
+  },
+  // Puesto de un vecino (10.1). Devuelve al cerrar; deja `ocupado` como estaba.
+  async puesto(vecino, frase = "") {
+    let a = estado.ocupado;
+    await this.abrir("puesto", {
+      vecino,
+      frase
+    }), estado.ocupado = a, estado.avisar();
+  },
+  async obra() {
+    let a = estado.ocupado;
+    await this.abrir("obra", {}), estado.ocupado = a, estado.avisar();
+  },
+  // «¡Buenos días!» (10.3) con el resumen de reino.al_abrir().
+  async buenos_dias(resumen) {
+    let a = estado.ocupado;
+    await this.abrir("buenos_dias", {
+      resumen
+    }), estado.ocupado = a, estado.avisar();
+  },
+  // Siesta (5.1): una noche del reino, 2 por día real.
+  async siesta() {
+    if (!tiempo.usar_siesta()) return !1;
+    return await this.pasar_noche((estado.estacion + 1) % 4, TX_HUERTO.noche_siesta), !0;
   },
   alternar_sonido() {
     iniciarAudio(), estado.sonido = !estado.sonido, estado.sonido || this.callar(), estado.avisar();
   },
+  // Una noche del reino en todos los casos (5.1): justo después de cambiar la
+  // estación, reino.noche(). Lo que trae la noche se enseña al acabar.
   async pasar_noche(i, a) {
-    estado.ocupado = !0, actualizarVista({
+    saltada = !1, estado.ocupado = !0, actualizarVista({
       noche: {
         titulo: "Pasa la noche\u2026",
         sub: "",
         opaco: !0
       }
-    }), await esperar(.9), estado.estacion = i, estado.avisar(), actualizarVista({
+    }), await esperarSaltable(.9), estado.estacion = i;
+    let r = tiempo.noche();
+    estado.avisar(), actualizarVista({
       noche: {
         titulo: "Llega " + ESTACIONES_CON_ARTICULO[i],
         sub: a,
-        opaco: !0
+        opaco: !0,
+        rapido: saltada
       }
-    }), await esperar(1.6), actualizarVista({
+    }), await esperarSaltable(1.6), actualizarVista({
       noche: {
         ...vista.noche,
         opaco: !1
       }
-    }), await esperar(.5), actualizarVista({
+    }), await esperar(saltada ? .2 : .5), actualizarVista({
       noche: null
-    });
+    }), saltada = !1, despertar = null, efectos_noche(r);
   },
   async viajar(i, a, o) {
-    estado.ocupado = !0, actualizarVista({
+    saltada = !1, estado.ocupado = !0, actualizarVista({
       noche: {
         titulo: "",
         sub: "",
         opaco: !0,
         viaje: !0
       }
-    }), await esperar(.6), o(), actualizarVista({
+    }), await esperarSaltable(.6), o(), actualizarVista({
       noche: {
         titulo: i,
         sub: a,
         opaco: !0,
-        viaje: !0
+        viaje: !0,
+        rapido: saltada
       }
-    }), await esperar(1.8), actualizarVista({
+    }), await esperarSaltable(1.8), actualizarVista({
       noche: {
         ...vista.noche,
         opaco: !1
       }
-    }), await esperar(.6), actualizarVista({
+    }), await esperar(saltada ? .2 : .6), actualizarVista({
       noche: null
-    });
+    }), saltada = !1, despertar = null;
   },
   abrir(i, a = {}) {
     return estado.ocupado = !0, new Promise(o => {
@@ -327,8 +416,9 @@ export let interfaz = {
     if (vista.capa || vista.dialogo || vista.noche || estado.paso === "titulo") return;
     let a = estado.ocupado,
       o = await this.abrir("panel", {
-        panel: i
+        panel: i,
+        libre: !a
       });
-    estado.ocupado = a, o === "leer" && (await this.carta(this.textos_carta, !1), estado.ocupado = a), o && o.startsWith("viajar_") && this.viaje_pedido && this.viaje_pedido(o.slice(7));
+    estado.ocupado = a, o === "leer" && (await this.carta(this.textos_carta, !1), estado.ocupado = a), o && o.startsWith("nota_") && (await this.carta(o.slice(5), !1), estado.ocupado = a), o === "dormir" && !a && (await this.siesta(), estado.ocupado = a, estado.avisar()), o && o.startsWith("viajar_") && this.viaje_pedido && this.viaje_pedido(o.slice(7));
   }
 };
