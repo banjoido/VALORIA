@@ -4,8 +4,17 @@ from playwright.async_api import async_playwright
 ROOT=pathlib.Path(__file__).resolve().parent.parent
 LOCAL={'react.production.min.js':ROOT/'node_modules/react/umd/react.production.min.js',
  'react-dom.production.min.js':ROOT/'node_modules/react-dom/umd/react-dom.production.min.js'}
+# El juego se sirve en un origen http de mentira, interceptado aquí: Chromium trata las páginas
+# file:// con un origen opaco y, al recargar, a veces les da un localStorage y un sessionStorage
+# vacíos (unas 12 de cada 70 recargas en una prueba con una página en blanco; 0 de 70 con http).
+# Era el fallo intermitente de qa/guardado_4_15.py: tras recargar, la partida volvía a la semilla.
+URL_JUEGO='http://valoria.local/index.html'
 async def route(r):
     u=r.request.url
+    if u.startswith('http://valoria.local/'):
+        f=ROOT/'juego/dist'/(u.split('?')[0][len('http://valoria.local/'):] or 'index.html')
+        if f.is_file(): return await r.fulfill(path=str(f))
+        return await r.abort()
     for k,p in LOCAL.items():
         if u.endswith(k): return await r.fulfill(path=str(p),content_type='application/javascript')
     if u.startswith('file://'): return await r.continue_()

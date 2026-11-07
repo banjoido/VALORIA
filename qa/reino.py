@@ -46,7 +46,7 @@ async def main():
         p.on('console', lambda m: logs.append(f'[{m.type}] {m.text}') if m.type in ('error', 'warning') else None)
         p.on('pageerror', lambda e: logs.append(f'[pageerror] {e}'))
         await p.route('**/*', route)
-        await p.goto('file://' + str(ROOT / 'juego/dist/index.html')); await p.wait_for_timeout(1200)
+        await p.goto(URL_JUEGO); await p.wait_for_timeout(1200)
         R = 'window.valoria.reino'
         comprobar(await ev(p, f'() => !!({R} && {R}.noche && {R}.cosechar && {R}.sanear)'), 'window.valoria.reino expone el contrato')
 

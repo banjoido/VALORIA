@@ -50,12 +50,10 @@ async def abrir(pw, guardado, continuar=True, w=390, h=844):
     p.on('console', lambda m: logs.append(f'[{m.type}] {m.text}') if m.type in ('error', 'warning') else None)
     p.on('pageerror', lambda e: logs.append(f'[pageerror] {e}'))
     await p.route('**/*', route)
-    # Solo en la primera carga: al recargar se lee lo que guardó el juego. La marca va en
-    # localStorage porque Chromium pierde a veces el sessionStorage al recargar una página file://
-    # (era el fallo intermitente de qa/guardado_4_15.py: la partida volvía a la semilla).
+    # Solo en la primera carga: al recargar se lee lo que guardó el juego (ver URL_JUEGO en qa/lib.py).
     await p.add_init_script("if(!localStorage.getItem('qa-sembrado')){localStorage.setItem('qa-sembrado',1);localStorage.setItem(%s, %s)}"
                             % (json.dumps(CLAVE), json.dumps(json.dumps(guardado))))
-    await p.goto('file://' + str(ROOT / 'juego/dist/index.html')); await p.wait_for_timeout(1200)
+    await p.goto(URL_JUEGO); await p.wait_for_timeout(1200)
     if continuar: await seguir(p)
     return b, p, logs
 
