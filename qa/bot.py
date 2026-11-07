@@ -11,7 +11,7 @@ STEP_JS = r"""
   const btns = [...ui.querySelectorAll('button')].filter(b => !b.disabled && vis(b));
   const hud = new Set(['Voz','Mochila','Huerto','Mapa','Criaturas']);
   const nav = btns.filter(b => !hud.has(b.innerText.trim()) && !b.closest('.nav') && !b.closest('.hud'));
-  const info = {paso: e.paso, mision: e.mision, zona: e.zona, monedas: e.monedas, ocupado: e.ocupado, botones: nav.map(b=>b.innerText.trim().replace(/\s+/g,' ').slice(0,40))};
+  const info = {paso: e.paso, mision: e.mision, zona: e.zona, monedas: e.monedas, ocupado: e.ocupado, ladrillos: e.ladrillos|0, tierras: (e.tierras||[]).length, botones: nav.map(b=>b.innerText.trim().replace(/\s+/g,' ').slice(0,40))};
   if (nav.length) {
     let b = nav[Math.floor(same/3) % nav.length];
     if (pref === 'random') b = nav[Math.floor(Math.random()*nav.length)];

@@ -383,7 +383,7 @@ export function al_paso(_m: MisionVida): void {
 let marcado = "";
 export function refrescar(): void {
   const e = E();
-  if (!M || e.paso === "titulo") return;
+  if (!M) return;
   const enc = e.dia ? reino.encargo_hoy() : null, quien = enc ? enc.npc : "";
   if (quien !== marcado) { marcado && M.marcar_vecino(marcado, false); quien && M.marcar_vecino(quien, true); marcado = quien; }
   M.poner_secretos(celdas_activas());
