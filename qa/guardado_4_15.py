@@ -110,7 +110,9 @@ async def caso(pw, mision, zona, paso, extra_cond, extra, campos, checks, compro
                'criaturas': CRIATURAS[mision], 'tiene_chispin': True, 'ojo_tasador': True}
     if mision >= 13:
         semilla['trocitos'] = {'fiel': 1, 'engranaje': 1}
-    await p.add_init_script("if(!sessionStorage.getItem('s')){sessionStorage.setItem('s',1);localStorage.setItem('%s', %s)}"
+    # La marca de «ya sembrada» va en localStorage: Chromium pierde a veces el sessionStorage al
+    # recargar una página file:// (ver qa/vida.py y el informe de la tarea C del sprint 3).
+    await p.add_init_script("if(!localStorage.getItem('qa-sembrado')){localStorage.setItem('qa-sembrado',1);localStorage.setItem('%s', %s)}"
                             % (CLAVE, json.dumps(json.dumps(semilla))))
     await p.goto('file://' + str(ROOT / 'juego/dist/index.html')); await p.wait_for_timeout(1200)
     await p.locator('#ui button', has_text='Continuar').first.click()

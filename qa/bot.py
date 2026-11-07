@@ -65,7 +65,9 @@ async def run(pref='first', max_steps=2500, tag='a', w=390, h=844, start=None):
         p.on('pageerror',lambda e: logs.append(f'[pageerror] {e}'))
         await p.route('**/*',route)
         if start:
-            await p.add_init_script("if(!sessionStorage.getItem('s')){sessionStorage.setItem('s',1);localStorage.setItem('valoria-partida', JSON.stringify({mision:%d, zona:'%s', monedas:20, brillo:5, precio_pan:5, criaturas:['chispin','brotin','escudon','repartija','olfatin'], tiene_chispin:true, ojo_tasador:true}))}" % start)
+            # La marca de «ya sembrada» va en localStorage: Chromium pierde a veces el sessionStorage al
+            # recargar una página file:// (ver qa/vida.py y el informe de la tarea C del sprint 3).
+            await p.add_init_script("if(!localStorage.getItem('qa-sembrado')){localStorage.setItem('qa-sembrado',1);localStorage.setItem('valoria-partida', JSON.stringify({mision:%d, zona:'%s', monedas:20, brillo:5, precio_pan:5, criaturas:['chispin','brotin','escudon','repartija','olfatin'], tiene_chispin:true, ojo_tasador:true}))}" % start)
         await p.goto('file://'+str(lib_path)); await p.wait_for_timeout(1200)
         hist=[]; last=None; same=0; seen=set(); t0=time.time(); stay=0; lastkey=None; trail=[]
         for i in range(max_steps):

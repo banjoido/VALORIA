@@ -50,8 +50,10 @@ async def abrir(pw, guardado, continuar=True, w=390, h=844):
     p.on('console', lambda m: logs.append(f'[{m.type}] {m.text}') if m.type in ('error', 'warning') else None)
     p.on('pageerror', lambda e: logs.append(f'[pageerror] {e}'))
     await p.route('**/*', route)
-    # Solo en la primera carga: al recargar se lee lo que guardó el juego.
-    await p.add_init_script("if(!sessionStorage.getItem('s')){sessionStorage.setItem('s',1);localStorage.setItem(%s, %s)}"
+    # Solo en la primera carga: al recargar se lee lo que guardó el juego. La marca va en
+    # localStorage porque Chromium pierde a veces el sessionStorage al recargar una página file://
+    # (era el fallo intermitente de qa/guardado_4_15.py: la partida volvía a la semilla).
+    await p.add_init_script("if(!localStorage.getItem('qa-sembrado')){localStorage.setItem('qa-sembrado',1);localStorage.setItem(%s, %s)}"
                             % (json.dumps(CLAVE), json.dumps(json.dumps(guardado))))
     await p.goto('file://' + str(ROOT / 'juego/dist/index.html')); await p.wait_for_timeout(1200)
     if continuar: await seguir(p)
@@ -316,7 +318,7 @@ async def prueba_8(pw, modo):
     print('8. Las otras pruebas pasan y el bot no compra en puestos ni pone ladrillos')
     b, p, logs = await abrir(pw, partida(ladrillos=10))
     await libre(p)
-    for abrir_js, nombre in (("v.ui.puesto('semilla')", 'puesto'), ("v.ui.obra()", 'obra')):
+    for abrir_js, nombre in (("v.ui.puesto('semilla')", 'el puesto'), ("v.ui.obra()", 'la obra')):
         await p.evaluate("() => { const v = window.valoria; %s; }" % abrir_js)
         await capa(p)
         antes = await estado(p, "JSON.stringify([e.monedas, e.ladrillos, e.bolsa])")
@@ -324,7 +326,7 @@ async def prueba_8(pw, modo):
         await p.wait_for_timeout(300)
         comprobar(info.get('accion') == 'boton:Cerrar' and await capa(p, 300) is None
                   and antes == await estado(p, "JSON.stringify([e.monedas, e.ladrillos, e.bolsa])"),
-                  f'el bot cierra el {nombre} sin comprar ({info.get("accion")})')
+                  f'el bot cierra {nombre} sin comprar ({info.get("accion")})')
     await b.close()
     if modo == 'rapido': return
     for script in (['qa/guardado.py'], ['qa/guardado_4_15.py']):
