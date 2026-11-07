@@ -134,3 +134,38 @@ h3 { font-size: 18px; }
 /* Elección de personaje al empezar: dos botones grandes, solo con el sprite. */
 .eleccion-heroe { display: flex; gap: 12px; justify-content: center; margin: 8px 0; }
 .btn.eleccion { width: auto; flex: 1 1 0; max-width: 150px; min-height: 140px; padding: 12px; display: flex; align-items: center; justify-content: center; }
+
+/* Sprint 3: huerto, puestos, obra y avisos (docs/especificaciones/sprint-3-bucle.md, 10) */
+.noche.rapido { transition: opacity .2s; }
+.avisos { position: absolute; top: calc(100% + 4px); left: 0; right: 0; display: flex; flex-direction: column; gap: 4px; align-items: center; pointer-events: none; z-index: 3; }
+.aviso { background: var(--crema); color: var(--panel); border: 2px solid var(--tinta); padding: 5px 10px; font-size: 14px; display: flex; gap: 8px; align-items: center; max-width: 100%; animation: aviso-entra .25s ease-out; }
+@keyframes aviso-entra { from { transform: translateY(-8px); opacity: 0; } to { transform: none; opacity: 1; } }
+.btn.ficha-mano { position: absolute; left: 8px; bottom: calc(100% + 8px); width: auto; min-width: 60px; min-height: 56px; padding: 4px 8px; flex-direction: column; gap: 2px; font-size: 12px; background: var(--panel); border-color: var(--oro); }
+.ficha-n { white-space: nowrap; }
+.fila-puesto { display: flex; align-items: center; gap: 8px; background: var(--boton-bajo); border: 2px solid var(--borde); padding: 6px; }
+.fila-puesto b { font-size: 15px; font-weight: 400; }
+.fila-puesto small { font-size: 12px; }
+.col-boton { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex: none; }
+.col-boton .btn { width: auto; min-height: 44px; min-width: 96px; padding: 4px 8px; font-size: 14px; }
+.antes { color: #ff8f7a; font-size: 12px; margin-left: 6px; }
+.etiqueta-aviso, .etiqueta-pocho { align-self: flex-start; font-size: 11px; font-style: normal; padding: 1px 4px; color: var(--panel); }
+.etiqueta-aviso { background: #c9a6f0; }
+.etiqueta-pocho { background: #e0a85a; }
+.btn.apagado { opacity: .55; }
+.monedas-puesto { justify-content: flex-end; }
+.obra-barra { position: relative; }
+.obra-barra .barra { height: 12px; }
+.ladrillo-vuela { position: absolute; left: 50%; top: -6px; pointer-events: none; animation: ladrillo-vuela .45s ease-in forwards; }
+@keyframes ladrillo-vuela { from { transform: translate(-50%, -60px); opacity: 1; } to { transform: translate(-50%, 0); opacity: 0; } }
+.sol { width: 24px; height: 24px; background: var(--oro); border: 2px solid var(--tinta); display: block; }
+.zona-huerto { background: var(--panel); border: 2px solid var(--borde); padding: 8px; font-size: 15px; }
+.zona-huerto em { font-style: normal; font-size: 13px; background: var(--borde); padding: 2px 5px; }
+.zona-huerto em.listo { background: var(--oro); color: var(--panel); }
+.etq-seccion { font-size: 12px; letter-spacing: 1px; color: var(--suave); text-transform: uppercase; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: flex; align-items: center; gap: 4px; background: var(--boton-bajo); border: 2px solid var(--borde); padding: 3px 6px; }
+.chip b { font-size: 15px; font-weight: 400; }
+.btn.meta { justify-content: flex-start; text-align: left; font-size: 15px; min-height: 52px; }
+.btn.meta .barra { display: block; height: 6px; width: 100%; }
+.btn.meta small { font-size: 12px; }
+@media (prefers-reduced-motion: reduce) { .aviso, .ladrillo-vuela { animation: none; } }

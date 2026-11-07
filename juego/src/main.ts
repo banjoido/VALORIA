@@ -85,6 +85,9 @@ import { DATOS_M14 } from './textos/m14';
 import { DATOS_M15 } from './textos/m15';
 import { App } from './ui/App';
 import { interfaz } from './ui/controlador';
+import * as reglas from './reino/reglas';
+import * as tiempo from './reino/tiempo';
+import * as vida from './reino/vida';
 
 const MISIONES = [null, [Mision01, DATOS_M01], [Mision02, DATOS_M02], [Mision03, DATOS_M03], [Mision04, DATOS_M04], [Mision05, DATOS_M05], [Mision06, DATOS_M06], [Mision07, DATOS_M07], [Mision08, DATOS_M08], [Mision09, DATOS_M09], [Mision10, DATOS_M10], [Mision11, DATOS_M11], [Mision12, DATOS_M12], [Mision13, DATOS_M13], [Mision14, DATOS_M14], [Mision15, DATOS_M15]];
 
@@ -106,7 +109,9 @@ async function arrancar() {
     mundo: i,
     ui: interfaz,
     ajustes: ajustes,
-    Mapa: Mapa
+    Mapa: Mapa,
+    reino: { ...reglas, ...tiempo },
+    vida: vida
   }, ReactDOM.createRoot(document.getElementById("ui")).render(React.createElement(App, null)), addEventListener("keydown", s => {
     let r = {
       ArrowUp: [0, -1],
@@ -127,24 +132,25 @@ async function arrancar() {
     } else (s.key === "Enter" || s.key === " ") && interfaz.vista.dialogo && !interfaz.vista.capa && (interfaz.avanzar(), s.preventDefault());
   });
   // En el móvil, cerrar el juego suele ser mandarlo a segundo plano.
+  // Al volver del segundo plano en un día nuevo: noches de vuelta y «¡Buenos días!» (5.2).
   document.addEventListener("visibilitychange", () => {
-    document.visibilityState === "hidden" && estado.guardar_al_salir();
+    document.visibilityState === "hidden" ? estado.guardar_al_salir() : estado.paso !== "titulo" && !estado.ocupado && !interfaz.vista.capa && !interfaz.vista.dialogo && !interfaz.vista.noche && vida.vuelta();
   }), addEventListener("pagehide", () => estado.guardar_al_salir());
   let a = estado.cargar();
   (await interfaz.pantalla_titulo(a, estado.mision)) !== "continuar" && (estado.reiniciar(), estado.borrar_partida(), estado.heroe = await interfaz.elegir_heroe(), estado.avisar()), i.restaurar(estado.mision), interfaz.textos_carta = DATOS_M01.textos.carta;
+  // Vida del reino: vecinos, viajes, secretos y guardado de las acciones (reino/vida.ts).
+  vida.iniciar(i), interfaz.viaje_pedido = s => vida.viajar(s), await vida.vuelta();
   let t = !1;
   for (; estado.mision <= TOTAL_MISIONES;) {
-    t = !0, estado.guardar();
+    t = !0, reglas.al_cambiar_mision(), estado.guardar();
     let [s, r] = MISIONES[estado.mision];
     await new s(estado.mision, r).jugar(i, interfaz), estado.mision += 1;
   }
   estado.guardar(), estado.maquina_apagada && (interfaz.textos_carta = DATOS_M01.textos.carta + `
 
-` + DATOS_M15.textos.carta_final), t || (await interfaz.decir([["chispin", "\xA1Hola otra vez! Todo Valoria sigue brillando."]])), estado.paso = "libre", estado.ocupado = !1, interfaz.poner_mision(NOMBRES_ZONA[estado.zona] + " \xB7 toca el mapa para viajar"), interfaz.viaje_pedido = async s => {
-    await interfaz.viajar(NOMBRES_ZONA[s], "", () => {
-      estado.zona = s, i.restaurar(estado.mision);
-    }), estado.guardar(), estado.paso = "libre", estado.ocupado = !1, interfaz.poner_mision(NOMBRES_ZONA[s] + " \xB7 toca el mapa para viajar");
-  };
+` + DATOS_M15.textos.carta_final), t || (await interfaz.decir([["chispin", "\xA1Hola otra vez! Todo Valoria sigue brillando."]])), estado.paso = "libre", estado.ocupado = !1, interfaz.poner_mision(NOMBRES_ZONA[estado.zona] + " \xB7 toca el mapa para viajar"), i.objetivo_fn = () => vida.objetivo(), estado.guardar();
+  // Modo libre: los vecinos y las parcelas de la historia los atiende la vida del reino (8.2).
+  i.on("npc", s => vida.npc(s)), i.on("parcela", s => vida.parcela(s));
 }
 
 arrancar();

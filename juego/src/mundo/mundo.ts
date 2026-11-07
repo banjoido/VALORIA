@@ -5,6 +5,8 @@ import { estado } from '../estado';
 import { COLUMNAS, LOSETA, Mapa } from './mapas';
 import { ALTO_NAVEGACION, ANCHO_MAPA, C, COLORES_MERMA, RADIOS_APAGADOS, RADIO_APAGADO, SECUACES, VELOCIDAD_HEROE, VISIBLES_INICIALES, ZONAS, celda, imagenes, imagenesGris, oa } from './zonas';
 import { SPRITES } from '../recursos/sprites';
+import * as reino from '../reino/reglas';
+import { conectar as conectarAcciones, mano_actual } from '../reino/acciones';
 
 // Nombre base del sprite del personaje elegido: "heroe" o "heroina".
 export function spriteHeroe() {
@@ -52,13 +54,22 @@ export const Mundo = class {
       npc: new Set(),
       parcela: new Set(),
       lugar: new Set(),
-      llegada: new Set()
+      llegada: new Set(),
+      huerto: new Set(),
+      obra: new Set()
     }, this.objetivo_fn = null, this.npcs = {}, this.visibles = {}, this.posiciones = {}, this.gente = [], this.heroe = new Sprite("heroe", !1), this.chispin = new Sprite("chispin", !1), this.chispin.visible = !1, this.seguidores = {};
     for (let s of ["brotin", "escudon", "repartija", "olfatin", "calmin"]) {
       let r = new Sprite(s, !1);
       r.visible = !1, this.seguidores[s] = r;
     }
     this.arbol = new Sprite("arbol_1", !1), this.arbol.visible = !1, this.maquina = new Sprite("maquina_grande", !0), this.maquina.visible = !1, this.cartel = !1, this.ruta = [], this.alLlegar = null, this.rastro = [], this.reloj = 0, this.camY = 0, this.radios = [RADIO_APAGADO, RADIO_APAGADO, RADIO_APAGADO, RADIO_APAGADO], this.radiosMeta = [...this.radios], this.humo = [], this.chispas = [], this.lluvia = [], this.tormentaOn = !1, this.toque = null, this.huida = null, this.huye = "", this.moviendo = !1, this.zonaGris = RADIOS_APAGADOS, this.zonaViva = RADIOS_APAGADOS, estado.cambiado(() => this.alCambiarEstado()), a.addEventListener("pointerdown", s => this.tocar(s)), this.cargar_zona("mercado", celda(7, 5));
+    // Huerto (sprint 3): textos flotantes, rebotes de los brotes, «!» del encargo,
+    // chispas de los secretos y el gesto de regar deslizando el dedo.
+    this.flotantes = [], this.rebotes = {}, this.marcados = new Set(), this.celdas_secreto = [], this.reloj_secretos = 0, this.riego = null;
+    a.style.touchAction = "none";
+    a.addEventListener("pointermove", s => this.arrastrar(s));
+    for (let ev of ["pointerup", "pointercancel"]) a.addEventListener(ev, () => this.soltar());
+    conectarAcciones(this);
     let o = performance.now(),
       t = s => {
         let r = Math.min(.05, (s - o) / 1e3) * ajustes.velocidad;
@@ -116,7 +127,7 @@ export const Mundo = class {
       let a = this.pie(C);
       this.arbol.x = a.x, this.arbol.y = a.y;
     }
-    Mapa.extra_solidos = this.arbol.visible ? [C] : [], this.chispin.visible = estado.tiene_chispin;
+    Mapa.extra_solidos = [...(this.arbol.visible ? [C] : []), ...this.solidos_huerto()], this.chispin.visible = estado.tiene_chispin;
   }
   pie(a) {
     return celda(a.x * LOSETA + 6.5, a.y * LOSETA + 12);
@@ -250,6 +261,28 @@ export const Mundo = class {
         return;
       }
     }
+    // Huerto propio y obra del molino: antes que las parcelas de la historia (3.2).
+    let hb = this.bancal_en(r);
+    if (hb) {
+      let p = reino.planta_en(this.zona, hb.x, hb.y);
+      if (hb.tipo === "bancal" && hb.abierto && p && reino.noches_que_faltan(p) > 0 && mano_actual() === "regadera") {
+        // Regar deslizando: este bancal y todos los que toque el dedo sin levantarlo.
+        this.riego = { celdas: [hb.x + "," + hb.y] };
+        try { a.pointerId !== undefined && this.canvas.setPointerCapture(a.pointerId); } catch {}
+        this.irA([hb, ...this.alrededor(hb)], null), this.emitir("huerto", { ...celda(hb.x, hb.y), riego: 0 });
+        return;
+      }
+      this.irA(hb.tipo === "hoyo" ? this.alrededor(hb) : [hb, ...this.alrededor(hb)], null), this.emitir("huerto", celda(hb.x, hb.y));
+      return;
+    }
+    let ob = reino.obra(this.zona);
+    // La puerta del desván (secreto, desde la etapa 3) va a la vida del reino como "lugar" (tarea C).
+    if (ob && ob.celdas.some(l => l.x === r.x && l.y === r.y) && !this.celdas_secreto.some(l => l.x === r.x && l.y === r.y)) {
+      let destinos = [];
+      for (let l of ob.celdas) destinos.push(...this.alrededor(l));
+      this.irA(destinos, null), this.emitir("obra", r);
+      return;
+    }
     if (Mapa.parcelas().some(l => l.x === r.x && l.y === r.y)) {
       this.irA([r, ...this.alrededor(r)], () => this.emitir("parcela", r));
       return;
@@ -260,8 +293,152 @@ export const Mundo = class {
     }
     Mapa.bloqueado(r.x, r.y, this.ocupadas()) || this.irA([r], null), this.emitir("lugar", r);
   }
+  // --- Huerto (sprint 3) -------------------------------------------------
+  // Celda del huerto (bancal, tierra a la venta u hoyo) bajo el dedo. Un manzano
+  // plantado se toca también en la casilla de encima.
+  bancal_en(r) {
+    let lista = reino.bancales(this.zona),
+      b = lista.find(l => l.x === r.x && l.y === r.y);
+    if (b) return b;
+    b = lista.find(l => l.tipo === "hoyo" && l.x === r.x && l.y === r.y + 1);
+    return b && reino.planta_en(this.zona, b.x, b.y) ? b : null;
+  }
+  solidos_huerto() {
+    let r = [];
+    for (let p of estado.huerto || []) p.zona === this.zona && p.cultivo === "manzano" && r.push(celda(p.x, p.y));
+    let ob = reino.obra(this.zona);
+    if (ob && ob.etapa >= 1) for (let l of ob.celdas) l.y >= 19 && r.push(celda(l.x, l.y));
+    return r;
+  }
+  arrastrar(a) {
+    if (!this.riego) return;
+    let o = this.canvas.getBoundingClientRect(),
+      r = celda(Math.floor((a.clientX - o.left - this.offX) / this.escala / LOSETA), Math.floor(((a.clientY - o.top) / this.escala + this.camY) / LOSETA)),
+      k = r.x + "," + r.y;
+    if (this.riego.celdas.includes(k)) return;
+    let b = reino.bancales(this.zona).find(l => l.x === r.x && l.y === r.y && l.tipo === "bancal" && l.abierto),
+      p = b && reino.planta_en(this.zona, r.x, r.y);
+    if (!p || reino.noches_que_faltan(p) <= 0) return;
+    this.riego.celdas.push(k), this.emitir("huerto", { ...r, riego: this.riego.celdas.length - 1 });
+  }
+  soltar() {
+    if (!this.riego) return;
+    let n = this.riego.celdas.length;
+    this.riego = null, this.emitir("huerto", { x: -1, y: -1, riego_fin: n });
+  }
+  // Texto que sube 10 px y se desvanece en 0,8 s sobre una celda (sección 9).
+  flotante(c, texto, color = "#fdf3d8") {
+    let antes = this.flotantes.filter(f => f.c.x === c.x && f.c.y === c.y && this.reloj - f.t < .3).length;
+    this.flotantes.push({ c: { x: c.x, y: c.y }, texto, color, t: this.reloj + antes * .25 });
+  }
+  // El brote aparece con un rebote (escala 1,4 → 1 en 0,2 s).
+  rebote(c) {
+    this.rebotes[c.x + "," + c.y] = this.reloj;
+  }
+  centro(c) {
+    return celda(c.x * LOSETA + 6.5, c.y * LOSETA + 6.5);
+  }
+  // «!» flotante sobre el vecino del encargo, cada 3 segundos.
+  marcar_vecino(npc, activo) {
+    activo ? this.marcados.add(npc) : this.marcados.delete(npc);
+  }
+  // Casillas de los secretos que aún no se han encontrado (las da la vida del reino).
+  poner_secretos(celdas) {
+    this.celdas_secreto = (celdas || []).map(c => celda(c.x, c.y));
+  }
+  // Dibujo de una planta del huerto (4.1).
+  dibujo_planta(p) {
+    if (p.cultivo === "rabano") return p.edad >= 1 ? "brote_fruto" : "brote_chico";
+    if (p.cultivo === "calabaza") return p.edad >= 3 ? "calabaza_lista" : p.edad >= 1 ? "brote_grande" : "brote_chico";
+    if (p.manzanas > 0) return "arbol_4";
+    return p.edad === 0 ? "arbol_1" : p.edad <= 2 ? "arbol_2" : "arbol_3";
+  }
+  sprite_molino() {
+    let ob = reino.obra(this.zona);
+    if (!ob) return "";
+    return ob.etapa >= 4 && Math.floor(this.reloj * 3) % 2 ? "molino_aspas_b" : "molino_" + ob.etapa;
+  }
+  actores_huerto() {
+    let r = [];
+    for (let p of estado.huerto || []) {
+      if (p.zona !== this.zona || p.cultivo !== "manzano") continue;
+      let n = this.dibujo_planta(p),
+        im = imagenes[n],
+        pie = this.pie(p);
+      im && r.push({ nombre: n, x: pie.x, y: pie.y, ox: -im.width / 2, oy: -im.height + 1, dx: 0, dy: 0, visible: !0, celda: celda(p.x, p.y) });
+    }
+    let ob = reino.obra(this.zona);
+    if (ob) {
+      let n = this.sprite_molino(),
+        im = imagenes[n],
+        pie = this.pie(celda(3, 20));
+      if (im) {
+        r.push({ nombre: n, x: pie.x, y: pie.y, ox: -im.width / 2, oy: -im.height + 1, dx: 0, dy: 0, visible: !0 });
+        // La rueda gira en 2 fotogramas (en la etapa 4, el segundo fotograma ya la trae).
+        ob.etapa >= 1 && ob.etapa < 4 && Math.floor(this.reloj * 3) % 2 && r.push({ nombre: "molino_rueda_b", x: pie.x, y: pie.y, ox: -im.width / 2, oy: -im.height + 1, dx: 0, dy: 0, visible: !0 });
+      }
+    }
+    return r;
+  }
+  pintarHuerto(o) {
+    let zona = this.zona;
+    for (let b of reino.bancales(zona)) {
+      let x = b.x * LOSETA,
+        y = b.y * LOSETA;
+      if (!b.abierto) {
+        imagenes.cartel_venta && o.drawImage(imagenes.cartel_venta, x, y);
+        continue;
+      }
+      let p = reino.planta_en(zona, b.x, b.y);
+      if (b.tipo === "hoyo") {
+        p || (o.fillStyle = "rgba(43,34,48,0.45)", o.fillRect(x + 3, y + 8, 7, 3), o.fillRect(x + 4, y + 7, 5, 5));
+        continue;
+      }
+      if (!p) continue;
+      p.regada && (o.fillStyle = "rgba(43,34,48,0.25)", o.fillRect(x, y, LOSETA, LOSETA));
+      let im = imagenes[this.dibujo_planta(p)];
+      if (!im) continue;
+      let t0 = this.rebotes[b.x + "," + b.y],
+        e = t0 !== undefined && this.reloj - t0 < .2 ? 1.4 - 2 * (this.reloj - t0) : 1;
+      e !== 1 ? (o.save(), o.translate(x + 6.5, y + 10), o.scale(e, e), o.drawImage(im, -6.5, -10), o.restore()) : o.drawImage(im, x, y);
+    }
+    // El molino da un poco de luz al Mercado desde la etapa 1.
+    let ob = reino.obra(zona);
+    if (ob && ob.etapa >= 1) {
+      o.fillStyle = "#fff1a8";
+      for (let [rx, al] of [[34, .07], [22, .07]]) o.globalAlpha = al, o.beginPath(), o.ellipse(45.5, 252, rx, rx * .8, 0, 0, Math.PI * 2), o.fill();
+      o.globalAlpha = 1;
+    }
+  }
+  pintarFlotantes(o) {
+    o.textAlign = "center", o.textBaseline = "alphabetic", o.lineJoin = "round";
+    for (let i = this.flotantes.length - 1; i >= 0; i--) {
+      let f = this.flotantes[i],
+        d = this.reloj - f.t;
+      if (d > .8) {
+        this.flotantes.splice(i, 1);
+        continue;
+      }
+      if (d < 0) continue;
+      let x = f.c.x * LOSETA + 6.5,
+        y = f.c.y * LOSETA + 2 - d / .8 * 10;
+      o.globalAlpha = Math.max(0, Math.min(1, (.8 - d) / .3)), o.font = '7px "Pixelify Sans"', o.strokeStyle = "#2b2230", o.lineWidth = 2, o.strokeText(f.texto, x, y), o.fillStyle = f.color, o.fillText(f.texto, x, y);
+    }
+    for (let n of this.marcados) {
+      let s = this.npcs[n];
+      if (!s || !s.visible || this.reloj % 3 > 1.2) continue;
+      let im = imagenes[s.nombre],
+        y = s.y - (im ? im.height : 20) - 2 - Math.round(Math.abs(Math.sin(this.reloj * 6)) * 2);
+      o.globalAlpha = 1, o.font = '10px "Pixelify Sans"', o.strokeStyle = "#2b2230", o.lineWidth = 3, o.strokeText("!", s.x, y), o.fillStyle = "#f6c945", o.fillText("!", s.x, y);
+    }
+    o.globalAlpha = 1;
+  }
   paso(a) {
     this.reloj += a;
+    if (this.celdas_secreto.length && this.reloj - this.reloj_secretos >= 4) {
+      this.reloj_secretos = this.reloj;
+      for (let c of this.celdas_secreto) this.estallido(this.centro(c), "#f6c945", 3);
+    }
     let o = !1;
     for (let l = 0; l < 4; l++) if (Math.abs(this.radios[l] - this.radiosMeta[l]) > .01) {
       let c = Math.max(this.radios[l], -4);
@@ -387,14 +564,15 @@ export const Mundo = class {
       let w = d.fruto ? "brote_fruto" : d.crece >= .5 ? "brote_grande" : "brote_chico";
       o.drawImage(imagenes[w], d.celda.x * LOSETA, d.celda.y * LOSETA);
     }
-    let N = [this.heroe, this.chispin, ...Object.values(this.seguidores), this.arbol, this.maquina, ...this.gente, ...Object.values(this.npcs)].filter(d => d.visible);
+    this.pintarHuerto(o);
+    let N = [this.heroe, this.chispin, ...Object.values(this.seguidores), this.arbol, this.maquina, ...this.gente, ...Object.values(this.npcs), ...this.actores_huerto()].filter(d => d.visible);
     N.sort((d, w) => d.y - w.y);
     for (let d of N) this.pintarActor(d);
     for (let d of this.humo) o.globalAlpha = Math.max(0, 1 - d.t / d.max) * (.35 + .45 * d.a), o.fillStyle = d.c, o.fillRect(Math.round(d.p.x), Math.round(d.p.y), d.tam, d.tam);
     o.globalAlpha = .55, o.fillStyle = "#bfd1f2";
     for (let d of this.lluvia) o.fillRect(Math.round(d.p.x), Math.round(d.p.y), 1, 3);
     for (let d of this.chispas) o.globalAlpha = Math.max(0, 1 - d.t / d.max), o.fillStyle = d.c, o.fillRect(Math.round(d.p.x), Math.round(d.p.y), 1, 1);
-    if (o.globalAlpha = 1, !estado.ocupado && this.objetivo_fn) {
+    if (o.globalAlpha = 1, this.pintarFlotantes(o), !estado.ocupado && this.objetivo_fn) {
       let d = this.objetivo_fn();
       if (d) {
         let w = Math.round(Math.abs(Math.sin(this.reloj * 4)) * 3);

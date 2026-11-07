@@ -3,6 +3,7 @@
 import { rellenar } from '../ajustes';
 import { estado } from '../estado';
 import { LOSETA, Mapa } from '../mundo/mapas';
+import * as vida from '../reino/vida';
 
 export const ORO = "#f6c945";
 
@@ -49,13 +50,16 @@ export const MisionBase = class {
     this.numero = a, this.datos = o;
   }
   async jugar(a, o) {
-    this.mundo = a, this.ui = o, a.objetivo_fn = () => this.objetivo();
-    let t = [a.on("npc", r => this.npc(r)), a.on("parcela", r => this.parcela(r)), a.on("lugar", r => this.lugar(r)), a.on("llegada", r => this.llegada(r))],
+    // Sprint 3 (8.1): la misión se expone en interfaz.mision_actual y, si el héroe
+    // está de viaje fuera de su zona, no recibe eventos ni pone flecha.
+    this.mundo = a, this.ui = o, o.mision_actual = this, this.zona_mision = estado.zona, a.objetivo_fn = () => vida.objetivo() || (vida.lejos() ? null : this.objetivo());
+    let aqui = () => !this.zona_mision || estado.zona === this.zona_mision,
+      t = [a.on("npc", r => aqui() ? this.npc(r) : vida.npc(r)), a.on("parcela", r => aqui() ? this.parcela(r) : vida.parcela(r)), a.on("lugar", r => aqui() && this.lugar(r)), a.on("llegada", r => aqui() && this.llegada(r))],
       s = new Promise(r => {
         this.terminar = r;
       }),
       reanudar = estado.tomar_reanudacion(this.numero);
-    reanudar && this.puntos_control().includes(reanudar.punto) ? this.reanudar(reanudar) : this.empezar(), await s, t.forEach(r => r()), a.objetivo_fn = null;
+    reanudar && this.puntos_control().includes(reanudar.punto) ? this.reanudar(reanudar) : this.empezar(), await s, t.forEach(r => r()), a.objetivo_fn = null, o.mision_actual === this && (o.mision_actual = null);
   }
   // Pasos desde los que la misión puede retomarse tras cerrar el juego (ver
   // docs/guardado.md). Al llegar a uno se guarda la partida. Una misión que no
@@ -104,16 +108,17 @@ export const MisionBase = class {
     return rellenar(this.datos.textos[a], o);
   }
   paso(a) {
-    this.puntos_control().includes(a) && estado.guardar(a, this.mundo.celda_heroe(), this.campos_punto()), estado.paso = a, estado.ocupado = !1, this.ui.poner_mision(this.datos.misiones[a] || {
+    this.zona_mision = estado.zona, this.puntos_control().includes(a) && estado.guardar(a, this.mundo.celda_heroe(), this.campos_punto()), estado.paso = a, estado.ocupado = !1, this.ui.poner_mision(this.datos.misiones[a] || {
       valle: "Valle de la Nieve",
       ciudad: "Ciudad de las Empresas",
       torre: "Torre del Rev\xE9s",
       reloj: "Gran Reloj"
-    }[estado.zona] || "Mercado del Pueblo");
+    }[estado.zona] || "Mercado del Pueblo"), vida.al_paso(this);
   }
+  // Vecinos que la misión no necesita: encargo, puesto, trabajo o una frase según
+  // el progreso (reino/vida.ts, 8.2). La charla de la misión entra en la rotación.
   async charla(a) {
-    let o = "charla_" + a;
-    await this.ui.decir(this.datos.dialogos[o] ? this.dl(o) : [["chispin", "\xA1Hola!"]]), estado.ocupado = !1;
+    await vida.npc(a), estado.ocupado = !1;
   }
   siguiente_estacion() {
     return (estado.estacion + 1) % 4;

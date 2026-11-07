@@ -7,6 +7,7 @@ import { spriteHeroe } from '../mundo/mundo';
 import { Ai, xi } from '../personajes';
 import { Bocadillo, Boton, EtiquetaNombre, Hueco, Icono, Medidor } from './componentes';
 import { interfaz } from './controlador';
+import { BuenosDias, Obra, Puesto } from './puesto';
 import { Forja, ListaCompra, ListaComprobacion, MinijuegoAmasar, OjoTasador, Panel, Pregunta, Reparto } from './minijuegos';
 
 export const CAPAS = {
@@ -334,5 +335,9 @@ Tu abuelo`), React.createElement(Boton, {
     texto: "Seguir explorando",
     onClick: () => i.responder()
   })),
-  panel: Panel
+  panel: Panel,
+  // Sprint 3: huerto, puestos y obra
+  puesto: Puesto,
+  obra: Obra,
+  buenos_dias: BuenosDias
 };

@@ -24,7 +24,7 @@ export const DATOS_M15 = {
     medalla_texto: "Has apagado la m\xE1quina de hacer dinero. \xA1Todo Valoria vuelve a brillar!",
     icono_medalla: "moneda_estrella",
     pagina_numero: "p\xE1gina 15",
-    pagina: "Ahora ya sabes lo que yo sab\xEDa. El tiempo, la paciencia y la cabeza fr\xEDa son tu libertad.",
+    pagina: "Los precios siempre suben un poco: es normal. El tiempo, la paciencia y la cabeza fr\xEDa son tu libertad.",
     reto_familia: "Leed juntos la carta completa del abuelo y escribid vuestra propia p\xE1gina: \xBFqu\xE9 os gustar\xEDa dejar a alguien dentro de muchos a\xF1os?",
     carta_final: `Si lees esto, es que has llegado al Gran Reloj y la m\xE1quina ya no echa humo.
 
@@ -34,7 +34,7 @@ Nada de esto te har\xE1 ric{o} de golpe. Te har\xE1 libre poco a poco. Y eso val
 
 Cuida tus monedas, cuida a los tuyos y, alg\xFAn d\xEDa, escribe t\xFA una carta como esta.`,
     fin_titulo: "Todo el reino vuelve a brillar",
-    fin_texto: "La m\xE1quina se ha apagado para siempre y Merma se ha deshecho en humo. Puedes seguir explorando y viajar por todo Valoria desde el mapa."
+    fin_texto: "La m\xE1quina se ha apagado para siempre. Sin ella, los precios solo suben despacito, como en todas partes. Puedes seguir explorando y viajar por todo Valoria desde el mapa."
   },
   trampas: [{
     villano: "subeprecios",
@@ -99,7 +99,7 @@ Cuida tus monedas, cuida a los tuyos y, alg\xFAn d\xEDa, escribe t\xFA una carta
     merma_furiosa: [["merma", "\xA1Grrr! \xA1Da igual! \xA1Mi m\xE1quina hace m\xE1s monedas que nadie! \xA1Infinitas!"]],
     pendulo_forja: [["pendulo", "Infinitas\u2026 Ese es su punto d\xE9bil."], ["pendulo", "Tus cuatro medallas. D\xE1melas. Vamos a forjar algo que la m\xE1quina no pueda copiar."]],
     merma_copia: [["merma", "\xBFUna moneda? \xA1JA! \xA1M\xE1quina, c\xF3piala! \xA1Haz mil iguales!"], ["chispin", "\xA1La m\xE1quina tiembla! \xA1Le salen tornillos por todas partes!"]],
-    maquina_apagada: [["chispin", "\xA1CRAC! \xA1La m\xE1quina se ha atascado\u2026 y se ha apagado!"], ["merma", "\xA1Nooo! Sin monedas nuevas\u2026 no puedo\u2026 robar\u2026 brillo\u2026"], ["chispin", "\xA1Merma se ha deshecho en humo!"]],
+    maquina_apagada: [["chispin", "\xA1CRAC! \xA1La m\xE1quina se ha atascado\u2026 y se ha apagado!"], ["merma", "\xA1Nooo! Sin mi m\xE1quina\u2026 solo podr\xE9\u2026 robar\u2026 un poquito\u2026"], ["chispin", "\xA1Merma se ha deshecho en humo!"]],
     todo_brilla: [["pendulo", "Mira arriba. Mira a tu alrededor."], ["pendulo", "El Mercado, el Valle, la Ciudad, la Torre y el Gran Reloj. Todo Valoria brilla otra vez."], ["chispin", "\xA1Lo hemos conseguido! \xA1Y hay algo m\xE1s en la bolsa del abuelo\u2026 la \xFAltima p\xE1gina!"]],
     charla_pendulo: [["pendulo", "No s\xE9 ad\xF3nde va el p\xE9ndulo. Pero s\xE9 d\xF3nde est\xE1."]],
     charla_vaiven: [["vaiven", "\xA1Ding, dong! Yo toco la campana cada vez que el mercado cambia de humor."]],

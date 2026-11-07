@@ -11,7 +11,7 @@ STEP_JS = r"""
   const btns = [...ui.querySelectorAll('button')].filter(b => !b.disabled && vis(b));
   const hud = new Set(['Voz','Mochila','Huerto','Mapa','Criaturas']);
   const nav = btns.filter(b => !hud.has(b.innerText.trim()) && !b.closest('.nav') && !b.closest('.hud'));
-  const info = {paso: e.paso, mision: e.mision, zona: e.zona, monedas: e.monedas, ocupado: e.ocupado, botones: nav.map(b=>b.innerText.trim().replace(/\s+/g,' ').slice(0,40))};
+  const info = {paso: e.paso, mision: e.mision, zona: e.zona, monedas: e.monedas, ocupado: e.ocupado, ladrillos: e.ladrillos|0, tierras: (e.tierras||[]).length, botones: nav.map(b=>b.innerText.trim().replace(/\s+/g,' ').slice(0,40))};
   if (nav.length) {
     let b = nav[Math.floor(same/3) % nav.length];
     if (pref === 'random') b = nav[Math.floor(Math.random()*nav.length)];
@@ -65,7 +65,8 @@ async def run(pref='first', max_steps=2500, tag='a', w=390, h=844, start=None):
         p.on('pageerror',lambda e: logs.append(f'[pageerror] {e}'))
         await p.route('**/*',route)
         if start:
-            await p.add_init_script("if(!sessionStorage.getItem('s')){sessionStorage.setItem('s',1);localStorage.setItem('valoria-partida', JSON.stringify({mision:%d, zona:'%s', monedas:20, brillo:5, precio_pan:5, criaturas:['chispin','brotin','escudon','repartija','olfatin'], tiene_chispin:true, ojo_tasador:true}))}" % start)
+            # Solo en la primera carga (la marca va en localStorage; ver URL_JUEGO en qa/lib.py).
+            await p.add_init_script("if(!localStorage.getItem('qa-sembrado')){localStorage.setItem('qa-sembrado',1);localStorage.setItem('valoria-partida', JSON.stringify({mision:%d, zona:'%s', monedas:20, brillo:5, precio_pan:5, criaturas:['chispin','brotin','escudon','repartija','olfatin'], tiene_chispin:true, ojo_tasador:true}))}" % start)
         await p.goto('file://'+str(lib_path)); await p.wait_for_timeout(1200)
         hist=[]; last=None; same=0; seen=set(); t0=time.time(); stay=0; lastkey=None; trail=[]
         for i in range(max_steps):

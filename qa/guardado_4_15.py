@@ -110,9 +110,10 @@ async def caso(pw, mision, zona, paso, extra_cond, extra, campos, checks, compro
                'criaturas': CRIATURAS[mision], 'tiene_chispin': True, 'ojo_tasador': True}
     if mision >= 13:
         semilla['trocitos'] = {'fiel': 1, 'engranaje': 1}
-    await p.add_init_script("if(!sessionStorage.getItem('s')){sessionStorage.setItem('s',1);localStorage.setItem('%s', %s)}"
+    # Solo en la primera carga (la marca va en localStorage; ver URL_JUEGO en qa/lib.py).
+    await p.add_init_script("if(!localStorage.getItem('qa-sembrado')){localStorage.setItem('qa-sembrado',1);localStorage.setItem('%s', %s)}"
                             % (CLAVE, json.dumps(json.dumps(semilla))))
-    await p.goto('file://' + str(ROOT / 'juego/dist/index.html')); await p.wait_for_timeout(1200)
+    await p.goto(URL_JUEGO); await p.wait_for_timeout(1200)
     await p.locator('#ui button', has_text='Continuar').first.click()
 
     async def llega(e):
